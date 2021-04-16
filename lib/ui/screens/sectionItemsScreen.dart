@@ -1,3 +1,4 @@
+import 'package:animal_app/ui/customWidget/circularProgress.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_grid/responsive_grid.dart';
@@ -102,7 +103,13 @@ class _SectionsItemScreenState extends State<SectionsItemScreen> {
                             width: Get.width,
                             height: Get.height,
                             child: Center(
-                              child: CircularProgressIndicator(),
+                              child: Container(
+                                height: Get.height,
+                                width: Get.width,
+                                child: Center(
+                                  child: Container(child: circularProgress()),
+                                ),
+                              ),
                             ),
                           )
                         : SingleChildScrollView(

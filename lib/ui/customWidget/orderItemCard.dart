@@ -1,3 +1,5 @@
+import 'package:animal_app/data/itemsPagination.dart';
+import 'package:animal_app/ui/screens/itemDetailsScreen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,6 +7,8 @@ import 'package:animal_app/constant.dart';
 import 'package:animal_app/data/mainCategoryModel.dart';
 import 'package:animal_app/data/myOrderModel.dart';
 import 'package:animal_app/metods/methods.dart';
+
+import 'loadingImage.dart';
 
 class orderItemCard extends StatelessWidget {
   OrderItem item;
@@ -14,124 +18,75 @@ class orderItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Get.to(SectionsItemScreen(item));
+        // Get.to(ItemDetailsScreen(Item(
+        //     id: item.id,
+        //     name: item.name,
+        //     description: item.description,
+        //     offer: item.isOffer,
+        //     offerPrice: 0,
+        //     count: item.count,
+        //     covePhoto: item.covePhoto,
+        //     price: item.price)));
       },
       child: Card(
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
+            CachedNetworkImage(
+              fit: BoxFit.cover,
+              width: (Get.width / 3) - 10,
+              height: 120,
+              imageUrl: imageUrl + item.covePhoto.toString(),
+              placeholder: (context, url) => loadinImage(),
+              errorWidget: (context, url, error) => loadinImage(),
+            ),
+            SizedBox(
+              width: 10,
+            ),
             Expanded(
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 10),
+                width: Get.width / 2.5,
+                height: 100,
+                padding: EdgeInsets.all(5),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    Container(
-                      child: Directionality(
-                        child: Text(
-                          item.name,
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      item.name,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.normal),
+                    ).addDirectionality(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              "العدد : " + item.count.toString(),
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold),
+                            ).addDirectionality(),
+                          ],
                         ),
-                        textDirection: TextDirection.rtl,
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            item.count.toString(),
-                            style: TextStyle(
-                                fontSize: 16, color: Colors.grey[700]),
-                          ).addDirectionality(),
-                          Text(
-                            "الكمية  : ",
-                            style: TextStyle(
-                                fontSize: 16, color: Colors.grey[700]),
-                          ).addDirectionality(),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: getColorFromColorCode(item.color),
-                              //color: widget.color[index],
-                              borderRadius: BorderRadius.circular(5),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 5,
-                                  blurRadius: 10,
-                                  offset: Offset(
-                                      0, 3), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            width: 25,
-                            height: 25,
-                          ),
-                          Text(
-                            "اللون  : ",
-                            style: TextStyle(
-                                fontSize: 16, color: Colors.grey[700]),
-                          ).addDirectionality(),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            item.size.toString(),
-                            style: TextStyle(
-                                fontSize: 16, color: Colors.grey[700]),
-                          ).addDirectionality(),
-                          Text(
-                            "الحجم  : ",
-                            style: TextStyle(
-                                fontSize: 16, color: Colors.grey[700]),
-                          ).addDirectionality(),
-                        ],
-                      ),
+                      ],
                     ),
                   ],
                 ),
               ),
             ),
-            CachedNetworkImage(
-              fit: BoxFit.cover,
-              width: Get.width / 3,
-              height: 120,
-              imageUrl: imageUrl + item.covePhoto,
-              placeholder: (context, url) => Image.asset(
-                "assets/images/placeholder.png",
-                width: Get.width / 2.5,
-                height: 110,
-                fit: BoxFit.cover,
-              ),
-              errorWidget: (context, url, error) => Image.asset(
-                "assets/images/placeholder.png",
-                width: Get.width / 2.5,
-                height: 110,
-                fit: BoxFit.cover,
-              ),
-            ),
           ],
-        ),
+        ).addDirectionality(),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0),
+          borderRadius: BorderRadius.circular(20.0),
         ),
-        elevation: 3,
+        elevation: 5,
         margin: EdgeInsets.all(7),
       ),
     );

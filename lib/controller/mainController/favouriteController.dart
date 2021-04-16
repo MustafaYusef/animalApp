@@ -73,6 +73,9 @@ class FavouriteController extends GetxController {
       String token = await prefs.getString('token');
       final banners1 = await repo.addFavourite(id, token);
       Get.back();
+      print("is opennnnnnnnn");
+      print(Get.isDialogOpen);
+
       getFavourite();
     } on SocketException catch (_) {
       Get.back();
@@ -109,6 +112,8 @@ class FavouriteController extends GetxController {
       final banners1 = await repo.deleteFavourite(id, token);
       print(token);
       Get.back();
+      // Get.back();
+
       getFavourite();
     } on SocketException catch (_) {
       Get.back();

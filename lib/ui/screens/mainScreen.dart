@@ -1,4 +1,8 @@
 import 'package:animal_app/controller/mainController/itemDetailsController.dart';
+import 'package:animal_app/ui/customWidget/addPetsCard.dart';
+import 'package:animal_app/ui/customWidget/circularProgress.dart';
+import 'package:animal_app/ui/customWidget/petsCard.dart';
+import 'package:animal_app/ui/screens/pets/addPetScreen.dart';
 import 'package:animal_app/ui/screens/servicesScreen.dart';
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -22,27 +26,30 @@ import 'cartScreen.dart';
 
 class MainScreen extends StatelessWidget {
   MainScreen({Key key}) : super(key: key);
-  var listImage = [
-    "https://img.freepik.com/free-photo/pretty-young-stylish-sexy-woman-pink-luxury-dress-summer-fashion-trend-chic-style-sunglasses-blue-studio-background-shopping-holding-paper-bags-talking-mobile-phone-shopaholic_285396-2957.jpg?size=626&ext=jpg",
-    "https://thumbs.dreamstime.com/b/portrait-pretty-woman-sunglasses-hat-over-blue-colorful-portrait-pretty-woman-sunglasses-hat-over-blue-103615694.jpg",
-    "https://assets.vogue.com/photos/5f5fac8b7d9362f52d645560/16:9/w_1280,c_limit/social-holding.jpg"
-  ];
+  // var listImage = [
+  //   "https://img.freepik.com/free-photo/pretty-young-stylish-sexy-woman-pink-luxury-dress-summer-fashion-trend-chic-style-sunglasses-blue-studio-background-shopping-holding-paper-bags-talking-mobile-phone-shopaholic_285396-2957.jpg?size=626&ext=jpg",
+  //   "https://thumbs.dreamstime.com/b/portrait-pretty-woman-sunglasses-hat-over-blue-colorful-portrait-pretty-woman-sunglasses-hat-over-blue-103615694.jpg",
+  //   "https://assets.vogue.com/photos/5f5fac8b7d9362f52d645560/16:9/w_1280,c_limit/social-holding.jpg"
+  // ];
   int _current = 0;
   MainController controller = Get.put(MainController());
   ItemDetailsController favouriteController = Get.put(ItemDetailsController());
+  FavouriteController favouriteController1 = Get.put(FavouriteController());
+  // ItemDetailsController controller= Get.put(FavouriteController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[50],
+        backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.grey[50],
+          backgroundColor: Colors.white,
           centerTitle: true,
           title: Column(
             children: [
               Image.asset(
                 "assets/images/cat_image.png",
                 width: 50,
+                height: 45,
               ),
               SizedBox(
                 height: 5,
@@ -126,9 +133,10 @@ class MainScreen extends StatelessWidget {
                     : Container(
                         child: controller.banners1.value.isEmpty
                             ? Container(
-                                height: Get.height,
+                                height: Get.height - 200,
+                                width: Get.width,
                                 child: Center(
-                                  child: CircularProgressIndicator(),
+                                  child: Container(child: circularProgress()),
                                 ),
                               )
                             : Column(
@@ -179,7 +187,9 @@ class MainScreen extends StatelessWidget {
                                       children: [
                                         Expanded(
                                           child: Container(
-                                            height: 150,
+                                            height: 140,
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 10),
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(20),
@@ -236,7 +246,7 @@ class MainScreen extends StatelessWidget {
                                           ),
                                         ),
                                         SizedBox(
-                                          width: 20,
+                                          width: 30,
                                         ),
                                         Expanded(
                                           child: InkWell(
@@ -245,7 +255,9 @@ class MainScreen extends StatelessWidget {
                                               Get.to(ServicesScreen(1));
                                             },
                                             child: Container(
-                                              height: 150,
+                                              height: 140,
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 10),
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(20),
@@ -326,201 +338,88 @@ class MainScreen extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 20),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Container(
-                                          height: 120,
-                                          width: Get.width / 5,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            border: Border.all(
-                                                color: Colors.grey[300]),
-                                            color: Colors.white,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withOpacity(0.5),
-                                                spreadRadius: 2,
-                                                blurRadius: 20,
-                                                offset: Offset(0,
-                                                    3), // changes position of shadow
-                                              ),
-                                            ],
-                                          ),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                height: 50,
-                                                width: 50,
-                                                padding: EdgeInsets.all(5),
-                                                decoration: BoxDecoration(
-                                                    color:
-                                                        Get.theme.primaryColor,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                child: Icon(
-                                                  Icons.add_circle_outline,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Container(
-                                          height: 150,
-                                          width: Get.width / 3.5,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            border: Border.all(
-                                                color: Colors.grey[300]),
-                                            color: Get.theme.primaryColor,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withOpacity(0.5),
-                                                spreadRadius: 2,
-                                                blurRadius: 20,
-                                                offset: Offset(0,
-                                                    3), // changes position of shadow
-                                              ),
-                                            ],
-                                          ),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                height: 50,
-                                                width: 50,
-                                                padding: EdgeInsets.all(5),
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                child: Image.asset(
-                                                  "assets/images/dog_image.png",
-                                                  width: 25,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text(
-                                                "جلبة",
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    color: Colors.white),
-                                              ).addDirectionality(),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
+                                  Obx(
+                                    () => Container(
+                                      height: 170,
+                                      color: Colors.white,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: controller.myPets.value == null
+                                          ? Container(
+                                              child: controller.noPets.value
+                                                  ? AddPetsCard()
+                                                  : Container(
+                                                      color: Colors.white,
+                                                      height: 170,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                      child: Shimmer.fromColors(
+                                                        baseColor: Colors.white,
+                                                        highlightColor:
+                                                            Colors.grey[100],
+                                                        enabled: true,
+                                                        child: ListView.builder(
+                                                            itemCount: 4,
+                                                            shrinkWrap: true,
+                                                            reverse: true,
+                                                            scrollDirection:
+                                                                Axis.horizontal,
+                                                            itemBuilder:
+                                                                (context,
+                                                                    index) {
+                                                              return Card(
+                                                                child:
+                                                                    Container(
+                                                                  width: 170,
+                                                                  height: 170,
+                                                                ),
+                                                              );
+                                                            }),
+                                                      ),
+                                                    ),
+                                            )
+                                          : Container(
+                                              child: ListView.builder(
+                                                  itemCount: controller
+                                                          .myPets
+                                                          .value
+                                                          .data
+                                                          .myPet
+                                                          .length +
+                                                      1,
+                                                  shrinkWrap: true,
+                                                  reverse: true,
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    return controller
+                                                                .myPets
+                                                                .value
+                                                                .data
+                                                                .myPet
+                                                                .length ==
+                                                            index
+                                                        ? AddPetsCard()
+                                                        : PetsCard(controller
+                                                            .myPets
+                                                            .value
+                                                            .data
+                                                            .myPet[index]);
+                                                  }),
+                                            ),
                                     ),
                                   ),
 
-                                  // Obx(
-                                  //   () => Container(
-                                  //     height: 120,
-                                  //     width: MediaQuery.of(context).size.width,
-                                  //     child: controller
-                                  //             .mainCategory.value.isEmpty
-                                  //         ? Container(
-                                  //             height: 120,
-                                  //             width: MediaQuery.of(context)
-                                  //                 .size
-                                  //                 .width,
-                                  //             child: Shimmer.fromColors(
-                                  //               baseColor: Colors.grey[300],
-                                  //               highlightColor:
-                                  //                   Colors.grey[100],
-                                  //               enabled: true,
-                                  //               child: ListView.builder(
-                                  //                   itemCount: 4,
-                                  //                   shrinkWrap: true,
-                                  //                   reverse: true,
-                                  //                   scrollDirection:
-                                  //                       Axis.horizontal,
-                                  //                   itemBuilder:
-                                  //                       (context, index) {
-                                  //                     return Card(
-                                  //                       child: Container(
-                                  //                         width: 150,
-                                  //                         height: 110,
-                                  //                       ),
-                                  //                     );
-                                  //                   }),
-                                  //             ),
-                                  //           )
-                                  //         : ListView.builder(
-                                  //             itemCount: controller
-                                  //                 .mainCategory.length,
-                                  //             shrinkWrap: true,
-                                  //             reverse: true,
-                                  //             scrollDirection: Axis.horizontal,
-                                  //             itemBuilder: (context, index) {
-                                  //               return sectionCard(controller
-                                  //                   .mainCategory[index]);
-                                  //             }),
+                                  //       SizedBox(
+                                  //         width: 20,
+                                  //       ),
+                                  //
+                                  //     ],
                                   //   ),
                                   // ),
-                                  // SizedBox(
-                                  //   height: 10,
-                                  // ),
-                                  // Obx(
-                                  //   () => Container(
-                                  //     child: controller.banners2.value.isEmpty
-                                  //         ? Container(
-                                  //             height: Get.height / 4,
-                                  //             width: MediaQuery.of(context)
-                                  //                 .size
-                                  //                 .width,
-                                  //             child: Shimmer.fromColors(
-                                  //               baseColor: Colors.grey[300],
-                                  //               highlightColor:
-                                  //                   Colors.grey[100],
-                                  //               enabled: true,
-                                  //               child: ListView.builder(
-                                  //                   itemCount: 4,
-                                  //                   shrinkWrap: true,
-                                  //                   reverse: true,
-                                  //                   scrollDirection:
-                                  //                       Axis.horizontal,
-                                  //                   itemBuilder:
-                                  //                       (context, index) {
-                                  //                     return Card(
-                                  //                       child: Container(
-                                  //                         width: Get.width,
-                                  //                         height:
-                                  //                             Get.height / 4,
-                                  //                       ),
-                                  //                     );
-                                  //                   }),
-                                  //             ),
-                                  //           )
-                                  //         : sliderSection(
-                                  //             current: _current,
-                                  //             banners:
-                                  //                 controller.banners2.value,
-                                  //           ),
-                                  //   ),
-                                  // ),
-                                  //      Container(
+
                                   SizedBox(
                                     height: 10,
                                   ),
@@ -539,10 +438,12 @@ class MainScreen extends StatelessWidget {
                                                 Get.to(SectionsScreen());
                                               },
                                               child: Text(
-                                                "عرض الكل",
+                                                "المزيد",
                                                 style: TextStyle(
-                                                    fontSize: 18,
-                                                    color: Colors.grey[700]),
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                    color:
+                                                        Get.theme.accentColor),
                                               ).addDirectionality(),
                                             ),
                                           ),
@@ -567,7 +468,7 @@ class MainScreen extends StatelessWidget {
 
                                   Obx(
                                     () => Container(
-                                      height: 120,
+                                      height: 130,
                                       width: MediaQuery.of(context).size.width,
                                       child: controller
                                               .mainCategory.value.isEmpty
@@ -613,76 +514,52 @@ class MainScreen extends StatelessWidget {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  // Obx(
-                                  //   () => Container(
-                                  //     child: controller.banners2.value.isEmpty
-                                  //         ? Container(
-                                  //             height: Get.height / 4,
-                                  //             width: MediaQuery.of(context)
-                                  //                 .size
-                                  //                 .width,
-                                  //             child: Shimmer.fromColors(
-                                  //               baseColor: Colors.grey[300],
-                                  //               highlightColor:
-                                  //                   Colors.grey[100],
-                                  //               enabled: true,
-                                  //               child: ListView.builder(
-                                  //                   itemCount: 4,
-                                  //                   shrinkWrap: true,
-                                  //                   reverse: true,
-                                  //                   scrollDirection:
-                                  //                       Axis.horizontal,
-                                  //                   itemBuilder:
-                                  //                       (context, index) {
-                                  //                     return Card(
-                                  //                       child: Container(
-                                  //                         width: Get.width,
-                                  //                         height:
-                                  //                             Get.height / 4,
-                                  //                       ),
-                                  //                     );
-                                  //                   }),
-                                  //             ),
-                                  //           )
-                                  //         : sliderSection(
-                                  //             current: _current,
-                                  //             banners:
-                                  //                 controller.banners2.value,
-                                  //           ),
-                                  //   ),
-                                  // ),
 
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.all(10),
-                                        child: InkWell(
-                                          onTap: () {
-                                            Get.to(AllOfferPopularScreen(1));
-                                          },
+                                  Container(
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 10),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            alignment: Alignment.centerLeft,
+                                            margin: EdgeInsets.all(10),
+                                            child: InkWell(
+                                              onTap: () {
+                                                Get.to(
+                                                    AllOfferPopularScreen(1));
+                                              },
+                                              child: Text(
+                                                "المزيد",
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                    color:
+                                                        Get.theme.accentColor),
+                                              ).addDirectionality(),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.all(10),
                                           child: Text(
-                                            "عرض الكل",
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.grey[700]),
+                                            "الأكثر شيوعاً",
+                                            style: TextStyle(fontSize: 20),
                                           ).addDirectionality(),
                                         ),
-                                      ),
-                                      Expanded(child: Container()),
-                                      Container(
-                                        margin: EdgeInsets.all(10),
-                                        child: Text(
-                                          "الأكثر شيوعاً",
-                                          style: TextStyle(fontSize: 20),
-                                        ).addDirectionality(),
-                                      ),
-                                    ],
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Image.asset(
+                                          "assets/images/icon_cat.png",
+                                          width: 25,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   Container(
-                                    height: 280,
+                                    height: 270,
                                     width: MediaQuery.of(context).size.width,
                                     child: controller.popularItem.value.isEmpty
                                         ? Shimmer.fromColors(
@@ -711,9 +588,14 @@ class MainScreen extends StatelessWidget {
                                             reverse: true,
                                             scrollDirection: Axis.horizontal,
                                             itemBuilder: (context, index) {
-                                              return itemCard(controller
-                                                  .popularItem[index]);
+                                              return itemCard(
+                                                  controller.popularItem[index],
+                                                  favouriteController1,
+                                                  favouriteController);
                                             }),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
                                   ),
                                   controller.offerEmpty.value
                                       ? Container()
@@ -721,38 +603,58 @@ class MainScreen extends StatelessWidget {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.end,
                                           children: [
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  margin: EdgeInsets.all(10),
-                                                  child: InkWell(
-                                                    onTap: () {
-                                                      Get.to(
-                                                          AllOfferPopularScreen(
-                                                              0));
-                                                    },
+                                            Container(
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 10),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  Expanded(
+                                                    child: Container(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      margin:
+                                                          EdgeInsets.all(10),
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          Get.to(
+                                                              AllOfferPopularScreen(
+                                                                  0));
+                                                        },
+                                                        child: Text(
+                                                          "المزيد",
+                                                          style: TextStyle(
+                                                              fontSize: 20,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: Get.theme
+                                                                  .accentColor),
+                                                        ).addDirectionality(),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.all(10),
                                                     child: Text(
-                                                      "عرض الكل",
+                                                      "أخر العروض",
                                                       style: TextStyle(
-                                                          fontSize: 18,
-                                                          color:
-                                                              Colors.grey[700]),
+                                                          fontSize: 20),
                                                     ).addDirectionality(),
                                                   ),
-                                                ),
-                                                Expanded(child: Container()),
-                                                Container(
-                                                  margin: EdgeInsets.all(10),
-                                                  child: Text(
-                                                    "أخر العروض",
-                                                    style:
-                                                        TextStyle(fontSize: 20),
-                                                  ).addDirectionality(),
-                                                ),
-                                              ],
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Image.asset(
+                                                    "assets/images/icon_cat.png",
+                                                    width: 25,
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                             Container(
-                                              height: 280,
+                                              height: 270,
                                               width: MediaQuery.of(context)
                                                   .size
                                                   .width,
@@ -792,8 +694,13 @@ class MainScreen extends StatelessWidget {
                                                         return itemCard(
                                                             controller
                                                                     .offersItem[
-                                                                index]);
+                                                                index],
+                                                            favouriteController1,
+                                                            favouriteController);
                                                       }),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
                                             ),
                                           ],
                                         ),

@@ -1,4 +1,5 @@
 import 'package:animal_app/controller/servicesController.dart';
+import 'package:animal_app/ui/customWidget/circularProgress.dart';
 import 'package:animal_app/ui/customWidget/noNetWidget.dart';
 import 'package:animal_app/ui/customWidget/servicesCard.dart';
 import 'package:flutter/material.dart';
@@ -17,11 +18,13 @@ class ServicesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(
-          "الأقسام",
+          "الخدمات المتوفرة",
           style: TextStyle(
               fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
         ).addDirectionality(),
@@ -67,7 +70,13 @@ class ServicesScreen extends StatelessWidget {
                           width: Get.width,
                           height: Get.height,
                           child: Center(
-                            child: CircularProgressIndicator(),
+                            child: Container(
+                              height: Get.height / 2,
+                              width: Get.width,
+                              child: Center(
+                                child: Container(child: circularProgress()),
+                              ),
+                            ),
                           ),
                         )
                       : Container(

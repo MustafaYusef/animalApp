@@ -26,13 +26,13 @@ class sectionCard extends StatelessWidget {
             CachedNetworkImage(
               fit: BoxFit.cover,
               width: Get.width / 2.5,
-              height: 120,
+              height: 130,
               imageUrl: imageUrl + item.photo,
               placeholder: (context, url) => loadinImage(),
               errorWidget: (context, url, error) => loadinImage(),
             ),
             Container(
-              height: 120,
+              height: 130,
               width: Get.width / 2.5,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -72,7 +72,7 @@ class sectionCard extends StatelessWidget {
           ],
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10),
         ),
         elevation: 2,
         margin: EdgeInsets.all(7),

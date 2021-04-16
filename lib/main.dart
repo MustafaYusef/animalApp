@@ -1,5 +1,9 @@
+import 'dart:async';
+
+import 'package:animal_app/ui/screens/myPosts/allPostsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import 'package:animal_app/ui/screens/favouriteScreen.dart';
@@ -11,65 +15,55 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'controller/mainController/itemDetailsController.dart';
 
 void main() => runApp(
-      baseWedget(),
+      GetMaterialApp(
+          theme: ThemeData(
+              primaryColor: Color(0xff2980B9),
+              accentColor: Color(0xffC0392B),
+              primaryColorLight: Color(0xffFEE8C1),
+              primaryColorDark: Color(0xff262628),
+              appBarTheme: AppBarTheme(
+                  iconTheme: IconThemeData(color: Color(0xffC0392B)))),
+          darkTheme: ThemeData(
+              primaryColor: Color(0xff2980B9),
+              accentColor: Color(0xffC0392B),
+              primaryColorLight: Color(0xffFEE8C1),
+              primaryColorDark: Color(0xff262628),
+              appBarTheme: AppBarTheme(
+                  iconTheme: IconThemeData(color: Color(0xffC0392B)))),
+          debugShowCheckedModeBanner: false,
+          home: MyLottie()),
     );
 
-class baseWedget extends StatefulWidget {
-  const baseWedget({Key key}) : super(key: key);
+// class baseWedget extends StatefulWidget {
+//   const baseWedget({Key key}) : super(key: key);
 
-  @override
-  _baseWedgetState createState() => _baseWedgetState();
-}
+//   @override
+//   _baseWedgetState createState() => _baseWedgetState();
+// }
 
-class _baseWedgetState extends State<baseWedget> {
-  @override
-  void initState() {
-    getToken();
+// class _baseWedgetState extends State<baseWedget> {
+//   @override
+//   void initState() {
+//     // getToken();
 
-    super.initState();
-  }
+//     super.initState();
+//   }
 
-  bool flage = false;
-  getToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+//   // bool flage = false;
+//   // getToken() async {
+//   //   SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    final token = await prefs.get('token');
-    flage = token == "" || token == null;
-    setState(() {});
-  }
+//   //   final token = await prefs.get('token');
+//   //   flage = token == "" || token == null;
+//   //   setState(() {});
+//   // }
 
-  @override
-  Widget build(BuildContext context) {
-    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+//   @override
+//   Widget build(BuildContext context) {
 
-    OneSignal.shared.init("678edd4c-48a6-435a-8bd3-c0823ce40f8d", iOSSettings: {
-      OSiOSSettings.autoPrompt: true,
-      OSiOSSettings.inAppLaunchUrl: false
-    });
-    OneSignal.shared
-        .setInFocusDisplayType(OSNotificationDisplayType.notification);
-
-// The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
-
-    return GetMaterialApp(
-        theme: ThemeData(
-            primaryColor: Color(0xff2980B9),
-            accentColor: Color(0xffC0392B),
-            primaryColorLight: Color(0xffFEE8C1),
-            primaryColorDark: Color(0xff262628),
-            appBarTheme: AppBarTheme(
-                iconTheme: IconThemeData(color: Color(0xffC0392B)))),
-        darkTheme: ThemeData(
-            primaryColor: Color(0xff2980B9),
-            accentColor: Color(0xffC0392B),
-            primaryColorLight: Color(0xffFEE8C1),
-            primaryColorDark: Color(0xff262628),
-            appBarTheme: AppBarTheme(
-                iconTheme: IconThemeData(color: Color(0xffC0392B)))),
-        debugShowCheckedModeBanner: false,
-        home: Main(0));
-  }
-}
+//     return Main(0);
+//   }
+// }
 
 class Main extends StatefulWidget {
   int indexB = 0;
@@ -96,6 +90,14 @@ class _MainState extends State<Main> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+
+    OneSignal.shared.init("678edd4c-48a6-435a-8bd3-c0823ce40f8d", iOSSettings: {
+      OSiOSSettings.autoPrompt: true,
+      OSiOSSettings.inAppLaunchUrl: false
+    });
+    OneSignal.shared
+        .setInFocusDisplayType(OSNotificationDisplayType.notification);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: PreferredSize(
@@ -128,7 +130,7 @@ class _MainState extends State<Main> with TickerProviderStateMixin {
                         : Colors.grey),
                 title: Container()),
             BottomNavigationBarItem(
-                icon: Icon(Icons.list,
+                icon: Icon(Icons.photo_size_select_actual_sharp,
                     color: widget.indexB == 2
                         ? Theme.of(context).primaryColor
                         : Colors.grey),
@@ -162,9 +164,54 @@ class _MainState extends State<Main> with TickerProviderStateMixin {
     } else if (index == 1) {
       return FavouriteScreen();
     } else if (index == 2) {
-      return SectionsScreen();
+      return AllPostsScreen();
     } else if (index == 3) {
       return ProfileScreen();
     }
+  }
+}
+
+class MyLottie extends StatefulWidget {
+  @override
+  _MyLottieState createState() => _MyLottieState();
+}
+
+class _MyLottieState extends State<MyLottie> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Timer(Duration(seconds: 3), () {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+        return Main(0);
+      }));
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+
+    // FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+    //   statusBarColor: Colors.black,
+    // ));
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    //   statusBarColor: Colors.blue, //or set color with: Color(0xFF0000FF)
+    // ));
+    return Scaffold(
+      body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Lottie.asset(
+            'assets/images/start.json',
+            animate: true,
+            repeat: true,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            fit: BoxFit.contain,
+          )),
+    );
   }
 }

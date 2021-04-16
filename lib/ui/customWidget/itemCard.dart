@@ -1,3 +1,5 @@
+import 'package:animal_app/controller/mainController/favouriteController.dart';
+import 'package:animal_app/controller/mainController/itemDetailsController.dart';
 import 'package:animal_app/data/itemsPagination.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -5,13 +7,15 @@ import 'package:get/get.dart';
 import 'package:animal_app/data/offerPopularItem.dart';
 import 'package:animal_app/metods/extentions.dart';
 import 'package:animal_app/ui/screens/itemDetailsScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../constant.dart';
 import 'loadingImage.dart';
 
 class itemCard extends StatelessWidget {
   ItemOffer item;
-  itemCard(this.item);
-  // FavouriteController favouriteController = Get.find();
+  itemCard(this.item, this.favouriteController, this.cartController);
+  FavouriteController favouriteController;
+  ItemDetailsController cartController;
 
   @override
   Widget build(BuildContext context) {
@@ -34,43 +38,127 @@ class itemCard extends StatelessWidget {
           children: [
             Stack(
               children: [
-                CachedNetworkImage(
-                  fit: BoxFit.cover,
-                  width: (Get.width / 2.5) + 10,
-                  height: 160,
-                  imageUrl: imageUrl + item.covePhoto,
-                  placeholder: (context, url) => loadinImage(),
-                  errorWidget: (context, url, error) => loadinImage(),
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  semanticContainer: true,
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  child: CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    width: 150,
+                    height: 140,
+                    imageUrl: imageUrl + item.covePhoto,
+                    placeholder: (context, url) => loadinImage(),
+                    errorWidget: (context, url, error) => loadinImage(),
+                  ),
                 ),
-                if (item.has_count == null)
-                  Container()
-                else
-                  Container(
-                    child: item.has_count
-                        ? Container()
-                        : Container(
-                            width: (Get.width / 2.5) + 10,
-                            height: 160,
-                            child: Center(
-                              child: Text(
-                                "غير متوفر حالياً",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 18),
+                Obx(
+                  () => favouriteController.needLogin.value
+                      ? Container()
+                      : Positioned(
+                          top: 10.0,
+                          right: 20.0,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              InkWell(
+                                onTap: () async {
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+
+                                  String token = await prefs.getString('token');
+                                  if (token != null) {
+                                    int id = 0;
+                                    if (favouriteController
+                                        .favouriteList.value.data.myFavorite
+                                        .any((e) => e.items.id == item.id)) {
+                                      print("yes");
+                                      id = favouriteController
+                                          .favouriteList.value.data.myFavorite
+                                          .indexWhere(
+                                              (e) => e.items.id == item.id)
+                                          .toInt();
+                                      print(id);
+                                      favouriteController.deleteFavourite(
+                                          favouriteController.favouriteList
+                                              .value.data.myFavorite[id].id);
+                                    } else {
+                                      print("no");
+
+                                      favouriteController.addFavourite(item.id);
+                                    }
+                                  } else {
+                                    Get.snackbar(
+                                        "يجب تسجيل الدخول", "يجب تسجيل الدخول",
+                                        duration: Duration(seconds: 3),
+                                        icon: Icon(
+                                          Icons.info,
+                                          color: Colors.white,
+                                        ),
+                                        colorText: Colors.white,
+                                        backgroundColor: Get
+                                            .theme.primaryColorDark
+                                            .withOpacity(0.3));
+                                  }
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(bottom: 10),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(22.5)),
+                                      color: Colors.grey),
+                                  width: 40,
+                                  height: 40,
+                                  child: Center(
+                                      child: favouriteController.favouriteList
+                                              .value.data.myFavorite
+                                              .any((e) => e.items.id == item.id)
+                                          ? Icon(
+                                              Icons.favorite,
+                                              size: 25,
+                                              color: Colors.red[600],
+                                            )
+                                          : Icon(
+                                              Icons.favorite,
+                                              color: Colors.white,
+                                              size: 25,
+                                            )),
+                                ),
                               ),
-                            ),
-                            decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.6),
-                                borderRadius: BorderRadius.circular(5)),
-                          ),
-                  )
+                            ],
+                          )),
+                ),
+                // if (item.has_count == null)
+                //   Container()
+                // else
+                //   Container(
+                //     child: item.has_count
+                //         ? Container()
+                //         : Container(
+                //             width: (Get.width / 2.5) + 10,
+                //             height: 160,
+                //             child: Center(
+                //               child: Text(
+                //                 "غير متوفر حالياً",
+                //                 style: TextStyle(
+                //                     color: Colors.black, fontSize: 18),
+                //               ),
+                //             ),
+                //             decoration: BoxDecoration(
+                //                 color: Colors.white.withOpacity(0.6),
+                //                 borderRadius: BorderRadius.circular(5)),
+                //           ),
+                //   )
               ],
             ),
             Container(
-              width: Get.width / 2.5,
-              height: 80,
+              width: 150,
+              height: 105,
               padding: EdgeInsets.all(5),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
@@ -81,7 +169,7 @@ class itemCard extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                   ).addDirectionality(),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Row(
                         children: [
@@ -111,29 +199,33 @@ class itemCard extends StatelessWidget {
                       ),
                     ],
                   ),
+                  SizedBox(
+                    height: 5,
+                  ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Container(
-                        child: item.offer
-                            ? Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 3, vertical: 2),
-                                decoration:
-                                    BoxDecoration(color: Get.theme.accentColor),
-                                child: Text(
-                                  (((item.price - item.offerPrice) /
-                                              item.price *
-                                              100))
-                                          .toInt()
-                                          .toString() +
-                                      "%",
-                                  style: TextStyle(
-                                      fontSize: 12, color: Colors.white),
-                                ),
-                              )
-                            : Container(),
-                      )
+                          child: InkWell(
+                        onTap: () async {
+                          cartController.addCart(item.id);
+                        },
+                        child: Container(
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                              color: Get.theme.accentColor),
+                          width: 40,
+                          height: 30,
+                          child: Center(
+                              child:
+                                  Image.asset("assets/images/carrt_icon.png")),
+                        ),
+                      )),
                     ],
                   ),
                 ],
@@ -142,7 +234,7 @@ class itemCard extends StatelessWidget {
           ],
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0),
+          borderRadius: BorderRadius.circular(10),
         ),
         elevation: 2,
         margin: EdgeInsets.all(7),

@@ -1,18 +1,24 @@
+import 'package:animal_app/controller/authController/myPostController.dart';
+import 'package:animal_app/controller/mainController/postController.dart';
+import 'package:animal_app/data/allPostRes.dart';
 import 'package:animal_app/ui/customWidget/circularProgress.dart';
+import 'package:animal_app/ui/customWidget/noNetWidget.dart';
+import 'package:animal_app/ui/customWidget/mypostCard.dart';
+import 'package:animal_app/ui/customWidget/postCard.dart';
+import 'package:animal_app/ui/screens/authScreen/loginScreen.dart';
+import 'package:animal_app/ui/screens/myPosts/myPosts/addPostScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:animal_app/controller/mainController/popularOfferController.dart';
-import 'package:animal_app/ui/customWidget/itemCard.dart';
-import 'package:animal_app/ui/customWidget/itemCardAllOffer.dart';
-import 'package:animal_app/ui/customWidget/noNetWidget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class AllOfferPopularScreen extends StatelessWidget {
-  OfferPopularController controller;
-  int status;
-  AllOfferPopularScreen(this.status) {
-    controller = Get.put(OfferPopularController());
-    controller.status.value = status;
-    controller.getPopolarOfffer();
+class MyPostsScreen extends StatelessWidget {
+  // MyPostsScreen({Key key}) : super(key: key);
+  MyPostController controller;
+  // int status;
+  MyPostsScreen() {
+    controller = Get.put(MyPostController());
+
+    controller.getMyPost();
   }
   ScrollController _scrollController = new ScrollController();
   @override
@@ -23,14 +29,14 @@ class AllOfferPopularScreen extends StatelessWidget {
             _scrollController.position.maxScrollExtent) {
           if (!controller.isLoading.value) {
             if (!controller.lastPage.value) {
-              controller.getPopolarOfffer();
+              controller.getMyPost();
             }
           }
         }
       });
     return WillPopScope(
       onWillPop: () {
-        Get.delete<OfferPopularController>();
+        Get.delete<PostController>();
         Get.back();
       },
       child: Scaffold(
@@ -40,11 +46,34 @@ class AllOfferPopularScreen extends StatelessWidget {
           backgroundColor: Colors.white,
           centerTitle: true,
           title: Text(
-            status == 0 ? "أخر العروض" : "العناصر الشائعة",
+            "المنشورات الخاصة بك",
             style: TextStyle(
                 fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+            backgroundColor: Theme.of(context).primaryColor,
+            onPressed: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+
+              String token = prefs.getString('token');
+              if (token == null) {
+                Get.to(LoginScreen());
+              } else {
+                Get.to(AddPostScreen());
+              }
+            },
+            child: Container(
+              width: 50,
+              height: 50,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.add_circle_outline_rounded,
+                  size: 30,
+                ),
+              ),
+            )),
         body: Container(
             child: Container(
           child: Column(
@@ -83,7 +112,7 @@ class AllOfferPopularScreen extends StatelessWidget {
                                     child: controller.isEmptyFlage.value
                                         ? Text("لا يوجد عناصر لديك")
                                         : Container(
-                                            height: Get.height,
+                                            height: Get.height - 200,
                                             width: Get.width,
                                             child: Center(
                                               child: Container(
@@ -101,17 +130,26 @@ class AllOfferPopularScreen extends StatelessWidget {
                                     controller.page.value = 1;
                                     controller.itemsOffPop.clear();
                                     controller.lastPage.value = false;
-                                    return controller.getPopolarOfffer();
+                                    return controller.getMyPost();
                                   },
-                                  child: ListView.builder(
+                                  child: GridView.builder(
+                                    physics:
+                                        const AlwaysScrollableScrollPhysics(),
                                     itemCount: controller.itemsOffPop.length,
                                     itemBuilder: (context, index) {
-                                      return itemCardAll(
+                                      return myPostCard(
                                           controller.itemsOffPop[index]);
                                     },
                                     scrollDirection: Axis.vertical,
 
                                     controller: _scrollController,
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      childAspectRatio: (Get.width / 2.2) / 225,
+                                      crossAxisSpacing: 2.0,
+                                      mainAxisSpacing: 2.0,
+                                    ),
 
                                     // children: controller.itemsOffPop
                                     //     .map((e) {})

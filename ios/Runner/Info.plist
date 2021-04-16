@@ -26,6 +26,10 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+	<string>The app needs photo library permissions to selecte Post or pets photo</string>
+		<key>NSCameraUsageDescription</key>
+	<string>This app needs access to camera so you can take picture to Post or pets.</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

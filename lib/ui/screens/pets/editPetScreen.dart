@@ -1,4 +1,5 @@
 import 'package:animal_app/controller/mainController/myPetsController.dart';
+import 'package:animal_app/data/myPetsModel.dart';
 import 'package:animal_app/metods/extentions.dart';
 import 'package:animal_app/ui/screens/pets/selectImage.dart';
 import 'package:flutter/material.dart';
@@ -6,9 +7,20 @@ import 'package:get/get.dart';
 
 import '../../../constant.dart';
 
-class AddPetsScreen extends StatelessWidget {
-  AddPetsScreen();
-  MyPetsController _loginController = Get.put(MyPetsController());
+class EditPetsScreen extends StatelessWidget {
+  MyPet pet;
+  EditPetsScreen(this.pet) {
+    _loginController = Get.put(MyPetsController());
+    _loginController.selectedType.value = pet.type;
+    _loginController.ageController.text = pet.age.toString().split(" ")[0];
+    _loginController.petNameController.text = pet.name;
+    _loginController.descController.text = pet.description;
+    _loginController.vacsinDateController.text =
+        pet.lastVaccine.toString().split(" ")[0];
+    _loginController.selectedSex.value = pet.sex == 0 ? "ذكر" : "أنثى";
+    // _loginController.addressController.text = pet.;
+  }
+  MyPetsController _loginController;
   // ItemDetailsController cartController = Get.find();
   final _formKey = GlobalKey<FormState>();
   @override
@@ -25,7 +37,7 @@ class AddPetsScreen extends StatelessWidget {
             backgroundColor: Colors.grey[50],
             elevation: 0,
             title: Text(
-              "إضافة حيوان",
+              "تعديل معلومات حيوان",
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 20,
@@ -671,7 +683,7 @@ class AddPetsScreen extends StatelessWidget {
                                 color: Get.theme.accentColor,
                                 onPressed: () {
                                   if (_formKey.currentState.validate()) {
-                                    _loginController.addPets();
+                                    _loginController.editPets(pet.id);
                                   }
                                 },
                                 shape: RoundedRectangleBorder(
@@ -685,14 +697,14 @@ class AddPetsScreen extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       Icon(
-                                        Icons.arrow_back,
+                                        Icons.edit,
                                         color: Colors.white,
                                       ),
                                       SizedBox(
                                         width: 25,
                                       ),
                                       Text(
-                                        "أرسال",
+                                        "تعديل",
                                         style: TextStyle(
                                           fontSize: 20,
                                           color: Colors.white,

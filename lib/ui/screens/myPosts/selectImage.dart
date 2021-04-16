@@ -1,9 +1,11 @@
+import 'package:animal_app/controller/authController/myPostController.dart';
 import 'package:animal_app/controller/mainController/myPetsController.dart';
+import 'package:animal_app/controller/mainController/postController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:animal_app/metods/extentions.dart';
 
-void selecteImageCollection(MyPetsController controller) {
+void selecteImagePost(MyPostController controller) {
   //  = Get.find();
 
   showModalBottomSheet(

@@ -1,12 +1,13 @@
 import 'package:animal_app/controller/servicesController.dart';
 import 'package:animal_app/data/myBookingServices.dart';
+import 'package:animal_app/ui/customWidget/circularProgress.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:animal_app/controller/mainController/orderController.dart';
 import 'package:animal_app/data/myOrderModel.dart';
 import 'package:animal_app/metods/methods.dart';
 import 'package:animal_app/ui/customWidget/noNetWidget.dart';
-import 'package:animal_app/ui/screens/orderDetails.dart';
+import 'package:animal_app/ui/screens/profile/orderDetails.dart';
 
 class MyBookingScreen extends StatefulWidget {
   MyBookingScreen({Key key}) : super(key: key);
@@ -43,12 +44,13 @@ class _MyBookingScreenState extends State<MyBookingScreen> {
         Get.back();
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.white,
           centerTitle: true,
           title: Text(
-            "طلباتي",
+            "الحجوزات",
             style: TextStyle(
                 fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
           ),
@@ -90,7 +92,14 @@ class _MyBookingScreenState extends State<MyBookingScreen> {
                                 : Container(
                                     child: controller.isEmptyFlage.value
                                         ? Text("لا يوجد حجوزات لديك")
-                                        : CircularProgressIndicator()),
+                                        : Container(
+                                            height: Get.height,
+                                            width: Get.width,
+                                            child: Center(
+                                              child: Container(
+                                                  child: circularProgress()),
+                                            ),
+                                          )),
                           ),
                         )
                       : Column(
@@ -174,106 +183,117 @@ Widget bookingCard(MyList order) {
     onTap: () {
       // Get.to(OrderDetailsScreen(order));
     },
-    child: Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 4),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 3),
-              child: Container(
-                height: 35.0,
-                width: 130,
-                // margin: EdgeInsets.only(left: 5),
-                child: RaisedButton(
-                  color: order.status == 0
-                      ? Get.theme.accentColor
-                      : Get.theme.primaryColor,
-                  onPressed: () {
-                    // controller.addCart(controller.id);
-                  },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10))),
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: Text(
-                      order.status == 0 ? "لم يتم تحديد موعد" : order.visitAt,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
+    child: Container(
+      margin: EdgeInsets.symmetric(vertical: 4, horizontal: 5),
+      child: Card(
+        elevation: 3,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(child: Container()),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            order.pet.toString(),
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ).addDirectionality(),
+                          Text(
+                            "أسم الحيوان : ",
+                            style: TextStyle(fontSize: 18, color: Colors.black),
+                          ).addDirectionality(),
+                        ],
                       ),
-                    ).addDirectionality(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            order.services.inHouse == 1
+                                ? "داخل المنزل"
+                                : "داخل العيادة",
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ).addDirectionality(),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Image.asset(
+                            "assets/images/icon_cat.png",
+                            width: 25,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(40)),
+                      width: 70,
+                      height: 70,
+                      child: Image.asset("assets/images/dog_image.png"))
+                ],
               ),
-            ),
-            Expanded(child: Container()),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      order.pet.toString(),
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    ).addDirectionality(),
-                    Text(
-                      "أسم الحيوان : ",
-                      style: TextStyle(fontSize: 18, color: Colors.black),
-                    ).addDirectionality(),
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      order.services.inHouse == 1
-                          ? "داخل المنزل"
-                          : "داخل العيادة",
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    ).addDirectionality(),
-                    SizedBox(
-                      width: 5,
+              Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 3),
+                    child: Container(
+                      height: 35.0,
+                      width: 140,
+                      // margin: EdgeInsets.only(left: 5),
+                      child: RaisedButton(
+                        color: order.status == 0
+                            ? Get.theme.accentColor
+                            : Get.theme.primaryColor,
+                        onPressed: () {
+                          // controller.addCart(controller.id);
+                        },
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10),
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10))),
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            order.status == 0
+                                ? "لم يتم تحديد موعد"
+                                : order.visitAt,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            ),
+                          ).addDirectionality(),
+                        ),
+                      ),
                     ),
-                    Image.asset(
-                      "assets/images/icon_cat.png",
-                      width: 25,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: Colors.grey[100],
-                    borderRadius: BorderRadius.circular(40)),
-                width: 70,
-                height: 70,
-                child: Image.asset("assets/images/dog_image.png"))
-          ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     ),

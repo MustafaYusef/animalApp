@@ -1,4 +1,5 @@
 import 'package:animal_app/data/servicesModel.dart';
+import 'package:animal_app/ui/screens/authScreen/loginScreen.dart';
 import 'package:animal_app/ui/screens/bookingScreen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:animal_app/constant.dart';
 import 'package:animal_app/data/mainCategoryModel.dart';
 import 'package:animal_app/ui/screens/sectionItemsScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'loadingImage.dart';
 
@@ -16,8 +18,15 @@ class servicesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Get.to(BookingScreen(item));
+      onTap: () async {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        String token = prefs.getString('token');
+        if (token == null) {
+          Get.to(LoginScreen());
+        } else {
+          Get.to(BookingScreen(item));
+        }
       },
       child: Card(
         color: Get.theme.accentColor,

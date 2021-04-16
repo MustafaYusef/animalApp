@@ -7,21 +7,23 @@ import 'package:animal_app/metods/cancelOrderPopUp.dart';
 import 'package:animal_app/metods/methods.dart';
 import 'package:animal_app/ui/customWidget/noNetWidget.dart';
 import 'package:animal_app/ui/customWidget/orderItemCard.dart';
-import 'package:animal_app/ui/screens/orderDetails.dart';
+import 'package:animal_app/ui/screens/profile/orderDetails.dart';
 
 class OrderDetailsScreen extends StatelessWidget {
   final MyOrder order;
   OrderDetailsScreen(this.order);
-  OrderController controller = Get.find();
+  // OrderController controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.white,
         title: Text(
           "تفاصيل الطلب",
           style: TextStyle(
-              fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+              fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
         ).addDirectionality(),
       ),
       body: SingleChildScrollView(
@@ -111,62 +113,11 @@ class OrderDetailsScreen extends StatelessWidget {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      Text(
-                                        order.shpping_price.toString() +
-                                            " " +
-                                            "د.ع",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.grey[700]),
-                                      ).addDirectionality(),
-                                      Text(
-                                        "سعر التوصيل : ",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.grey[700]),
-                                      ).addDirectionality(),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Container(
-                                        child: order.status != 0
-                                            ? Container()
-                                            : Container(
-                                                width: 100,
-                                                height: 40.0,
-                                                child: RaisedButton(
-                                                  color: Colors.red[400]
-                                                      .withOpacity(0.9),
-                                                  onPressed: () {
-                                                    CancelOrderPopUp(
-                                                        context, order.id);
-                                                  },
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0)),
-                                                  padding: EdgeInsets.all(0.0),
-                                                  child: Container(
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                      "ألغاء الطلب",
-                                                      style: TextStyle(
-                                                          fontSize: 16,
-                                                          color: Colors.white,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ).addDirectionality(),
-                                                  ),
-                                                ),
-                                              ),
-                                      ),
                                       Expanded(child: Container()),
                                       Text(
                                         order.createdAt
                                             .toString()
-                                            .split("T")[0]
+                                            .split(" ")[0]
                                             .toString(),
                                         style: TextStyle(
                                             fontSize: 16,
@@ -183,12 +134,47 @@ class OrderDetailsScreen extends StatelessWidget {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      Text(
-                                        getStatus(order.status),
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.grey[700]),
-                                      ).addDirectionality(),
+                                      Container(
+                                        padding:
+                                            EdgeInsets.symmetric(horizontal: 5),
+                                        child: Container(
+                                          height: 35.0,
+                                          width: 120,
+                                          margin: EdgeInsets.only(left: 10),
+                                          child: RaisedButton(
+                                            color: order.status == 0
+                                                ? Colors.grey[200]
+                                                : Get.theme.accentColor,
+                                            onPressed: () {
+                                              // controller.addCart(controller.id);
+                                            },
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(10),
+                                                    topRight:
+                                                        Radius.circular(10),
+                                                    bottomLeft:
+                                                        Radius.circular(10),
+                                                    bottomRight:
+                                                        Radius.circular(10))),
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                order.status == 0
+                                                    ? "جاري التوصيل"
+                                                    : "تم التوصيل",
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: order.status == 0
+                                                      ? Colors.black
+                                                      : Colors.white,
+                                                ),
+                                              ).addDirectionality(),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                       Text(
                                         "حالة الطلب : ",
                                         style: TextStyle(

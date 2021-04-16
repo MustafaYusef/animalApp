@@ -74,9 +74,9 @@ class MyOrder {
     this.address,
     this.status,
     this.price,
+    this.shppingPrice,
     this.updatedAt,
     this.createdAt,
-    this.shpping_price,
     this.orderItems,
   });
 
@@ -88,9 +88,9 @@ class MyOrder {
   String address;
   int status;
   int price;
-  String updatedAt;
-  String createdAt;
-  int shpping_price;
+  int shppingPrice;
+  DateTime updatedAt;
+  DateTime createdAt;
   List<OrderItem> orderItems;
 
   factory MyOrder.fromJson(Map<String, dynamic> json) => MyOrder(
@@ -102,9 +102,9 @@ class MyOrder {
         address: json["address"],
         status: json["status"],
         price: json["price"],
-        updatedAt: json["updatedAt"],
-        createdAt: json["createdAt"],
-        shpping_price: json["shpping_price"],
+        shppingPrice: json["shpping_price"],
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        createdAt: DateTime.parse(json["createdAt"]),
         orderItems: List<OrderItem>.from(
             json["orderItems"].map((x) => OrderItem.fromJson(x))),
       );
@@ -118,9 +118,9 @@ class MyOrder {
         "address": address,
         "status": status,
         "price": price,
-        "updatedAt": updatedAt,
-        "createdAt": createdAt,
-        "shpping_price": shpping_price,
+        "shpping_price": shppingPrice,
+        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt.toIso8601String(),
         "orderItems": List<dynamic>.from(orderItems.map((x) => x.toJson())),
       };
 }
@@ -131,8 +131,6 @@ class OrderItem {
     this.name,
     this.description,
     this.covePhoto,
-    this.color,
-    this.size,
     this.isOffer,
     this.count,
   });
@@ -141,8 +139,6 @@ class OrderItem {
   String name;
   String description;
   String covePhoto;
-  String color;
-  String size;
   bool isOffer;
   int count;
 
@@ -151,8 +147,6 @@ class OrderItem {
         name: json["name"],
         description: json["description"],
         covePhoto: json["cove_photo"],
-        color: json["color"],
-        size: json["size"],
         isOffer: json["is_offer"],
         count: json["count"],
       );
@@ -162,8 +156,6 @@ class OrderItem {
         "name": name,
         "description": description,
         "cove_photo": covePhoto,
-        "color": color,
-        "size": size,
         "is_offer": isOffer,
         "count": count,
       };

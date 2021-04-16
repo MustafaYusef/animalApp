@@ -80,7 +80,7 @@ class EditProfileController extends GetxController {
       Get.back();
       // Get.off(ProfileScreen());
       Get.delete<EditProfileController>();
-      Get.offAll(Main(4));
+      Get.offAll(Main(3));
       nameTextController.clear();
       phoneController.clear();
       emailController.clear();

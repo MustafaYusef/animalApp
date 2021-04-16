@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:animal_app/controller/mainController/myPetsController.dart';
+import 'package:animal_app/data/myPetsModel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,20 +25,25 @@ class MainController extends GetxController {
   var popularItem = List<ItemOffer>().obs;
   var offersItem = List<ItemOffer>().obs;
   var offerEmpty = false.obs;
-
+  var myPets = MyPetsModel().obs;
+  var noPets = false.obs;
+  MyPetsController controller = Get.put(MyPetsController());
   // status 0== offers
   // status 1==popular
   @override
   void onInit() {
     repo = MainRepostary();
+    myPets.value = null;
     getMain();
     super.onInit();
   }
 
   Future<void> getMain() async {
+    noPets.value = false;
     // Get.dialog(popUpLoading(), barrierDismissible: false);
     noNetFlage.value = false;
     offerEmpty.value = false;
+    // noPets.value = trfaue;
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -45,8 +52,14 @@ class MainController extends GetxController {
       banners1.assignAll(banners.data.banners);
       final banners33 = await repo.getMainCategory();
       mainCategory.assignAll(banners33.data.categories);
-      // final banners22 = await repo.getSecondBanner();
-      // banners2.assignAll(banners22.data.banners);
+      if (token != null) {
+        controller.getMyPets();
+        final banners22 = await repo.getMyPets(token);
+        myPets.value = banners22;
+        print(myPets.value.data.myPet);
+      } else {
+        noPets.value = true;
+      }
 
       final items = await repo.getOfferOrPopularItems(1, 1, 5);
       popularItem.assignAll(items.data.items);
@@ -56,15 +69,6 @@ class MainController extends GetxController {
       if (offersItem.isEmpty) {
         offerEmpty.value = true;
       }
-      // SharedPreferences prefs = await SharedPreferences.getInstance();
-      // // String token = await prefs.getString('token');
-      // String email = prefs.getString('email');
-      // // prefs.setBool('isPop', true);
-      // print(prefs.getBool('isPop'));
-      // if (email == "" && prefs.getBool('isPop') && token != null) {
-      //   EditeProfileWarnning();
-      // }
-      // emit(AuthcubitLogin(login));
     } on SocketException catch (_) {
       // Get.back();
       noNetFlage.value = true;

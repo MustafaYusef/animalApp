@@ -1,10 +1,11 @@
+import 'package:animal_app/ui/customWidget/circularProgress.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:animal_app/controller/mainController/orderController.dart';
 import 'package:animal_app/data/myOrderModel.dart';
 import 'package:animal_app/metods/methods.dart';
 import 'package:animal_app/ui/customWidget/noNetWidget.dart';
-import 'package:animal_app/ui/screens/orderDetails.dart';
+import 'package:animal_app/ui/screens/profile/orderDetails.dart';
 
 class MyOrderScreen extends StatefulWidget {
   MyOrderScreen({Key key}) : super(key: key);
@@ -41,6 +42,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
         Get.back();
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.white,
@@ -88,7 +90,14 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                 : Container(
                                     child: controller.isEmptyFlage.value
                                         ? Text("لا يوجد طلبات لديك")
-                                        : CircularProgressIndicator()),
+                                        : Container(
+                                            height: Get.height,
+                                            width: Get.width,
+                                            child: Center(
+                                              child: Container(
+                                                  child: circularProgress()),
+                                            ),
+                                          )),
                           ),
                         )
                       : Column(
@@ -170,7 +179,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
 Widget orderCard(MyOrder order) {
   return InkWell(
     onTap: () {
-      // Get.to(OrderDetailsScreen(order));
+      Get.to(OrderDetailsScreen(order));
     },
     child: Card(
       elevation: 3,
@@ -186,7 +195,7 @@ Widget orderCard(MyOrder order) {
               child: Container(
                 height: 35.0,
                 width: 120,
-                margin: EdgeInsets.only(left: 10),
+                margin: EdgeInsets.only(left: 5),
                 child: RaisedButton(
                   color: order.status == 0
                       ? Colors.grey[200]
@@ -243,9 +252,9 @@ Widget orderCard(MyOrder order) {
                     Text(
                       order.price.toString(),
                       style: TextStyle(
-                          fontSize: 17,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
+                        fontSize: 17,
+                        color: Colors.black,
+                      ),
                     ).addDirectionality(),
                     Text(
                       "سعر الطلب : ",

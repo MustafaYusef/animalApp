@@ -44,6 +44,7 @@ class LoginScreen extends StatelessWidget {
                         Image.asset(
                           "assets/images/cat_image.png",
                           width: 200,
+                          height: 150,
                         ),
                         Text(
                           "تسجيل الدخول",
@@ -164,7 +165,7 @@ class LoginScreen extends StatelessWidget {
                                         keyboardType: TextInputType.text,
                                         obscureText: true,
                                         decoration: InputDecoration(
-                                          fillColor: Colors.grey[200],
+                                          fillColor: Colors.grey[100],
                                           filled: true,
                                           hintText: "كلمة المرور",
                                           hintStyle: TextStyle(
@@ -200,30 +201,6 @@ class LoginScreen extends StatelessWidget {
                                           fontWeight: FontWeight.normal,
                                         ),
                                       ).addDirectionality(),
-
-                                      // SizedBox(height: 20),
-                                      // InkWell(
-                                      //   onTap: () {
-                                      //     Get.to(SendEmailScreen());
-                                      //   },
-                                      //   child: Row(
-                                      //     mainAxisAlignment: MainAxisAlignment.center,
-                                      //     children: [
-                                      //       Container(
-                                      //         margin: EdgeInsets.symmetric(
-                                      //             horizontal: 10, vertical: 0),
-                                      //         child: Text(
-                                      //           "إعادة تعيين كلمة المرور",
-                                      //           style: TextStyle(
-                                      //             fontSize: 18,
-                                      //             color: Get.theme.primaryColor,
-                                      //             fontWeight: FontWeight.bold,
-                                      //           ),
-                                      //         ).addDirectionality(),
-                                      //       ),
-                                      //     ],
-                                      //   ),
-                                      // ),
                                     ],
                                   ),
                                 ),
@@ -333,11 +310,11 @@ class LoginScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 30,
-                  ),
                 ],
               ),
+            ),
+            SizedBox(
+              height: 100,
             ),
           ]),
         )));

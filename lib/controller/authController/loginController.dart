@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:animal_app/controller/mainController/favouriteController.dart';
+import 'package:animal_app/controller/mainController/itemDetailsController.dart';
+import 'package:animal_app/controller/mainController/mainScreenController.dart';
 import 'package:animal_app/main.dart';
 import 'package:animal_app/metods/methods.dart';
 import 'package:animal_app/ui/screens/authScreen/loginScreen.dart';
@@ -69,6 +72,10 @@ class LoginController extends GetxController {
       final dd = await getProfile();
       Get.back();
       Get.delete<LoginController>();
+      Get.delete<MainController>();
+      Get.delete<ItemDetailsController>();
+      Get.delete<FavouriteController>();
+
       Get.offAll(Main(0));
       // Get.dialog(null);
       Get.snackbar("تم تسجيل الدخول بنجاح", "تم تسجيل الدخول بنجاح",

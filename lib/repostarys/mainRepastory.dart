@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:animal_app/data/allPostRes.dart';
 import 'package:animal_app/data/myBookingServices.dart';
 import 'package:animal_app/data/myPetsModel.dart';
+import 'package:animal_app/data/myPostModel.dart';
 import 'package:animal_app/data/servicesModel.dart';
 import 'package:http/http.dart';
 // import 'package:animal_app/data/AllitemsModel.dart';
@@ -85,6 +87,27 @@ class MainRepostary {
     }
   }
 
+  Future<AllPostModel> getPost(int page, int limit) async {
+    final response =
+        await get(baseUrl + "users/social/posts/all?page=$page&limit=$limit");
+    if (response.statusCode == 200) {
+      return allPostModelFromJson(response.body);
+    } else {
+      throw Exception(allPostModelFromJson(response.body).message);
+    }
+  }
+
+  Future<MyPostModel> getMyPost(String token, int page, int limit) async {
+    final response = await get(
+        baseUrl + "users/social/posts/my?page=$page&limit=$limit",
+        headers: {"Authorization": token});
+    if (response.statusCode == 200) {
+      return myPostModelFromJson(response.body);
+    } else {
+      throw Exception(myPostModelFromJson(response.body).message);
+    }
+  }
+
   Future<ItemsPaginationModel> getCategoryItem(
       int categoryId, int page, int limit) async {
     final response = await get(baseUrl +
@@ -100,8 +123,13 @@ class MainRepostary {
 // 0=false
 // 1=true
   Future<ServicesModel> getServices(int in_house) async {
-    final response =
-        await get(baseUrl + "dashbord/services/all?in_house=$in_house");
+    String url;
+    if (in_house == null) {
+      url = "dashbord/services/all?in_house=";
+    } else {
+      url = "dashbord/services/all?in_house=$in_house";
+    }
+    final response = await get(baseUrl + url);
     if (response.statusCode == 200) {
       return servicesModelFromJson(response.body);
     } else {
@@ -133,10 +161,21 @@ class MainRepostary {
     final response = await post(baseUrl + "users/favorite/$id",
         headers: {"Authorization": token});
     if (response.statusCode == 200 || response.statusCode == 201) {
-      print(addResModelFromJson(response.body).data.msg);
+      // print(addResModelFromJson(response.body).data.msg);
       return addResModelFromJson(response.body);
     } else {
       throw Exception(addResModelFromJson(response.body).data.msg);
+    }
+  }
+
+  Future<AddResModel> likePost(int id, String token) async {
+    final response = await post(baseUrl + "users/social/like/$id",
+        headers: {"Authorization": token});
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      // print(addResModelFromJson(response.body).data.msg);
+      return addResModelFromJson(response.body);
+    } else {
+      throw Exception(addResModelFromJson(response.body).message);
     }
   }
 
@@ -192,6 +231,26 @@ class MainRepostary {
     }
   }
 
+  Future<AddResModel> deletePost(String token, int id) async {
+    final response = await delete(baseUrl + "users/pet/$id",
+        headers: {"Authorization": token});
+    if (response.statusCode == 200) {
+      return addResModelFromJson(response.body);
+    } else {
+      throw Exception(addResModelFromJson(response.body).statusCode);
+    }
+  }
+
+  Future<AddResModel> deletePete(String token, int id) async {
+    final response = await delete(baseUrl + "users/pet/$id",
+        headers: {"Authorization": token});
+    if (response.statusCode == 200) {
+      return addResModelFromJson(response.body);
+    } else {
+      throw Exception(addResModelFromJson(response.body).statusCode);
+    }
+  }
+
   Future<AddResModel> addCart(int size_id, int count, String token) async {
     print(token);
     final response = await post(baseUrl + "users/cart/add",
@@ -237,25 +296,102 @@ class MainRepostary {
       String pet,
       String base64,
       String age,
-        String desc,
-      int sex,
+      String desc,
+      String sex,
       String last_vaccine}) async {
     print(token);
-    final response = await post(baseUrl + "users/pet/add",
-        headers: {"Authorization": token, "Content-Type": "application/json"},
-        body: json.encode({
-          "type": type,
-          "name": pet,
-          "age": age,
-          "sex": sex,
-          "base64": base64,
-          "last_vaccine": last_vaccine,
-          "description": desc
-        }));
+    final response = await post(baseUrl + "users/pet/add", headers: {
+      "Authorization": token,
+    }, body: {
+      "type": type,
+      "name": pet,
+      "age": age,
+      "sex": sex,
+      "base64": base64,
+      "last_vaccine": last_vaccine,
+      "description": desc
+    });
     if (response.statusCode == 200 || response.statusCode == 201) {
+      print("suceesss");
       return addResModelFromJson(response.body);
     } else {
-      throw Exception(addResModelFromJson(response.body).message);
+      print("failll");
+
+      throw Exception(response.body);
+    }
+  }
+
+  Future<AddResModel> editPets(
+      {String token,
+      int id,
+      String type,
+      String pet,
+      String base64,
+      String age,
+      String desc,
+      String sex,
+      String last_vaccine}) async {
+    print(token);
+    final response = await put(baseUrl + "users/pet/$id", headers: {
+      "Authorization": token,
+    }, body: {
+      "type": type,
+      "name": pet,
+      "age": age,
+      "sex": sex,
+      "base64": base64,
+      "last_vaccine": last_vaccine,
+      "description": desc
+    });
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print("suceesss");
+      return addResModelFromJson(response.body);
+    } else {
+      print("failll");
+
+      throw Exception(response.body);
+    }
+  }
+
+  Future<AddResModel> addPost({
+    String token,
+    String desc,
+    String base64,
+  }) async {
+    print(token);
+    final response = await post(baseUrl + "users/social/post/add", headers: {
+      "Authorization": token,
+    }, body: {
+      "base64": base64,
+      "description": desc
+    });
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print("suceesss");
+      return addResModelFromJson(response.body);
+    } else {
+      print("failll");
+
+      throw Exception(response.body);
+    }
+  }
+
+  Future<AddResModel> editPost(
+      {String token, String desc, String base64, int id}) async {
+    print(token);
+    final response = await post(baseUrl + "users/social/post/add", headers: {
+      "Authorization": token,
+    }, body: {
+      "base64": base64,
+      "description": desc,
+      "id": id.toString()
+    });
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print("suceesss");
+      return addResModelFromJson(response.body);
+    } else {
+      print("failll");
+
+      throw Exception(response.body);
     }
   }
 
@@ -284,18 +420,6 @@ class MainRepostary {
       return addResModelFromJson(response.body);
     } else {
       throw Exception(addResModelFromJson(response.body).message);
-    }
-  }
-
-  Future<CheckPromoModel> checkPromo(String token, String promo) async {
-    print(token);
-    final response = await post(baseUrl + "customers/promo/check",
-        headers: {"Authorization": token, "Content-Type": "application/json"},
-        body: json.encode({"promo": promo}));
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      return checkPromoModelFromJson(response.body);
-    } else {
-      throw Exception(checkPromoModelFromJson(response.body).message);
     }
   }
 

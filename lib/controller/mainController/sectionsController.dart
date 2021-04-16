@@ -12,6 +12,7 @@ class SectionsController extends GetxController {
   var sectionsList = List<MainCategory>().obs;
   var noNetFlage = false.obs;
   MainRepostary repo;
+  var isLoading = false.obs;
   @override
   void onInit() {
     // sectionsList.value = null;
@@ -21,7 +22,7 @@ class SectionsController extends GetxController {
   }
 
   Future<void> getSections() async {
-    // Get.dialog(popUpLoading(), barrierDismissible: false);
+    isLoading.value = true;
     noNetFlage.value = false;
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -29,8 +30,10 @@ class SectionsController extends GetxController {
       String token = await prefs.getString('token');
       final banners1 = await repo.getMainCategory();
       sectionsList.assignAll(banners1.data.categories);
-      print(sectionsList);
+      isLoading.value = false;
     } on SocketException catch (_) {
+      isLoading.value = false;
+
       noNetFlage.value = true;
       Get.snackbar(noNet, noNet,
           duration: Duration(seconds: 3),
@@ -41,6 +44,8 @@ class SectionsController extends GetxController {
           colorText: Colors.white,
           backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
     } catch (_) {
+      isLoading.value = false;
+
       // Get.back();
       Get.snackbar("لديك خطأ في معلومات الدخول", "لديك خطأ في معلومات الدخول",
           duration: Duration(seconds: 3),

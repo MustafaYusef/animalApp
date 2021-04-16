@@ -1,3 +1,4 @@
+import 'package:animal_app/ui/customWidget/circularProgress.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -63,12 +64,18 @@ class SectionsScreen extends StatelessWidget {
                     ],
                   ))
               : Container(
-                  child: _controller.sectionsList.value == null
+                  child: _controller.isLoading.value
                       ? Container(
                           width: Get.width,
                           height: Get.height,
                           child: Center(
-                            child: CircularProgressIndicator(),
+                            child: Container(
+                              height: Get.height,
+                              width: Get.width,
+                              child: Center(
+                                child: Container(child: circularProgress()),
+                              ),
+                            ),
                           ),
                         )
                       : Column(
