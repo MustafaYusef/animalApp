@@ -40,428 +40,423 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 .addDirectionality(),
         centerTitle: true,
       ),
-      body: Container(
-        width: Get.width,
-        height: Get.height,
-        child: SingleChildScrollView(
-          child: Container(
-            width: Get.width,
-            height: Get.height,
-            child: Column(
-              children: [
-                Container(
-                    height: 400,
-                    child: Obx(
-                      () => _profController.profile.value == null
-                          ? Column(
-                              children: [
-                                Expanded(
-                                    child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      NoInternetWidget(),
-                                      SizedBox(
-                                        height: 20,
+      body: SingleChildScrollView(
+        child: Container(
+          width: Get.width,
+          height: Get.height - 150,
+          child: Column(
+            children: [
+              Container(
+                  height: 360,
+                  child: Obx(
+                    () => _profController.profile.value == null
+                        ? Column(
+                            children: [
+                              Expanded(
+                                  child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    NoInternetWidget(),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        _profController.getProfile();
+                                      },
+                                      child: Text(
+                                        "إعادة المحاولة",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .primaryColorDark),
                                       ),
-                                      InkWell(
-                                        onTap: () {
-                                          _profController.getProfile();
-                                        },
-                                        child: Text(
-                                          "إعادة المحاولة",
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color: Theme.of(context)
-                                                  .primaryColorDark),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ))
-                              ],
-                            )
-                          : Container(
-                              child: _profController.needLogin.value
-                                  ? NeedToLoginWidget()
-                                  : Column(
-                                      children: [
-                                        _profController.profile.value.data ==
-                                                null
-                                            ? Container(
-                                                height: Get.height / 2,
-                                                width: Get.width,
-                                                child: Center(
-                                                  child: Container(
-                                                      child:
-                                                          circularProgress()),
-                                                ),
-                                              )
-                                            : Expanded(
-                                                child: RefreshIndicator(
-                                                  onRefresh: () {
-                                                    return _profController
-                                                        .getProfile();
-                                                  },
-                                                  child: Column(
-                                                    children: [
-                                                      Container(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 10,
-                                                                right: 10,
-                                                                top: 10,
-                                                                bottom: 0),
-                                                        margin: EdgeInsets.only(
-                                                            left: 10,
-                                                            right: 10,
-                                                            top: 10,
-                                                            bottom: 0),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(30),
-                                                          border: Border.all(
-                                                              color: Colors
-                                                                  .grey[300]),
-                                                          color: Colors.white,
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                              color: Colors.grey
-                                                                  .withOpacity(
-                                                                      0.3),
-                                                              spreadRadius: 2,
-                                                              blurRadius: 20,
-                                                              offset: Offset(0,
-                                                                  3), // changes position of shadow
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        child: ListView(
-                                                          shrinkWrap: true,
-                                                          children: [
-                                                            Card(
-                                                              elevation: 0,
-                                                              margin: EdgeInsets
-                                                                  .all(5),
-                                                              child: Padding(
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                        vertical:
-                                                                            10,
-                                                                        horizontal:
-                                                                            10),
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .end,
-                                                                  children: [
-                                                                    Text(
-                                                                      _profController
-                                                                          .profile
-                                                                          .value
-                                                                          .data
-                                                                          .profile
-                                                                          .name,
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              18),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      width: 10,
-                                                                    ),
-                                                                    Icon(
-                                                                      Icons
-                                                                          .person,
-                                                                      color: Theme.of(
-                                                                              context)
-                                                                          .primaryColor,
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Card(
-                                                              elevation: 0,
-                                                              margin: EdgeInsets
-                                                                  .all(5),
-                                                              child: Padding(
-                                                                padding: const EdgeInsets
-                                                                        .symmetric(
-                                                                    vertical:
-                                                                        10,
-                                                                    horizontal:
-                                                                        10),
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .end,
-                                                                  children: [
-                                                                    Text(
-                                                                      _profController
-                                                                          .profile
-                                                                          .value
-                                                                          .data
-                                                                          .profile
-                                                                          .phone,
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              18),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      width: 10,
-                                                                    ),
-                                                                    Icon(
-                                                                      Icons
-                                                                          .phone,
-                                                                      color: Theme.of(
-                                                                              context)
-                                                                          .primaryColor,
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Card(
-                                                              elevation: 0,
-                                                              margin: EdgeInsets
-                                                                  .all(5),
-                                                              child: Padding(
-                                                                padding: const EdgeInsets
-                                                                        .symmetric(
-                                                                    vertical:
-                                                                        10,
-                                                                    horizontal:
-                                                                        10),
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .end,
-                                                                  children: [
-                                                                    Text(
-                                                                      _profController
-                                                                          .profile
-                                                                          .value
-                                                                          .data
-                                                                          .profile
-                                                                          .email,
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              18),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      width: 10,
-                                                                    ),
-                                                                    Icon(
-                                                                      Icons
-                                                                          .email,
-                                                                      color: Theme.of(
-                                                                              context)
-                                                                          .primaryColor,
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            InkWell(
-                                                              onTap: () {
-                                                                LogoutPopUp(
-                                                                    context);
-                                                              },
-                                                              child: Card(
-                                                                elevation: 0,
-                                                                margin:
-                                                                    EdgeInsets
-                                                                        .all(5),
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .symmetric(
+                                    )
+                                  ],
+                                ),
+                              ))
+                            ],
+                          )
+                        : Container(
+                            child: _profController.needLogin.value
+                                ? NeedToLoginWidget()
+                                : Column(
+                                    children: [
+                                      _profController.profile.value.data == null
+                                          ? Container(
+                                              height: 360,
+                                              width: Get.width,
+                                              child: Center(
+                                                child: Container(
+                                                    child: circularProgress()),
+                                              ),
+                                            )
+                                          : Expanded(
+                                              child: RefreshIndicator(
+                                                onRefresh: () {
+                                                  return _profController
+                                                      .getProfile();
+                                                },
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      padding: EdgeInsets.only(
+                                                          left: 10,
+                                                          right: 10,
+                                                          top: 10,
+                                                          bottom: 0),
+                                                      margin: EdgeInsets.only(
+                                                          left: 10,
+                                                          right: 10,
+                                                          top: 10,
+                                                          bottom: 0),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(30),
+                                                        border: Border.all(
+                                                            color: Colors
+                                                                .grey[300]),
+                                                        color: Colors.white,
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.3),
+                                                            spreadRadius: 2,
+                                                            blurRadius: 20,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      child: ListView(
+                                                        shrinkWrap: true,
+                                                        children: [
+                                                          Card(
+                                                            elevation: 0,
+                                                            margin:
+                                                                EdgeInsets.all(
+                                                                    5),
+                                                            child: Padding(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
                                                                       vertical:
                                                                           10,
                                                                       horizontal:
                                                                           10),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .end,
-                                                                    children: [
-                                                                      Text(
-                                                                        "تسجيل الخروج",
-                                                                        style: TextStyle(
-                                                                            fontSize:
-                                                                                18),
-                                                                      ).addDirectionality(),
-                                                                      SizedBox(
-                                                                        width:
-                                                                            10,
-                                                                      ),
-                                                                      Icon(
-                                                                        Icons
-                                                                            .exit_to_app,
-                                                                        color: Theme.of(context)
-                                                                            .primaryColor,
-                                                                      ),
-                                                                    ],
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .end,
+                                                                children: [
+                                                                  Text(
+                                                                    _profController
+                                                                        .profile
+                                                                        .value
+                                                                        .data
+                                                                        .profile
+                                                                        .name,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            18),
                                                                   ),
+                                                                  SizedBox(
+                                                                    width: 10,
+                                                                  ),
+                                                                  Icon(
+                                                                    Icons
+                                                                        .person,
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .primaryColor,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Card(
+                                                            elevation: 0,
+                                                            margin:
+                                                                EdgeInsets.all(
+                                                                    5),
+                                                            child: Padding(
+                                                              padding: const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical: 10,
+                                                                  horizontal:
+                                                                      10),
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .end,
+                                                                children: [
+                                                                  Text(
+                                                                    _profController
+                                                                        .profile
+                                                                        .value
+                                                                        .data
+                                                                        .profile
+                                                                        .phone,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            18),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 10,
+                                                                  ),
+                                                                  Icon(
+                                                                    Icons.phone,
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .primaryColor,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Card(
+                                                            elevation: 0,
+                                                            margin:
+                                                                EdgeInsets.all(
+                                                                    5),
+                                                            child: Padding(
+                                                              padding: const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical: 10,
+                                                                  horizontal:
+                                                                      10),
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .end,
+                                                                children: [
+                                                                  Text(
+                                                                    _profController
+                                                                        .profile
+                                                                        .value
+                                                                        .data
+                                                                        .profile
+                                                                        .email,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            18),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 10,
+                                                                  ),
+                                                                  Icon(
+                                                                    Icons.email,
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .primaryColor,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          InkWell(
+                                                            onTap: () {
+                                                              LogoutPopUp(
+                                                                  context);
+                                                            },
+                                                            child: Card(
+                                                              elevation: 0,
+                                                              margin: EdgeInsets
+                                                                  .all(5),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical:
+                                                                        10,
+                                                                    horizontal:
+                                                                        10),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .end,
+                                                                  children: [
+                                                                    Text(
+                                                                      "تسجيل الخروج",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              18),
+                                                                    ).addDirectionality(),
+                                                                    SizedBox(
+                                                                      width: 10,
+                                                                    ),
+                                                                    Icon(
+                                                                      Icons
+                                                                          .exit_to_app,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .primaryColor,
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                               ),
                                                             ),
-                                                            SizedBox(
-                                                              height: 40,
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                Container(
-                                                                  height: 60.0,
-                                                                  width: 200,
+                                                          ),
+                                                          SizedBox(
+                                                            height: 40,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Container(
+                                                                height: 60.0,
+                                                                width: 200,
+                                                                child:
+                                                                    RaisedButton(
+                                                                  color: Get
+                                                                      .theme
+                                                                      .accentColor,
+                                                                  onPressed:
+                                                                      () {
+                                                                    Get.to(
+                                                                        EditProfileScreen());
+                                                                  },
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius: BorderRadius.only(
+                                                                          topLeft: Radius.circular(
+                                                                              0),
+                                                                          topRight: Radius.circular(
+                                                                              30),
+                                                                          bottomLeft: Radius.circular(
+                                                                              30),
+                                                                          bottomRight:
+                                                                              Radius.circular(30))),
                                                                   child:
-                                                                      RaisedButton(
-                                                                    color: Get
-                                                                        .theme
-                                                                        .accentColor,
-                                                                    onPressed:
-                                                                        () {
-                                                                      Get.to(
-                                                                          EditProfileScreen());
-                                                                    },
-                                                                    shape: RoundedRectangleBorder(
-                                                                        borderRadius: BorderRadius.only(
-                                                                            topLeft:
-                                                                                Radius.circular(0),
-                                                                            topRight: Radius.circular(30),
-                                                                            bottomLeft: Radius.circular(30),
-                                                                            bottomRight: Radius.circular(30))),
-                                                                    child:
-                                                                        Container(
-                                                                      alignment:
-                                                                          Alignment
-                                                                              .center,
-                                                                      child:
-                                                                          Row(
-                                                                        children: [
-                                                                          Icon(
-                                                                            Icons.arrow_back,
+                                                                      Container(
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .center,
+                                                                    child: Row(
+                                                                      children: [
+                                                                        Icon(
+                                                                          Icons
+                                                                              .edit,
+                                                                          color:
+                                                                              Colors.white,
+                                                                        ),
+                                                                        SizedBox(
+                                                                          width:
+                                                                              5,
+                                                                        ),
+                                                                        Text(
+                                                                          "تعديل الحساب",
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontSize:
+                                                                                18,
                                                                             color:
                                                                                 Colors.white,
                                                                           ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                5,
-                                                                          ),
-                                                                          Text(
-                                                                            "تعديل الحساب",
-                                                                            style:
-                                                                                TextStyle(
-                                                                              fontSize: 18,
-                                                                              color: Colors.white,
-                                                                            ),
-                                                                          ).addDirectionality(),
-                                                                        ],
-                                                                      ),
+                                                                        ).addDirectionality(),
+                                                                      ],
                                                                     ),
                                                                   ),
                                                                 ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                      ],
-                                    ),
-                            ),
-                    )),
-                Obx(
-                  () => Padding(
-                    padding: const EdgeInsets.all(1.0),
-                    child: _profController.needLogin.value
-                        ? Container()
-                        : Container(
-                            padding: EdgeInsets.only(
-                                left: 10, right: 10, top: 10, bottom: 0),
-                            margin: EdgeInsets.only(
-                                left: 10, right: 10, top: 10, bottom: 0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              border: Border.all(color: Colors.grey[300]),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  spreadRadius: 2,
-                                  blurRadius: 20,
-                                  offset: Offset(
-                                      0, 3), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 4,
+                                            ),
+                                    ],
+                                  ),
+                          ),
+                  )),
+              Expanded(child: Container()),
+              Obx(
+                () => Padding(
+                  padding: const EdgeInsets.all(1.0),
+                  child: _profController.needLogin.value
+                      ? Container()
+                      : Container(
+                          padding: EdgeInsets.only(
+                              left: 10, right: 10, top: 10, bottom: 0),
+                          margin: EdgeInsets.only(
+                              left: 10, right: 10, top: 10, bottom: 0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            border: Border.all(color: Colors.grey[300]),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.3),
+                                spreadRadius: 2,
+                                blurRadius: 20,
+                                offset:
+                                    Offset(0, 3), // changes position of shadow
                               ),
-                              child: Column(
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      Get.to(MyOrderScreen());
-                                    },
-                                    child: Text("سجل الطلبات",
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 4,
+                            ),
+                            child: Column(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Get.to(MyOrderScreen());
+                                  },
+                                  child: Text("سجل الطلبات",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: Get.theme.accentColor)),
+                                ),
+                                Divider(
+                                  thickness: 1,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Get.to(MyBookingScreen());
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 4,
+                                    ),
+                                    child: Text("سجل الحجوزات",
                                         style: TextStyle(
                                             fontSize: 18,
                                             color: Get.theme.accentColor)),
                                   ),
-                                  Divider(
-                                    thickness: 1,
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      Get.to(MyBookingScreen());
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 4,
-                                      ),
-                                      child: Text("سجل الحجوزات",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              color: Get.theme.accentColor)),
+                                ),
+                                Divider(
+                                  thickness: 1,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Get.to(MyPostsScreen());
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 4,
                                     ),
+                                    child: Text("المنشورات الخاصة بك",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Get.theme.accentColor)),
                                   ),
-                                  Divider(
-                                    thickness: 1,
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      Get.to(MyPostsScreen());
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 4,
-                                      ),
-                                      child: Text("المنشورات الخاصة بك",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              color: Get.theme.accentColor)),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
-                  ),
+                        ),
                 ),
-                SizedBox(
-                  height: 30,
-                )
-              ],
-            ),
+              ),
+              SizedBox(
+                height: 30,
+              )
+            ],
           ),
         ),
       ),

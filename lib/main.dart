@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:animal_app/ui/screens/introScreen.dart';
 import 'package:animal_app/ui/screens/myPosts/allPostsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,37 +35,6 @@ void main() => runApp(
           home: MyLottie()),
     );
 
-// class baseWedget extends StatefulWidget {
-//   const baseWedget({Key key}) : super(key: key);
-
-//   @override
-//   _baseWedgetState createState() => _baseWedgetState();
-// }
-
-// class _baseWedgetState extends State<baseWedget> {
-//   @override
-//   void initState() {
-//     // getToken();
-
-//     super.initState();
-//   }
-
-//   // bool flage = false;
-//   // getToken() async {
-//   //   SharedPreferences prefs = await SharedPreferences.getInstance();
-
-//   //   final token = await prefs.get('token');
-//   //   flage = token == "" || token == null;
-//   //   setState(() {});
-//   // }
-
-//   @override
-//   Widget build(BuildContext context) {
-
-//     return Main(0);
-//   }
-// }
-
 class Main extends StatefulWidget {
   int indexB = 0;
   Main([this.indexB]);
@@ -90,14 +60,14 @@ class _MainState extends State<Main> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+    // OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
 
-    OneSignal.shared.init("678edd4c-48a6-435a-8bd3-c0823ce40f8d", iOSSettings: {
-      OSiOSSettings.autoPrompt: true,
-      OSiOSSettings.inAppLaunchUrl: false
-    });
-    OneSignal.shared
-        .setInFocusDisplayType(OSNotificationDisplayType.notification);
+    // OneSignal.shared.init("678edd4c-48a6-435a-8bd3-c0823ce40f8d", iOSSettings: {
+    //   OSiOSSettings.autoPrompt: true,
+    //   OSiOSSettings.inAppLaunchUrl: false
+    // });
+    // OneSignal.shared
+    //     .setInFocusDisplayType(OSNotificationDisplayType.notification);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: PreferredSize(
@@ -177,14 +147,24 @@ class MyLottie extends StatefulWidget {
 }
 
 class _MyLottieState extends State<MyLottie> {
+  SharedPreferences prefs;
+  getInsatant() async {
+    prefs = await SharedPreferences.getInstance();
+    // var intro = ;
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    getInsatant();
+
     Timer(Duration(seconds: 3), () {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-        return Main(0);
-      }));
+      if (prefs.getBool('intro') == null) {
+        Get.offAll(IntroScreen());
+      } else {
+        // Get.offAll(IntroScreen());
+        Get.offAll(Main(0));
+      }
     });
   }
 
@@ -206,8 +186,6 @@ class _MyLottieState extends State<MyLottie> {
           height: MediaQuery.of(context).size.height,
           child: Lottie.asset(
             'assets/images/start.json',
-            animate: true,
-            repeat: true,
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             fit: BoxFit.contain,
