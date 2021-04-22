@@ -64,71 +64,57 @@ class ServicesScreen extends StatelessWidget {
                       ))
                     ],
                   ))
-              : Container(
-                  child: _controller.sectionsList.value == null
-                      ? Container(
-                          width: Get.width,
-                          height: Get.height,
-                          child: Center(
-                            child: Container(
-                              height: Get.height / 2,
-                              width: Get.width,
-                              child: Center(
-                                child: Container(child: circularProgress()),
-                              ),
-                            ),
-                          ),
-                        )
-                      : Container(
-                          child: _controller
-                                  .sectionsList.value.data.services.isEmpty
+              : Column(
+                  children: [
+                    Expanded(
+                      child: Container(
+                          child: _controller.sectionsList.value == null
                               ? Container(
                                   width: Get.width,
                                   height: Get.height,
                                   child: Center(
-                                    child: Text("لا يوجد بيانات"),
-                                  ),
-                                )
-                              : Column(
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        height: GetPlatform.isIOS
-                                            ? Get.height - 180
-                                            : Get.height - 110,
-                                        child: Column(children: [
-                                          Expanded(
-                                            child: RefreshIndicator(
-                                              onRefresh: () {
-                                                return _controller
-                                                    .getSections(inHouse);
-                                              },
-                                              child: ListView.builder(
-                                                itemCount: _controller
-                                                    .sectionsList
-                                                    .value
-                                                    .data
-                                                    .services
-                                                    .length,
-                                                itemBuilder:
-                                                    (BuildContext context,
-                                                        int index) {
-                                                  return servicesCard(
-                                                      _controller
-                                                          .sectionsList
-                                                          .value
-                                                          .data
-                                                          .services[index]);
-                                                },
-                                              ),
-                                            ),
-                                          )
-                                        ]),
+                                    child: Container(
+                                      height: Get.height / 2,
+                                      width: Get.width,
+                                      child: Center(
+                                        child: Container(
+                                            child: circularProgress()),
                                       ),
                                     ),
-                                  ],
-                                ),
-                        )),
+                                  ),
+                                )
+                              : Container(
+                                  child: _controller.sectionsList.value.data
+                                          .services.isEmpty
+                                      ? Container(
+                                          width: Get.width,
+                                          height: Get.height,
+                                          child: Center(
+                                            child: Text("لا يوجد بيانات"),
+                                          ),
+                                        )
+                                      : RefreshIndicator(
+                                          onRefresh: () {
+                                            return _controller
+                                                .getSections(inHouse);
+                                          },
+                                          child: ListView.builder(
+                                            itemCount: _controller.sectionsList
+                                                .value.data.services.length,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              return servicesCard(_controller
+                                                  .sectionsList
+                                                  .value
+                                                  .data
+                                                  .services[index]);
+                                            },
+                                          ),
+                                        ),
+                                )),
+                    ),
+                  ],
+                ),
         ),
       ),
     );

@@ -55,7 +55,7 @@ LogoutPopUp(contex2) {
           child: InkWell(
             onTap: () async {
               SharedPreferences prefs = await SharedPreferences.getInstance();
-              await prefs.clear();
+              await prefs.setString("token", null);
               Get.delete<MainController>();
               Get.delete<FavouriteController>();
               Get.delete<ItemDetailsController>();

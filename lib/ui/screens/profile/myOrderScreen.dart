@@ -212,7 +212,7 @@ Widget orderCard(MyOrder order) {
                   child: Container(
                     alignment: Alignment.center,
                     child: Text(
-                      order.status == 0 ? "جاري التوصيل" : "تم التوصيل",
+                      order.status == 0 ? "يتم التجهيز" : "تم التوصيل",
                       style: TextStyle(
                         fontSize: 16,
                         color: order.status == 0 ? Colors.black : Colors.white,

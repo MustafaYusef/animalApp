@@ -36,8 +36,8 @@ class AuthRepostary {
     }
   }
 
-  Future<void> Regester(String name, String phone, String password,
-      String email, String player_id) async {
+  Future<void> Regester(
+      String name, String phone, String password, String player_id) async {
     final response = await post(baseUrl + "users/auth/register",
         headers: {"Content-Type": "application/json"},
         body: json.encode({
@@ -45,7 +45,6 @@ class AuthRepostary {
           "password": password,
           "player_id": player_id,
           "name": name,
-          "email": email
         }));
     if (response.statusCode == 200 || response.statusCode == 201) {
       return;
@@ -83,11 +82,10 @@ class AuthRepostary {
     String token,
     String name,
     String phone,
-    String email,
   ) async {
     final response = await put(baseUrl + "users/auth/proile/edit",
         headers: {"Authorization": token},
-        body: ({"phone": phone, "name": name, "email": email}));
+        body: ({"phone": phone, "name": name}));
     if (response.statusCode == 200 || response.statusCode == 201) {
       return;
     } else {

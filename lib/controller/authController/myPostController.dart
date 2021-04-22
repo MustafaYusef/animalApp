@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:animal_app/data/myPostModel.dart';
+import 'package:animal_app/metods/compressImage.dart';
 import 'package:animal_app/ui/customWidget/popLoading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -50,8 +52,9 @@ class MyPostController extends GetxController {
 
       // imageController.text = imageFile.value.path;
       imageName.value = imageFile.value.path;
-      List<int> imageBytes = imageFile.value.readAsBytesSync();
+      Uint8List imageBytes = await compressFile(imageFile.value);
       print(imageBytes);
+
       imageBase64 =
           "data:image/${imageFile.value.path.split("/")[imageFile.value.path.split("/").length - 1].split(".")[1]};base64," +
               base64Encode(imageBytes);

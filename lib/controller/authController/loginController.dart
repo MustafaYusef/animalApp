@@ -30,7 +30,7 @@ class LoginController extends GetxController {
   TextEditingController nameTextController;
   TextEditingController phoneRegController;
   TextEditingController passwordRegTextController;
-  TextEditingController emailController;
+  // TextEditingController emailController;
   var selectedcity = "".obs;
   var selectedProv = Map<String, List<String>>().obs;
   var profile = ProfileModel().obs;
@@ -45,7 +45,7 @@ class LoginController extends GetxController {
     nameTextController = TextEditingController();
     phoneRegController = TextEditingController();
     passwordRegTextController = TextEditingController();
-    emailController = TextEditingController();
+    // emailController = TextEditingController();
 
     needLogin.value = false;
     selectedProv.value = null;
@@ -114,19 +114,18 @@ class LoginController extends GetxController {
   Future<void> regesterRequest() async {
     Get.dialog(popUpLoading(), barrierDismissible: false);
     try {
-      var playerId = await getuserId();
+      // var playerId = await getuserId();
       final login = await repo.Regester(
           nameTextController?.text.toString(),
           phoneRegController?.text.toString(),
           passwordRegTextController?.text.toString(),
-          emailController.text.toString(),
-          playerId);
+          "ggg");
 
       Get.back();
       Get.offAll(LoginScreen());
       nameTextController.clear();
       phoneRegController.clear();
-      emailController.clear();
+      // emailController.clear();
 
       passwordRegTextController.clear();
       selectedProv.value = null;

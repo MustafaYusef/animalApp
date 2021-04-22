@@ -25,6 +25,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
+ def keystoreProperties = new Properties()
+   def keystorePropertiesFile = rootProject.file('key.properties')
+   if (keystorePropertiesFile.exists()) {
+       keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+   }
 android {
     compileSdkVersion 30
 
@@ -34,13 +39,20 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.animal_app"
+        applicationId "com.croczi.animal_app"
         minSdkVersion 16
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
-
+   signingConfigs {
+       release {
+           keyAlias 'key'
+           keyPassword ('123456')
+           storeFile file("/\\Users\\mustafayusef\\keyStores\\animal_app.jks")
+           storePassword ('123456')
+       }
+   }
     buildTypes {
         release {
             minifyEnabled false
@@ -48,7 +60,7 @@ android {
 
             useProguard true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.debug
+             signingConfig signingConfigs.release
         }
     }
 }

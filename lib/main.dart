@@ -5,18 +5,19 @@ import 'package:animal_app/ui/screens/myPosts/allPostsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
+// import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import 'package:animal_app/ui/screens/favouriteScreen.dart';
 import 'package:animal_app/ui/screens/mainScreen.dart';
 import 'package:animal_app/ui/screens/profile/profileScreen.dart';
 import 'package:animal_app/ui/screens/sectionsScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'metods/extentions.dart';
 import 'controller/mainController/itemDetailsController.dart';
 
 void main() => runApp(
       GetMaterialApp(
+          defaultTransition: Transition.rightToLeft,
           theme: ThemeData(
               primaryColor: Color(0xff2980B9),
               accentColor: Color(0xffC0392B),
@@ -91,27 +92,48 @@ class _MainState extends State<Main> with TickerProviderStateMixin {
                     color: widget.indexB == 0
                         ? Theme.of(context).primaryColor
                         : Colors.grey),
-                title: Container()),
+                title: Text(
+                  "الرئيسية",
+                  style: TextStyle(
+                      color: widget.indexB == 0
+                          ? Theme.of(context).primaryColor
+                          : Colors.grey),
+                ).addDirectionality()),
 
             BottomNavigationBarItem(
                 icon: Icon(Icons.favorite_border,
                     color: widget.indexB == 1
                         ? Theme.of(context).primaryColor
                         : Colors.grey),
-                title: Container()),
+                title: Text("المفضلة",
+                        style: TextStyle(
+                            color: widget.indexB == 1
+                                ? Theme.of(context).primaryColor
+                                : Colors.grey))
+                    .addDirectionality()),
             BottomNavigationBarItem(
                 icon: Icon(Icons.photo_size_select_actual_sharp,
                     color: widget.indexB == 2
                         ? Theme.of(context).primaryColor
                         : Colors.grey),
-                title: Container()),
+                title: Text("المنشورات",
+                        style: TextStyle(
+                            color: widget.indexB == 2
+                                ? Theme.of(context).primaryColor
+                                : Colors.grey))
+                    .addDirectionality()),
 
             BottomNavigationBarItem(
                 icon: Icon(Icons.person_outline,
                     color: widget.indexB == 3
                         ? Theme.of(context).primaryColor
                         : Colors.grey),
-                title: Container())
+                title: Text("الحساب",
+                        style: TextStyle(
+                            color: widget.indexB == 3
+                                ? Theme.of(context).primaryColor
+                                : Colors.grey))
+                    .addDirectionality())
 
             // Icon(Icons.more_horiz,
             //     size: 30, color: indexB == 4 ? Colors.white : Colors.grey),

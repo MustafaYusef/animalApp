@@ -25,10 +25,13 @@ class ItemDetailsScreen extends StatelessWidget {
   ItemDetailsController controller;
 
   Item item;
-
-  ItemDetailsScreen(this.item) {
+  int cartCount;
+  ItemDetailsScreen(this.item, [this.cartCount]) {
     controller = Get.put(ItemDetailsController());
     controller.id = item.id;
+    if (cartCount != null) {
+      controller.count.value = cartCount;
+    }
   }
   // @override
   // void initState() {
@@ -51,7 +54,7 @@ class ItemDetailsScreen extends StatelessWidget {
     return WillPopScope(
       onWillPop: () {
         // Get.delete<ItemDetailsController>();
-        controller.count.value = 1;
+        controller.count.value = 0;
         Get.back();
       },
       child: Scaffold(
@@ -168,24 +171,47 @@ class ItemDetailsScreen extends StatelessWidget {
                                             semanticContainer: true,
                                             clipBehavior:
                                                 Clip.antiAliasWithSaveLayer,
-                                            child: CachedNetworkImage(
-                                              // color: Colors.white,
-                                              fit: BoxFit.cover,
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              height: (MediaQuery.of(context)
-                                                          .size
-                                                          .height /
-                                                      3) +
-                                                  40,
-                                              imageUrl: imageUrl +
-                                                  item.covePhoto.toString(),
-                                              placeholder: (context, url) =>
-                                                  loadinImage(),
-                                              errorWidget:
-                                                  (context, url, error) =>
+                                            child: Stack(
+                                              children: [
+                                                CachedNetworkImage(
+                                                  // color: Colors.white,
+                                                  fit: BoxFit.cover,
+                                                  width: Get.width,
+                                                  height: (Get.height / 3) + 40,
+                                                  imageUrl: imageUrl +
+                                                      item.covePhoto.toString(),
+                                                  placeholder: (context, url) =>
                                                       loadinImage(),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          loadinImage(),
+                                                ),
+                                                if (item.count != 0)
+                                                  Container()
+                                                else
+                                                  Container(
+                                                    child: Container(
+                                                      width: Get.width,
+                                                      height:
+                                                          (Get.height / 3) + 40,
+                                                      child: Center(
+                                                        child: Text(
+                                                          "غير متوفر",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 18),
+                                                        ),
+                                                      ),
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.white
+                                                              .withOpacity(0.6),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5)),
+                                                    ),
+                                                  )
+                                              ],
                                             ),
                                           ),
                                         ),
@@ -408,7 +434,7 @@ class ItemDetailsScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          countWidget(controller),
+                          countWidget(controller, item),
                         ],
                       )),
                 )
@@ -423,8 +449,8 @@ class ItemDetailsScreen extends StatelessWidget {
 
 class countWidget extends StatelessWidget {
   ItemDetailsController controller;
-
-  countWidget(this.controller);
+  Item item;
+  countWidget(this.controller, this.item);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -439,12 +465,26 @@ class countWidget extends StatelessWidget {
                   margin: EdgeInsets.only(left: 10),
                   child: RaisedButton(
                     color: Get.theme.primaryColor,
-                    onPressed: () {
-                      print("idddddddd");
-                      print(controller.id);
-
-                      controller.addCart(controller.id);
-                    },
+                    onPressed: item.count == 0
+                        ? null
+                        : () {
+                            print("idddddddd");
+                            print(controller.id);
+                            if (controller.count.value != 0) {
+                              controller.addCart(controller.id);
+                            } else {
+                              Get.snackbar(
+                                  "أضف كمية", "يجب اضافة الكمية المطلوبة",
+                                  duration: Duration(seconds: 3),
+                                  icon: Icon(
+                                    Icons.info,
+                                    color: Colors.white,
+                                  ),
+                                  colorText: Colors.white,
+                                  backgroundColor: Get.theme.primaryColorDark
+                                      .withOpacity(0.3));
+                            }
+                          },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(0),
@@ -453,25 +493,45 @@ class countWidget extends StatelessWidget {
                             bottomRight: Radius.circular(30))),
                     child: Container(
                       alignment: Alignment.center,
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.add_circle_outline_outlined,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            'أضف إلى السلة',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
+                      child: item.count == 0
+                          ? Row(
+                              children: [
+                                Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  'غير متوفر',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                ).addDirectionality(),
+                              ],
+                            )
+                          : Row(
+                              children: [
+                                Icon(
+                                  Icons.add_circle_outline_outlined,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  'أضف إلى السلة',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                ).addDirectionality(),
+                              ],
                             ),
-                          ).addDirectionality(),
-                        ],
-                      ),
                     ),
                   ),
                 ),
@@ -530,9 +590,19 @@ class countWidget extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        // if (controller.count.value <
-                        //     controller.selectedSize.value.count) {
-                        controller.count.value++;
+                        if (item.count > controller.count.value) {
+                          controller.count.value++;
+                        } else {
+                          Get.snackbar("أنتهت الكمية", "أنتهت الكمية",
+                              duration: Duration(seconds: 3),
+                              icon: Icon(
+                                Icons.info,
+                                color: Colors.white,
+                              ),
+                              colorText: Colors.white,
+                              backgroundColor:
+                                  Get.theme.primaryColorDark.withOpacity(0.3));
+                        }
                       },
                       child: Padding(
                         padding: EdgeInsets.all(10.0),

@@ -17,7 +17,7 @@ class EditProfileController extends GetxController {
 
   TextEditingController nameTextController;
 
-  TextEditingController emailController;
+  // TextEditingController emailController;
   var selectedcity = "".obs;
   var selectedProv = Map<String, List<String>>().obs;
   var profile = ProfileModel().obs;
@@ -31,7 +31,7 @@ class EditProfileController extends GetxController {
     // passwordTextController = TextEditingController();
     nameTextController = TextEditingController();
 
-    emailController = TextEditingController();
+    // emailController = TextEditingController();
 
     needLogin.value = false;
     selectedProv.value = null;
@@ -48,7 +48,7 @@ class EditProfileController extends GetxController {
     phoneController.text = prefs.getString('phone');
     nameTextController.text = prefs.getString('name');
     // selectedcity.value = prefs.getString('city');
-    emailController.text = prefs.getString('email');
+    // emailController.text = prefs.getString('email');
 
     print("object");
     // print(prefs.getString('prov'));
@@ -74,7 +74,6 @@ class EditProfileController extends GetxController {
         token,
         nameTextController?.text.toString(),
         phoneController?.text.toString(),
-        emailController.text.toString(),
       );
 
       Get.back();
@@ -83,7 +82,7 @@ class EditProfileController extends GetxController {
       Get.offAll(Main(3));
       nameTextController.clear();
       phoneController.clear();
-      emailController.clear();
+      // emailController.clear();
 
       // passwordTextController.clear();
       selectedProv.value = null;

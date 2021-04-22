@@ -28,7 +28,7 @@ class FavouriteCard extends StatelessWidget {
             description: item.items.description,
             offer: item.items.offer,
             offerPrice: item.items.offerPrice,
-            count: 0,
+            count: item.items.count,
             covePhoto: item.items.covePhoto,
             price: item.items.price)));
       },
@@ -42,13 +42,35 @@ class FavouriteCard extends StatelessWidget {
             Container(
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(30)),
-              child: CachedNetworkImage(
-                fit: BoxFit.contain,
-                width: (Get.width / 3) - 10,
-                height: 110,
-                imageUrl: imageUrl + item.items.covePhoto,
-                placeholder: (context, url) => loadinImage(),
-                errorWidget: (context, url, error) => loadinImage(),
+              child: Stack(
+                children: [
+                  CachedNetworkImage(
+                    fit: BoxFit.contain,
+                    width: (Get.width / 3) - 10,
+                    height: 110,
+                    imageUrl: imageUrl + item.items.covePhoto,
+                    placeholder: (context, url) => loadinImage(),
+                    errorWidget: (context, url, error) => loadinImage(),
+                  ),
+                  if (item.items.count != 0)
+                    Container()
+                  else
+                    Container(
+                      child: Container(
+                        width: (Get.width / 3) - 10,
+                        height: 110,
+                        child: Center(
+                          child: Text(
+                            "غير متوفر",
+                            style: TextStyle(color: Colors.black, fontSize: 18),
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.6),
+                            borderRadius: BorderRadius.circular(5)),
+                      ),
+                    )
+                ],
               ),
             ),
             SizedBox(

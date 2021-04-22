@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:animal_app/controller/servicesController.dart';
 import 'package:animal_app/data/myPetsModel.dart';
 import 'package:animal_app/main.dart';
+import 'package:animal_app/metods/compressImage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,7 +19,6 @@ import '../../constant.dart';
 
 class MyPetsController extends GetxController {
   MainRepostary repo = MainRepostary();
-
   var petsList = MyPetsModel().obs;
   var noNetFlage = false.obs;
   var needLogin = false.obs;
@@ -45,6 +47,7 @@ class MyPetsController extends GetxController {
   var picker = ImagePicker();
   String imageBase64 = "";
   TextEditingController imageController;
+  ServicesController controller = Get.put(ServicesController());
   @override
   void onInit() {
     petsList.value = null;
@@ -73,7 +76,7 @@ class MyPetsController extends GetxController {
 
       imageController.text = imageFile.value.path;
       imageName.value = imageFile.value.path;
-      List<int> imageBytes = imageFile.value.readAsBytesSync();
+      Uint8List imageBytes = await compressFile(imageFile.value);
       // print(imageBytes);
       imageBase64 =
           "data:image/${imageFile.value.path.split("/")[imageFile.value.path.split("/").length - 1].split(".")[1]};base64," +
@@ -107,6 +110,9 @@ class MyPetsController extends GetxController {
       } else {
         final banners1 = await repo.getMyPets(token);
         petsList.value = banners1;
+        controller.myPets.clear();
+        controller.myPets.assignAll(petsList.value.data.myPet);
+        controller.myPets.add(MyPet(name: ".. إضافة حيوان"));
         print(petsList);
       }
     } on SocketException catch (_) {
@@ -148,7 +154,9 @@ class MyPetsController extends GetxController {
           pet: petNameController.text.toString(),
           sex: sexes.indexOf(selectedSex.value).toString(),
           type: selectedType.value);
+      await getMyPets();
       Get.back();
+
       Get.back();
       selectedType.value = null;
       ageController.clear();
@@ -157,6 +165,7 @@ class MyPetsController extends GetxController {
       vacsinDateController.clear();
       imageController.clear();
       // addressController.clear();
+      imageBase64 = "";
       selectedImage.value = null;
       imageFile.value = null;
       selectedSex.value = null;
@@ -168,8 +177,6 @@ class MyPetsController extends GetxController {
           ),
           colorText: Colors.white,
           backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
-
-      getMyPets();
     } on SocketException catch (_) {
       Get.back();
       Get.snackbar(noNet, noNet,
@@ -205,6 +212,7 @@ class MyPetsController extends GetxController {
       final banners1 = await repo.deletePete(token, id);
       print(token);
       Get.back();
+      await getMyPets();
       Get.off(Main(0));
       Get.snackbar(banners1.data.msg, banners1.data.msg,
           duration: Duration(seconds: 3),

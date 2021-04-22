@@ -1,5 +1,6 @@
 import 'package:animal_app/data/servicesModel.dart';
 import 'package:animal_app/ui/screens/authScreen/loginScreen.dart';
+import 'package:animal_app/ui/screens/authScreen/regesterSceen.dart';
 import 'package:animal_app/ui/screens/bookingScreen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class servicesCard extends StatelessWidget {
 
         String token = prefs.getString('token');
         if (token == null) {
-          Get.to(LoginScreen());
+          Get.to(RegesterScreen());
         } else {
           Get.to(BookingScreen(item));
         }
@@ -56,6 +57,22 @@ class servicesCard extends StatelessWidget {
                           textDirection: TextDirection.rtl,
                         ),
                       ),
+                      Row(
+                        children: [
+                          Container(
+                            child: Directionality(
+                              child: Text(
+                                item.cost,
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                              textDirection: TextDirection.rtl,
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -71,7 +88,7 @@ class servicesCard extends StatelessWidget {
                 ),
                 elevation: 5,
                 child: CachedNetworkImage(
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
                   width: 90,
                   height: 90,
                   imageUrl: imageUrl + item.photo,

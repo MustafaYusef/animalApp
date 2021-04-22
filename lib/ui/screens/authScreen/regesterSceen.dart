@@ -1,3 +1,4 @@
+import 'package:animal_app/ui/screens/authScreen/loginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:animal_app/controller/authController/loginController.dart';
@@ -138,63 +139,6 @@ class RegesterScreen extends StatelessWidget {
                                       margin: EdgeInsets.symmetric(
                                           horizontal: 10, vertical: 10),
                                       child: Text(
-                                        "البريد الألكتروني",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ).addDirectionality(),
-                                    ),
-                                  ],
-                                ),
-                                TextFormField(
-                                  controller: _loginController.emailController,
-                                  keyboardType: TextInputType.emailAddress,
-                                  decoration: InputDecoration(
-                                      fillColor: Colors.grey[100],
-                                      filled: true,
-                                      hintText: "البريد الألكتروني",
-                                      hintStyle: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 0,
-                                        ),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 0,
-                                        ),
-                                      ),
-                                      // floatingLabelBehavior: FloatingLabelBehavior.auto,
-                                      contentPadding: EdgeInsets.all(10)),
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  validator: (value) => value.trim().isEmpty
-                                      ? "يجب عليك ادخال البريد الألكتروني"
-                                      : null,
-                                ).addDirectionality(),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 10),
-                                      child: Text(
                                         "رقم الهاتف",
                                         style: TextStyle(
                                           fontSize: 18,
@@ -317,11 +261,11 @@ class RegesterScreen extends StatelessWidget {
                                     if (GetUtils.isPhoneNumber(_loginController
                                             .phoneRegController.text
                                             .toString()) &&
-                                        _loginController.phoneController.text
+                                        _loginController.phoneRegController.text
                                                 .toString()
                                                 .length ==
                                             11 &&
-                                        _loginController.phoneController.text
+                                        _loginController.phoneRegController.text
                                                 .toString()
                                                 .substring(0, 2) ==
                                             "07") {
@@ -378,7 +322,41 @@ class RegesterScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Get.to(LoginScreen());
+                        },
+                        child: Container(
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                          child: Text(
+                            "تسجيل الدخول",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Get.theme.primaryColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ).addDirectionality(),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 0),
+                        child: Text(
+                          "هل لديك حساب ؟",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ).addDirectionality(),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
                 ],
               ),
             ),

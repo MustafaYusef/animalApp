@@ -1,5 +1,6 @@
 import 'package:animal_app/controller/servicesController.dart';
 import 'package:animal_app/data/servicesModel.dart';
+import 'package:animal_app/ui/screens/pets/addPetScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,14 +13,15 @@ import '../../constant.dart';
 class BookingScreen extends StatelessWidget {
   Service item;
   BookingScreen(this.item);
-  ServicesController _loginController = Get.put(ServicesController());
+
   // ItemDetailsController cartController = Get.find();
+  ServicesController _loginController = Get.find();
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        Get.delete<ServicesController>();
+        // Get.delete<ServicesController>();
         Get.back();
       },
       child: Scaffold(
@@ -100,68 +102,6 @@ class BookingScreen extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      TextFormField(
-                                        controller:
-                                            _loginController.petNameController,
-                                        keyboardType: TextInputType.text,
-                                        decoration: InputDecoration(
-                                            fillColor: Colors.grey[100],
-                                            filled: true,
-                                            hintText: "أسم الحيوان",
-                                            hintStyle: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.grey,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              borderSide: BorderSide(
-                                                color: Colors.transparent,
-                                                width: 0,
-                                              ),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              borderSide: BorderSide(
-                                                color: Colors.transparent,
-                                                width: 0,
-                                              ),
-                                            ),
-                                            // floatingLabelBehavior: FloatingLabelBehavior.auto,
-                                            contentPadding: EdgeInsets.all(10)),
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                        validator: (value) =>
-                                            value.trim().isEmpty
-                                                ? "يجب عليك ادخال أسم الحيوان"
-                                                : null,
-                                      ).addDirectionality(),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Container(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 10),
-                                            child: Text(
-                                              "نوع الحيوان",
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.normal,
-                                              ),
-                                            ).addDirectionality(),
-                                          ),
-                                        ],
-                                      ),
                                       Obx(
                                         () => Container(
                                           height: 50,
@@ -180,7 +120,7 @@ class BookingScreen extends StatelessWidget {
                                                       horizontal: 10,
                                                       vertical: 5),
                                                   child: Text(
-                                                    "نوع الحيوان",
+                                                    "أسم الحيوان",
                                                     style: TextStyle(
                                                       fontSize: 18,
                                                       color: Colors.grey,
@@ -194,9 +134,11 @@ class BookingScreen extends StatelessWidget {
                                                     .keyboard_arrow_down_outlined,
                                                 size: 24,
                                               ),
-                                              value: _loginController
-                                                  .selectedType.value,
-                                              items: types.map((e) {
+                                              value:
+                                                  _loginController
+                                                      .selectedPet.value,
+                                              items: _loginController.myPets
+                                                  .map((e) {
                                                 return DropdownMenuItem(
                                                   child: Container(
                                                     padding: const EdgeInsets
@@ -207,14 +149,32 @@ class BookingScreen extends StatelessWidget {
                                                       children: [
                                                         Expanded(
                                                             child: Text(
-                                                          e,
-                                                          style: TextStyle(
-                                                            fontSize: 18,
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
-                                                          ),
+                                                          e.name,
+                                                          style: _loginController
+                                                                      .myPets
+                                                                      .indexOf(
+                                                                          e) ==
+                                                                  _loginController
+                                                                          .myPets
+                                                                          .length -
+                                                                      1
+                                                              ? TextStyle(
+                                                                  fontSize: 18,
+                                                                  color: Get
+                                                                      .theme
+                                                                      .accentColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                )
+                                                              : TextStyle(
+                                                                  fontSize: 18,
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                ),
                                                         )),
                                                       ],
                                                     ),
@@ -223,12 +183,111 @@ class BookingScreen extends StatelessWidget {
                                                 );
                                               }).toList(),
                                               onChanged: (value) {
-                                                _loginController
-                                                    .selectedType.value = value;
+                                                if (_loginController.myPets
+                                                        .indexOf(value) ==
+                                                    _loginController
+                                                            .myPets.length -
+                                                        1) {
+                                                  // Get.delete<
+                                                  //     ServicesController>();
+                                                  Get.to(AddPetsScreen());
+                                                } else {
+                                                  _loginController.selectedPet
+                                                      .value = value;
+                                                }
                                               }),
                                         ).addDirectionality(),
                                       ),
-                                      SizedBox(height: 10),
+                                      SizedBox(
+                                        height: 10,
+                                      )
+                                      // ),
+                                      // Row(
+                                      //   mainAxisAlignment:
+                                      //       MainAxisAlignment.end,
+                                      //   children: [
+                                      //     Container(
+                                      //       margin: EdgeInsets.symmetric(
+                                      //           horizontal: 10, vertical: 10),
+                                      //       child: Text(
+                                      //         "نوع الحيوان",
+                                      //         style: TextStyle(
+                                      //           fontSize: 18,
+                                      //           color: Colors.black,
+                                      //           fontWeight: FontWeight.normal,
+                                      //         ),
+                                      //       ).addDirectionality(),
+                                      //     ),
+                                      //   ],
+                                      // ),
+                                      // Obx(
+                                      //   () => Container(
+                                      //     height: 50,
+                                      //     decoration: BoxDecoration(
+                                      //         color: Colors.grey[100],
+                                      //         border: Border.all(
+                                      //             color: Colors.transparent),
+                                      //         borderRadius:
+                                      //             BorderRadius.circular(10)),
+                                      //     child: DropdownButton(
+                                      //         underline: Container(),
+                                      //         dropdownColor: Colors.white,
+                                      //         hint: Container(
+                                      //             padding: const EdgeInsets
+                                      //                     .symmetric(
+                                      //                 horizontal: 10,
+                                      //                 vertical: 5),
+                                      //             child: Text(
+                                      //               "نوع الحيوان",
+                                      //               style: TextStyle(
+                                      //                 fontSize: 18,
+                                      //                 color: Colors.grey,
+                                      //                 fontWeight:
+                                      //                     FontWeight.normal,
+                                      //               ),
+                                      //             ).addDirectionality()),
+                                      //         isExpanded: true,
+                                      //         icon: Icon(
+                                      //           Icons
+                                      //               .keyboard_arrow_down_outlined,
+                                      //           size: 24,
+                                      //         ),
+                                      //         value: _loginController
+                                      //             .selectedType.value,
+                                      //         items: types.map((e) {
+                                      //           return DropdownMenuItem(
+                                      //             child: Container(
+                                      //               padding: const EdgeInsets
+                                      //                       .symmetric(
+                                      //                   horizontal: 10,
+                                      //                   vertical: 0),
+                                      //               child: Row(
+                                      //                 children: [
+                                      //                   Expanded(
+                                      //                       child: Text(
+                                      //                     e,
+                                      //                     style: TextStyle(
+                                      //                       fontSize: 18,
+                                      //                       color: Colors.black,
+                                      //                       fontWeight:
+                                      //                           FontWeight
+                                      //                               .normal,
+                                      //                     ),
+                                      //                   )),
+                                      //                 ],
+                                      //               ),
+                                      //             ),
+                                      //             value: e,
+                                      //           );
+                                      //         }).toList(),
+                                      //         onChanged: (value) {
+                                      //           _loginController
+                                      //               .selectedType.value = value;
+                                      //         }),
+                                      //   ).addDirectionality(),
+                                      // ),
+                                      // SizedBox(height: 10),
+                                      ,
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,

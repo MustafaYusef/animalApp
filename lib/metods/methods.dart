@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
+// import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 List<String> convertToString(String s) {
   List<String> list =
@@ -87,9 +87,9 @@ Color getColorFromColorCode(String code) {
       : Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
 }
 
-Future<String> getuserId() async {
-  var status = await OneSignal.shared.getPermissionSubscriptionState();
-  var playerId = status.subscriptionStatus.userId;
-  print("plyer id  " + playerId.toString());
-  return playerId;
-}
+// Future<String> getuserId() async {
+//   var status = await OneSignal.shared.getPermissionSubscriptionState();
+//   var playerId = status.subscriptionStatus.userId;
+//   print("plyer id  " + playerId.toString());
+//   return playerId;
+// }

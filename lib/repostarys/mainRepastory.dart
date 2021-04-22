@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:animal_app/data/allPostRes.dart';
+import 'package:animal_app/data/itemsSerach.dart';
 import 'package:animal_app/data/myBookingServices.dart';
 import 'package:animal_app/data/myPetsModel.dart';
 import 'package:animal_app/data/myPostModel.dart';
@@ -94,6 +95,15 @@ class MainRepostary {
       return allPostModelFromJson(response.body);
     } else {
       throw Exception(allPostModelFromJson(response.body).message);
+    }
+  }
+
+  Future<ItemsSearchModel> getSearch(String query) async {
+    final response = await get(baseUrl + "users/search?search=$query");
+    if (response.statusCode == 200) {
+      return itemsSearchModelFromJson(response.body);
+    } else {
+      throw Exception(itemsSearchModelFromJson(response.body).message);
     }
   }
 
@@ -237,7 +247,7 @@ class MainRepostary {
     if (response.statusCode == 200) {
       return addResModelFromJson(response.body);
     } else {
-      throw Exception(addResModelFromJson(response.body).statusCode);
+      throw Exception(addResModelFromJson(response.body).message);
     }
   }
 
@@ -266,7 +276,6 @@ class MainRepostary {
 
   Future<AddResModel> bookServices(
       {String token,
-      String type,
       String phone,
       String pet,
       String address,
@@ -276,9 +285,8 @@ class MainRepostary {
     final response = await post(baseUrl + "users/booking/new",
         headers: {"Authorization": token, "Content-Type": "application/json"},
         body: json.encode({
-          "type": type,
           "phone": phone,
-          "pet": pet,
+          "pet_id": pet,
           "notes": notes,
           "address": address,
           "service_id": service_id.toString()

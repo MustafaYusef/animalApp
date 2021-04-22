@@ -23,6 +23,9 @@ class _IntroScreenState extends State<IntroScreen> {
         title: "عيادة الكرخ البيطرية",
         description: "طب وجراحة الحيوانات المنزلية الأليفة",
         pathImage: "assets/images/slider1.png",
+        styleDescription: TextStyle(
+            fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+        marginDescription: EdgeInsets.symmetric(horizontal: 30, vertical: 40),
         backgroundColor: Get.theme.primaryColor,
       ),
     );
@@ -31,6 +34,9 @@ class _IntroScreenState extends State<IntroScreen> {
         title: "عيادة الكرخ البيطرية",
         description: "مستلزمات بيطرية وأعلاف لجميع أنواع الحيوانات",
         pathImage: "assets/images/slider2.png",
+        styleDescription: TextStyle(
+            fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+        marginDescription: EdgeInsets.symmetric(horizontal: 30, vertical: 40),
         backgroundColor: Get.theme.primaryColor,
       ),
     );
@@ -38,6 +44,9 @@ class _IntroScreenState extends State<IntroScreen> {
       new Slide(
         title: "عيادة الكرخ البيطرية",
         description: "خدمة تلقيح لجميع أنواع الحيوانات",
+        styleDescription: TextStyle(
+            fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+        marginDescription: EdgeInsets.symmetric(horizontal: 30, vertical: 40),
         pathImage: "assets/images/slider3.png",
         backgroundColor: Get.theme.primaryColor,
       ),

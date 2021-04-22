@@ -3,8 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:responsive_grid/responsive_grid.dart';
-import 'package:animal_app/controller/mainController/favouriteController.dart';
+
 import 'package:animal_app/controller/mainController/itemDetailsController.dart';
 import 'package:animal_app/ui/customWidget/cartItemCard.dart';
 import 'package:animal_app/ui/customWidget/favouriteItemCard.dart';

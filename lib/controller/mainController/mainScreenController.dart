@@ -53,10 +53,12 @@ class MainController extends GetxController {
       final banners33 = await repo.getMainCategory();
       mainCategory.assignAll(banners33.data.categories);
       if (token != null) {
-        controller.getMyPets();
-        final banners22 = await repo.getMyPets(token);
-        myPets.value = banners22;
-        print(myPets.value.data.myPet);
+        print(token);
+        await controller.getMyPets();
+
+        // final banners22 = await repo.getMyPets(token);
+        // myPets.value = controller.petsList.value;
+        // print(myPets.value.data.myPet);
       } else {
         noPets.value = true;
       }

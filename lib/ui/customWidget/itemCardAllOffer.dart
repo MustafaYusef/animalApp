@@ -13,7 +13,7 @@ import 'loadingImage.dart';
 class itemCardAll extends StatelessWidget {
   ItemOffer item;
   itemCardAll(this.item);
-  ItemDetailsController favouriteController = Get.find();
+  ItemDetailsController favouriteController = Get.put(ItemDetailsController());
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class itemCardAll extends StatelessWidget {
             description: item.description,
             offer: item.offer,
             offerPrice: item.offerPrice,
-            count: 0,
+            count: item.count,
             covePhoto: item.covePhoto,
             price: item.price)));
       },
@@ -35,13 +35,35 @@ class itemCardAll extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            CachedNetworkImage(
-              fit: BoxFit.cover,
-              width: (Get.width / 3) - 10,
-              height: 120,
-              imageUrl: imageUrl + item.covePhoto.toString(),
-              placeholder: (context, url) => loadinImage(),
-              errorWidget: (context, url, error) => loadinImage(),
+            Stack(
+              children: [
+                CachedNetworkImage(
+                  fit: BoxFit.cover,
+                  width: (Get.width / 3) - 10,
+                  height: 120,
+                  imageUrl: imageUrl + item.covePhoto.toString(),
+                  placeholder: (context, url) => loadinImage(),
+                  errorWidget: (context, url, error) => loadinImage(),
+                ),
+                if (item.count != 0)
+                  Container()
+                else
+                  Container(
+                    child: Container(
+                      width: (Get.width / 3) - 10,
+                      height: 120,
+                      child: Center(
+                        child: Text(
+                          "غير متوفر",
+                          style: TextStyle(color: Colors.black, fontSize: 18),
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.6),
+                          borderRadius: BorderRadius.circular(5)),
+                    ),
+                  )
+              ],
             ),
             SizedBox(
               width: 10,

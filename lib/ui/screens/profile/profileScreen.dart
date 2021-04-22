@@ -218,46 +218,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                               ),
                                                             ),
                                                           ),
-                                                          Card(
-                                                            elevation: 0,
-                                                            margin:
-                                                                EdgeInsets.all(
-                                                                    5),
-                                                            child: Padding(
-                                                              padding: const EdgeInsets
-                                                                      .symmetric(
-                                                                  vertical: 10,
-                                                                  horizontal:
-                                                                      10),
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .end,
-                                                                children: [
-                                                                  Text(
-                                                                    _profController
-                                                                        .profile
-                                                                        .value
-                                                                        .data
-                                                                        .profile
-                                                                        .email,
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            18),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 10,
-                                                                  ),
-                                                                  Icon(
-                                                                    Icons.email,
-                                                                    color: Theme.of(
-                                                                            context)
-                                                                        .primaryColor,
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
                                                           InkWell(
                                                             onTap: () {
                                                               LogoutPopUp(

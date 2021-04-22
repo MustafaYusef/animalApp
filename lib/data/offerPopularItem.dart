@@ -75,7 +75,7 @@ class ItemOffer {
     this.buyed,
     this.offerPrice,
     this.offer,
-    this.has_count,
+    this.count,
     this.barcode,
     this.covePhoto,
     this.updatedAt,
@@ -90,7 +90,7 @@ class ItemOffer {
   int buyed;
   int offerPrice;
   bool offer;
-  bool has_count;
+  int count;
 
   String barcode;
   String covePhoto;
@@ -107,7 +107,7 @@ class ItemOffer {
         buyed: json["buyed"],
         offerPrice: json["offer_price"],
         offer: json["offer"],
-        has_count: json["has_count"],
+        count: json["count"],
         barcode: json["barcode"],
         covePhoto: json["cove_photo"],
         updatedAt: DateTime.parse(json["updatedAt"]),
@@ -123,7 +123,7 @@ class ItemOffer {
         "buyed": buyed,
         "offer_price": offerPrice,
         "offer": offer,
-        "has_count": has_count,
+        "count": count,
         "barcode": barcode,
         "cove_photo": covePhoto,
         "updatedAt": updatedAt.toIso8601String(),

@@ -33,239 +33,224 @@ class PetsDetailsScreen extends StatelessWidget {
           children: [
             Container(
               height: Get.height,
+              width: Get.width,
               child: SingleChildScrollView(
                 child: Container(
+                  height: Get.height,
+                  width: Get.width,
                   color: Colors.grey[100],
                   child: Column(
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(0),
-                        child: InkWell(
-                            onTap: () {
-                              // Get.to(ImagesScreenDetails(
-                              //     controller: controller));
-                            },
-                            child: Container(
-                              color: Colors.grey[100],
-                              height: Get.height / 2 + 100,
-                              width: MediaQuery.of(context).size.width,
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    // margin: EdgeInsets.all(20),
-                                    decoration: BoxDecoration(
-                                      // color: Colors.grey[100],
-                                      borderRadius: BorderRadius.circular(20),
-                                      border:
-                                          Border.all(color: Colors.grey[300]),
-                                    ),
-                                    child: CachedNetworkImage(
-                                      // color: Colors.grey[100],
-                                      fit: BoxFit.cover,
-                                      width: MediaQuery.of(context).size.width,
-                                      height: Get.height / 2,
-                                      imageUrl: imageUrl + item.photo,
-                                      placeholder: (context, url) =>
-                                          loadinImage(),
-                                      errorWidget: (context, url, error) =>
-                                          loadinImage(),
-                                    ),
-                                  ),
-                                  Positioned(
-                                      top: Get.height / 2 - 75,
-                                      right: 10.0,
-                                      left: 10,
-                                      child: Container(
-                                        height: 155,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border:
-                                              Border.all(color: Colors.white),
-                                        ),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Image.asset(
-                                                  "assets/images/icon_cat.png",
-                                                  width: 25,
-                                                  height: 20,
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Container(
-                                                  margin: EdgeInsets.all(5),
-                                                  child: Text(
-                                                    item.type,
-                                                    style:
-                                                        TextStyle(fontSize: 20),
-                                                  ).addDirectionality(),
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Image.asset(
-                                                  "assets/images/icon_cat.png",
-                                                  width: 25,
-                                                  height: 20,
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                    // margin: EdgeInsets.all(10),
-                                                    child: Column(
-                                                      children: [
-                                                        Text(
-                                                          "الأسم",
-                                                          style: TextStyle(
-                                                              fontSize: 18),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        Text(
-                                                          item.name,
-                                                          style: TextStyle(
-                                                              fontSize: 16,
-                                                              color: Colors
-                                                                  .grey[700]),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Container(
-                                                    // margin: EdgeInsets.all(10),
-                                                    child: Column(
-                                                      children: [
-                                                        Text(
-                                                          "العمر",
-                                                          style: TextStyle(
-                                                              fontSize: 18),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        Text(
-                                                          calculateAge(item.age)
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                              fontSize: 16,
-                                                              color: Colors
-                                                                  .grey[700]),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Container(
-                                                    // margin: EdgeInsets.all(10),
-                                                    child: Column(
-                                                      children: [
-                                                        Text(
-                                                          "الجنس",
-                                                          style: TextStyle(
-                                                              fontSize: 18),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        Text(
-                                                          item.sex == 0
-                                                              ? "ذكر"
-                                                              : "أنثى",
-                                                          style: TextStyle(
-                                                              fontSize: 16,
-                                                              color: Colors
-                                                                  .grey[700]),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ).addDirectionality(),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Container(
-                                                  // margin: EdgeInsets.all(5),
-                                                  child: Row(
-                                                    children: [
-                                                      Text(
-                                                        item.lastVaccine
-                                                            .toString()
-                                                            .split(" ")[0],
-                                                        style: TextStyle(
-                                                            fontSize: 16),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 20,
-                                                      ),
-                                                      Text(
-                                                        "تاريخ أخر لقاح",
-                                                        style: TextStyle(
-                                                            fontSize: 16,
-                                                            color: Colors
-                                                                .grey[700]),
-                                                      ).addDirectionality(),
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Image.asset(
-                                                  "assets/images/icon_cat.png",
-                                                  height: 20,
-                                                  width: 20,
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ))
-                                ],
-                              ),
-                            )),
-                      ),
                       Container(
-                        margin: EdgeInsets.symmetric(horizontal: 30),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                        color: Colors.grey[100],
+                        height: Get.height / 2 + 100,
+                        width: MediaQuery.of(context).size.width,
+                        child: Stack(
                           children: [
                             Container(
-                              child: Text(
-                                item.description,
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.grey[800],
-                                ),
-                              ).addDirectionality(),
+                              // margin: EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                // color: Colors.grey[100],
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(color: Colors.grey[300]),
+                              ),
+                              child: CachedNetworkImage(
+                                // color: Colors.grey[100],
+                                fit: BoxFit.cover,
+                                width: MediaQuery.of(context).size.width,
+                                height: Get.height / 2,
+                                imageUrl: imageUrl + item.photo,
+                                placeholder: (context, url) => loadinImage(),
+                                errorWidget: (context, url, error) =>
+                                    loadinImage(),
+                              ),
                             ),
+                            Positioned(
+                                top: Get.height / 2 - 75,
+                                right: 10.0,
+                                left: 10,
+                                child: Container(
+                                  height: 155,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(color: Colors.white),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            "assets/images/icon_cat.png",
+                                            width: 25,
+                                            height: 20,
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.all(5),
+                                            child: Text(
+                                              item.type,
+                                              style: TextStyle(fontSize: 20),
+                                            ).addDirectionality(),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Image.asset(
+                                            "assets/images/icon_cat.png",
+                                            width: 25,
+                                            height: 20,
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              // margin: EdgeInsets.all(10),
+                                              child: Column(
+                                                children: [
+                                                  Text(
+                                                    "الأسم",
+                                                    style:
+                                                        TextStyle(fontSize: 18),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Text(
+                                                    item.name,
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        color:
+                                                            Colors.grey[700]),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              // margin: EdgeInsets.all(10),
+                                              child: Column(
+                                                children: [
+                                                  Text(
+                                                    "العمر",
+                                                    style:
+                                                        TextStyle(fontSize: 18),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Text(
+                                                    calculateAge(item.age)
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        color:
+                                                            Colors.grey[700]),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              // margin: EdgeInsets.all(10),
+                                              child: Column(
+                                                children: [
+                                                  Text(
+                                                    "الجنس",
+                                                    style:
+                                                        TextStyle(fontSize: 18),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Text(
+                                                    item.sex == 0
+                                                        ? "ذكر"
+                                                        : "أنثى",
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        color:
+                                                            Colors.grey[700]),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ).addDirectionality(),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Container(
+                                            // margin: EdgeInsets.all(5),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  item.lastVaccine
+                                                      .toString()
+                                                      .split(" ")[0],
+                                                  style:
+                                                      TextStyle(fontSize: 16),
+                                                ),
+                                                SizedBox(
+                                                  width: 20,
+                                                ),
+                                                Text(
+                                                  "تاريخ أخر لقاح",
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      color: Colors.grey[700]),
+                                                ).addDirectionality(),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Image.asset(
+                                            "assets/images/icon_cat.png",
+                                            height: 20,
+                                            width: 20,
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ))
                           ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 30),
+                          child: Container(
+                            child: Text(
+                              item.description,
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.grey[800],
+                              ),
+                            ).addDirectionality(),
+                          ),
                         ),
                       ),
                     ],

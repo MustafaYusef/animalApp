@@ -56,6 +56,7 @@ class MyCart {
     this.itemName,
     this.itemDescription,
     this.itemPrice,
+    this.item_count,
     this.itemOfferPrice,
     this.itemPhoto,
   });
@@ -67,6 +68,7 @@ class MyCart {
   String itemName;
   String itemDescription;
   int itemPrice;
+  int item_count;
   int itemOfferPrice;
   String itemPhoto;
 
@@ -78,6 +80,7 @@ class MyCart {
         itemName: json["item_name"],
         itemDescription: json["item_description"],
         itemPrice: json["item_price"],
+        item_count: json["item_count"],
         itemOfferPrice: json["item_offer_price"],
         itemPhoto: json["item_photo"],
       );
@@ -90,6 +93,7 @@ class MyCart {
         "item_name": itemName,
         "item_description": itemDescription,
         "item_price": itemPrice,
+        "item_count": item_count,
         "item_offer_price": itemOfferPrice,
         "item_photo": itemPhoto,
       };

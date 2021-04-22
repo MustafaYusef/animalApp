@@ -40,7 +40,7 @@ class _MyBookingScreenState extends State<MyBookingScreen> {
       });
     return WillPopScope(
       onWillPop: () {
-        Get.delete<OrderController>();
+        // Get.delete<OrderController>();
         Get.back();
       },
       child: Scaffold(
@@ -205,13 +205,21 @@ Widget bookingCard(MyList order) {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(
-                            order.pet.toString(),
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ).addDirectionality(),
+                          order.pet == null
+                              ? Text(
+                                  "لا يوجد",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                ).addDirectionality()
+                              : Text(
+                                  order.pet.name.toString(),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                ).addDirectionality(),
                           Text(
                             "أسم الحيوان : ",
                             style: TextStyle(fontSize: 18, color: Colors.black),

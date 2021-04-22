@@ -27,7 +27,7 @@ class itemCard extends StatelessWidget {
             description: item.description,
             offer: item.offer,
             offerPrice: item.offerPrice,
-            count: 0,
+            count: item.count,
             covePhoto: item.covePhoto,
             price: item.price)));
       },
@@ -45,13 +45,36 @@ class itemCard extends StatelessWidget {
                   margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   semanticContainer: true,
                   clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child: CachedNetworkImage(
-                    fit: BoxFit.cover,
-                    width: 150,
-                    height: 140,
-                    imageUrl: imageUrl + item.covePhoto,
-                    placeholder: (context, url) => loadinImage(),
-                    errorWidget: (context, url, error) => loadinImage(),
+                  child: Stack(
+                    children: [
+                      CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        width: 150,
+                        height: 140,
+                        imageUrl: imageUrl + item.covePhoto,
+                        placeholder: (context, url) => loadinImage(),
+                        errorWidget: (context, url, error) => loadinImage(),
+                      ),
+                      if (item.count != 0)
+                        Container()
+                      else
+                        Container(
+                          child: Container(
+                            width: 150,
+                            height: 140,
+                            child: Center(
+                              child: Text(
+                                "غير متوفر",
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 18),
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.6),
+                                borderRadius: BorderRadius.circular(5)),
+                          ),
+                        )
+                    ],
                   ),
                 ),
                 Obx(

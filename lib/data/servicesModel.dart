@@ -62,7 +62,7 @@ class Service {
   String name;
   int inHouse;
   bool softDelete;
-  int cost;
+  String cost;
   String photo;
 
   factory Service.fromJson(Map<String, dynamic> json) => Service(

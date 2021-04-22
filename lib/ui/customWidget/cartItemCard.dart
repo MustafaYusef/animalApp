@@ -19,15 +19,19 @@ class CartitemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.to(ItemDetailsScreen(Item(
-            id: item.itemId,
-            name: item.itemName,
-            description: item.itemDescription,
-            offer: item.offer,
-            offerPrice: item.itemOfferPrice,
-            count: item.count,
-            covePhoto: item.itemPhoto,
-            price: item.itemPrice)));
+        Get.to(ItemDetailsScreen(
+            Item(
+                id: item.itemId,
+                name: item.itemName,
+                description: item.itemDescription,
+                offer: item.offer,
+                offerPrice: item.itemOfferPrice,
+                count: item.item_count,
+                covePhoto: item.itemPhoto,
+                price: item.itemPrice),
+            favouriteController.countArray[favouriteController
+                .cartModel.value.data.myCart
+                .indexOf(item)]));
       },
       child: Card(
         semanticContainer: true,
@@ -186,15 +190,31 @@ class CartitemCard extends StatelessWidget {
                             // if (controller.count.value <
                             //     controller.selectedSize.value.count) {
                             // favouriteController.count.value++;
-                            favouriteController.countArray[favouriteController
-                                .cartModel.value.data.myCart
-                                .indexOf(item)]++;
-                            favouriteController.updateCart(
-                                item.itemId,
+                            if (item.item_count >
                                 favouriteController.countArray[
                                     favouriteController
                                         .cartModel.value.data.myCart
-                                        .indexOf(item)]);
+                                        .indexOf(item)]) {
+                              favouriteController.countArray[favouriteController
+                                  .cartModel.value.data.myCart
+                                  .indexOf(item)]++;
+                              favouriteController.updateCart(
+                                  item.itemId,
+                                  favouriteController.countArray[
+                                      favouriteController
+                                          .cartModel.value.data.myCart
+                                          .indexOf(item)]);
+                            } else {
+                              Get.snackbar("أنتهت الكمية", "أنتهت الكمية",
+                                  duration: Duration(seconds: 3),
+                                  icon: Icon(
+                                    Icons.info,
+                                    color: Colors.white,
+                                  ),
+                                  colorText: Colors.white,
+                                  backgroundColor: Get.theme.primaryColorDark
+                                      .withOpacity(0.3));
+                            }
                           },
                           child: Padding(
                             padding: EdgeInsets.all(10.0),

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import '../../../constant.dart';
 
 class AddPetsScreen extends StatelessWidget {
+  // bool isBook;
   AddPetsScreen();
   MyPetsController _loginController = Get.put(MyPetsController());
   // ItemDetailsController cartController = Get.find();

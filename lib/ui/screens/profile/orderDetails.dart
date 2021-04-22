@@ -162,7 +162,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                               alignment: Alignment.center,
                                               child: Text(
                                                 order.status == 0
-                                                    ? "جاري التوصيل"
+                                                    ? "يتم التجهيز"
                                                     : "تم التوصيل",
                                                 style: TextStyle(
                                                   fontSize: 16,

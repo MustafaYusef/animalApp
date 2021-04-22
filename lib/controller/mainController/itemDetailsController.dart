@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:animal_app/ui/screens/authScreen/regesterSceen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +15,7 @@ import '../../constant.dart';
 
 class ItemDetailsController extends GetxController {
   MainRepostary repo = MainRepostary();
-  var count = 1.obs;
+  var count = 0.obs;
   var sumCart = 0.obs;
   int id;
   var selectedSize = SizeItem().obs;
@@ -93,10 +94,11 @@ class ItemDetailsController extends GetxController {
 
       String token = await prefs.getString('token');
       if (token == null) {
-        Get.to(LoginScreen());
+        Get.to(RegesterScreen());
       } else {
         Get.dialog(popUpLoading(), barrierDismissible: false);
         final banners1 = await repo.addCart(id, count.value, token);
+        // count.value = 0;
         getCart();
         Get.back();
         Get.snackbar(banners1.data.msg, banners1.data.msg,

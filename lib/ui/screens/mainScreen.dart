@@ -3,6 +3,7 @@ import 'package:animal_app/ui/customWidget/addPetsCard.dart';
 import 'package:animal_app/ui/customWidget/circularProgress.dart';
 import 'package:animal_app/ui/customWidget/petsCard.dart';
 import 'package:animal_app/ui/screens/pets/addPetScreen.dart';
+import 'package:animal_app/ui/screens/searchScreen.dart';
 import 'package:animal_app/ui/screens/servicesScreen.dart';
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -47,14 +48,28 @@ class MainScreen extends StatelessWidget {
           title: Column(
             children: [
               Image.asset(
-                "assets/images/cat_image.png",
-                width: 50,
-                height: 45,
+                "assets/images/splash.png",
+                width: 60,
+                fit: BoxFit.contain,
               ),
               SizedBox(
                 height: 5,
               ),
             ],
+          ),
+          leading: Padding(
+            padding: EdgeInsets.only(right: 15, top: 10),
+            child: Container(
+              child: InkWell(
+                  onTap: () {
+                    Get.to(SearchScreen());
+                  },
+                  child: Icon(
+                    Icons.search,
+                    color: Colors.black,
+                    size: 27,
+                  )),
+            ),
           ),
           actions: [
             Padding(
@@ -343,7 +358,9 @@ class MainScreen extends StatelessWidget {
                                       height: 170,
                                       color: Colors.white,
                                       width: MediaQuery.of(context).size.width,
-                                      child: controller.myPets.value == null
+                                      child: controller
+                                                  .controller.petsList.value ==
+                                              null
                                           ? Container(
                                               child: controller.noPets.value
                                                   ? AddPetsCard()
@@ -382,7 +399,8 @@ class MainScreen extends StatelessWidget {
                                           : Container(
                                               child: ListView.builder(
                                                   itemCount: controller
-                                                          .myPets
+                                                          .controller
+                                                          .petsList
                                                           .value
                                                           .data
                                                           .myPet
@@ -395,7 +413,8 @@ class MainScreen extends StatelessWidget {
                                                   itemBuilder:
                                                       (context, index) {
                                                     return controller
-                                                                .myPets
+                                                                .controller
+                                                                .petsList
                                                                 .value
                                                                 .data
                                                                 .myPet
@@ -403,7 +422,8 @@ class MainScreen extends StatelessWidget {
                                                             index
                                                         ? AddPetsCard()
                                                         : PetsCard(controller
-                                                            .myPets
+                                                            .controller
+                                                            .petsList
                                                             .value
                                                             .data
                                                             .myPet[index]);

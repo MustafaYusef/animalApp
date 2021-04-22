@@ -133,63 +133,63 @@ class EditProfileScreen extends StatelessWidget {
                                 SizedBox(
                                   height: 10,
                                 ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 10),
-                                      child: Text(
-                                        "البريد الألكتروني",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ).addDirectionality(),
-                                    ),
-                                  ],
-                                ),
-                                TextFormField(
-                                  controller: _loginController.emailController,
-                                  keyboardType: TextInputType.emailAddress,
-                                  decoration: InputDecoration(
-                                      fillColor: Colors.grey[100],
-                                      filled: true,
-                                      hintText: "البريد الألكتروني",
-                                      hintStyle: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 0,
-                                        ),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 0,
-                                        ),
-                                      ),
-                                      // floatingLabelBehavior: FloatingLabelBehavior.auto,
-                                      contentPadding: EdgeInsets.all(10)),
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  validator: (value) => value.trim().isEmpty
-                                      ? "يجب عليك ادخال البريد الألكتروني"
-                                      : null,
-                                ).addDirectionality(),
-                                SizedBox(
-                                  height: 10,
-                                ),
+                                // Row(
+                                //   mainAxisAlignment: MainAxisAlignment.end,
+                                //   children: [
+                                //     Container(
+                                //       margin: EdgeInsets.symmetric(
+                                //           horizontal: 10, vertical: 10),
+                                //       child: Text(
+                                //         "البريد الألكتروني",
+                                //         style: TextStyle(
+                                //           fontSize: 18,
+                                //           color: Colors.black,
+                                //           fontWeight: FontWeight.normal,
+                                //         ),
+                                //       ).addDirectionality(),
+                                //     ),
+                                //   ],
+                                // ),
+                                // TextFormField(
+                                //   controller: _loginController.emailController,
+                                //   keyboardType: TextInputType.emailAddress,
+                                //   decoration: InputDecoration(
+                                //       fillColor: Colors.grey[100],
+                                //       filled: true,
+                                //       hintText: "البريد الألكتروني",
+                                //       hintStyle: TextStyle(
+                                //         fontSize: 18,
+                                //         color: Colors.grey,
+                                //         fontWeight: FontWeight.normal,
+                                //       ),
+                                //       border: OutlineInputBorder(
+                                //         borderRadius: BorderRadius.circular(10),
+                                //         borderSide: BorderSide(
+                                //           color: Colors.transparent,
+                                //           width: 0,
+                                //         ),
+                                //       ),
+                                //       enabledBorder: OutlineInputBorder(
+                                //         borderRadius: BorderRadius.circular(10),
+                                //         borderSide: BorderSide(
+                                //           color: Colors.transparent,
+                                //           width: 0,
+                                //         ),
+                                //       ),
+                                //       // floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                //       contentPadding: EdgeInsets.all(10)),
+                                //   style: TextStyle(
+                                //     fontSize: 18,
+                                //     color: Colors.black,
+                                //     fontWeight: FontWeight.normal,
+                                //   ),
+                                //   validator: (value) => value.trim().isEmpty
+                                //       ? "يجب عليك ادخال البريد الألكتروني"
+                                //       : null,
+                                // ).addDirectionality(),
+                                // SizedBox(
+                                //   height: 10,
+                                // ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [

@@ -1,4 +1,5 @@
 import 'package:animal_app/ui/screens/authScreen/loginScreen.dart';
+import 'package:animal_app/ui/screens/authScreen/regesterSceen.dart';
 import 'package:animal_app/ui/screens/pets/addPetScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,7 +38,7 @@ class AddPetsCard extends StatelessWidget {
 
                 String token = prefs.getString('token');
                 if (token == null) {
-                  Get.to(LoginScreen());
+                  Get.to(RegesterScreen());
                 } else {
                   Get.to(AddPetsScreen());
                 }
