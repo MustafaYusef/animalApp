@@ -115,7 +115,7 @@ class PostController extends GetxController {
 
       // Get.back();
       print(_.toString());
-      Get.snackbar("لديك خطأ في معلومات الدخول", "لديك خطأ في معلومات الدخول",
+      Get.snackbar(_.toString(),_.toString(),
           duration: Duration(seconds: 3),
           icon: Icon(
             Icons.info,

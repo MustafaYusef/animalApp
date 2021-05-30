@@ -8,6 +8,7 @@ import 'package:animal_app/ui/screens/profile/profileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:animal_app/metods/methods.dart';
 
 import '../../constant.dart';
 
@@ -73,7 +74,7 @@ class EditProfileController extends GetxController {
       final login = await repo.updateProfile(
         token,
         nameTextController?.text.toString(),
-        phoneController?.text.toString(),
+        phoneController?.text.toString().changeToEngilish(),
       );
 
       Get.back();

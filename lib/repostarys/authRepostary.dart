@@ -20,7 +20,7 @@ class AuthRepostary {
       throw Exception(loginModelFromJson(response.body).message);
     } else {
       print(loginModelFromJson(response.body).statusCode);
-      throw Exception(loginModelFromJson(response.body).statusCode);
+      throw Exception(loginModelFromJson(response.body).message);
     }
   }
 

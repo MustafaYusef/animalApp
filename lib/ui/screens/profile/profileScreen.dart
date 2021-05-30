@@ -43,7 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: SingleChildScrollView(
         child: Container(
           width: Get.width,
-          height: Get.height - 150,
+          height: Get.height - 100,
           child: Column(
             children: [
               Container(
@@ -218,6 +218,52 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                               ),
                                                             ),
                                                           ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(0),
+                                                            child:
+                                                                _profController
+                                                                        .inReview
+                                                                        .value
+                                                                    ? Container()
+                                                                    : InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          Get.to(
+                                                                              ContactUsScreen());
+                                                                        },
+                                                                        child:
+                                                                            Card(
+                                                                          elevation:
+                                                                              0,
+                                                                          margin:
+                                                                              EdgeInsets.all(5),
+                                                                          child:
+                                                                              Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                                                            child:
+                                                                                Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.end,
+                                                                              children: [
+                                                                                Text(
+                                                                                  "حول العيادة",
+                                                                                  style: TextStyle(fontSize: 18),
+                                                                                ).addDirectionality(),
+                                                                                SizedBox(
+                                                                                  width: 10,
+                                                                                ),
+                                                                                Icon(
+                                                                                  Icons.add_box_outlined,
+                                                                                  color: Theme.of(context).primaryColor,
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                          ),
                                                           InkWell(
                                                             onTap: () {
                                                               LogoutPopUp(
@@ -373,22 +419,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           fontSize: 18,
                                           color: Get.theme.accentColor)),
                                 ),
-                                Divider(
-                                  thickness: 1,
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    Get.to(MyBookingScreen());
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 4,
-                                    ),
-                                    child: Text("سجل الحجوزات",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Get.theme.accentColor)),
-                                  ),
+                                Container(
+                                  child: _profController.inReview.value
+                                      ? Container()
+                                      : Column(
+                                          children: [
+                                            Divider(
+                                              thickness: 1,
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                Get.to(MyBookingScreen());
+                                              },
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  vertical: 4,
+                                                ),
+                                                child: Text("سجل الحجوزات",
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        color: Get.theme
+                                                            .accentColor)),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                 ),
                                 Divider(
                                   thickness: 1,

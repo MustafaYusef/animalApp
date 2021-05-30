@@ -65,9 +65,12 @@ class AllOfferPopularScreen extends StatelessWidget {
                                         height: 20,
                                       ),
                                       InkWell(
-                                        // onTap: () {
-                                        //   controller.initial();
-                                        // },
+                                        onTap: () {
+                                          controller.page.value = 1;
+                                          controller.itemsOffPop.clear();
+                                          controller.lastPage.value = false;
+                                          return controller.getPopolarOfffer();
+                                        },
                                         child: Text(
                                           "إعادة المحاولة",
                                           style: TextStyle(
@@ -107,7 +110,8 @@ class AllOfferPopularScreen extends StatelessWidget {
                                     itemCount: controller.itemsOffPop.length,
                                     itemBuilder: (context, index) {
                                       return itemCardAll(
-                                          controller.itemsOffPop[index]);
+                                        controller.itemsOffPop[index],
+                                      );
                                     },
                                     scrollDirection: Axis.vertical,
 

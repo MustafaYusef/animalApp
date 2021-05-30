@@ -47,7 +47,7 @@ class MyPetsController extends GetxController {
   var picker = ImagePicker();
   String imageBase64 = "";
   TextEditingController imageController;
-  ServicesController controller = Get.put(ServicesController());
+  ServicesController controller;
   @override
   void onInit() {
     petsList.value = null;
@@ -59,7 +59,7 @@ class MyPetsController extends GetxController {
     descController = TextEditingController();
     vacsinDateController = TextEditingController();
     imageController = TextEditingController();
-    // addressController = TextEditingController();
+    // controller = Get.put(ServicesController());
     selectedImage.value = null;
     imageFile.value = null;
     selectedSex.value = null;
@@ -98,7 +98,7 @@ class MyPetsController extends GetxController {
   }
 
   Future<void> getMyPets() async {
-    // Get.dialog(popUpLoading(), barrierDismissible: false);
+    controller = Get.put(ServicesController());
     noNetFlage.value = false;
     needLogin.value = false;
     try {
@@ -107,6 +107,7 @@ class MyPetsController extends GetxController {
       String token = await prefs.getString('token');
       if (token == null) {
         needLogin.value = true;
+        // controller.myPets.add(MyPet(name: ".. إضافة حيوان"));
       } else {
         final banners1 = await repo.getMyPets(token);
         petsList.value = banners1;
@@ -128,7 +129,7 @@ class MyPetsController extends GetxController {
     } catch (_) {
       // Get.back();
       print(_.toString());
-      Get.snackbar(_.toString(), _.toString(),
+   Get.snackbar(_.toString().split(":")[1], _.toString().split(":")[1],
           duration: Duration(seconds: 3),
           icon: Icon(
             Icons.info,
@@ -143,7 +144,8 @@ class MyPetsController extends GetxController {
     Get.dialog(popUpLoading(), barrierDismissible: false);
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-
+      print("vacsine");
+      print(vacsinDateController.text.toString().isEmpty);
       String token = await prefs.getString('token');
       final banners1 = await repo.addPets(
           token: token,
@@ -191,7 +193,7 @@ class MyPetsController extends GetxController {
       // Get.back();
       Get.back();
       print(_);
-      Get.snackbar(_.toString(), _.toString(),
+     Get.snackbar(_.toString().split(":")[1], _.toString().split(":")[1],
           duration: Duration(seconds: 3),
           icon: Icon(
             Icons.info,

@@ -268,27 +268,29 @@ Widget bookingCard(MyList order) {
                     padding: EdgeInsets.symmetric(horizontal: 3),
                     child: Container(
                       height: 35.0,
-                      width: 140,
+                      // width: 140,
                       // margin: EdgeInsets.only(left: 5),
-                      child: RaisedButton(
-                        color: order.status == 0
-                            ? Get.theme.accentColor
-                            : Get.theme.primaryColor,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: order.status == 0
+                              ? Get.theme.accentColor
+                              : Get.theme.primaryColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10),
+                                  bottomLeft: Radius.circular(10),
+                                  bottomRight: Radius.circular(10))),
+                        ),
                         onPressed: () {
                           // controller.addCart(controller.id);
                         },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(10),
-                                bottomLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10))),
                         child: Container(
                           alignment: Alignment.center,
                           child: Text(
                             order.status == 0
-                                ? "لم يتم تحديد موعد"
-                                : order.visitAt,
+                                ? "تم تأكيد الحجز"
+                                : "تم تحديد موعد الحجز",
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.white,

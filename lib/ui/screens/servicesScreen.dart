@@ -23,11 +23,21 @@ class ServicesScreen extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: Text(
-          "الخدمات المتوفرة",
-          style: TextStyle(
-              fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
-        ).addDirectionality(),
+        title: inHouse != null
+            ? Text(
+                inHouse == 1 ? "خدمات داخل المنزل" : "خدمات داخل العيادة",
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ).addDirectionality()
+            : Text(
+                "جميع الخدمات المتوفرة",
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ).addDirectionality(),
       ),
       body: Obx(
         () => Container(

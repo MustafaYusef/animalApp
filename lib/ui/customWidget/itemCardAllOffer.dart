@@ -79,6 +79,8 @@ class itemCardAll extends StatelessWidget {
                   children: [
                     Text(
                       item.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,
@@ -123,23 +125,27 @@ class itemCardAll extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Container(
-                    child: InkWell(
-                  onTap: () async {
-                    favouriteController.addCart(item.id);
-                  },
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        color: Get.theme.accentColor),
-                    width: 50,
-                    height: 35,
-                    child: Center(
-                        child: Image.asset("assets/images/carrt_icon.png")),
-                  ),
-                )),
+                if (item.count == 0)
+                  Container()
+                else
+                  Container(
+                      child: InkWell(
+                    onTap: () async {
+                      favouriteController.count.value = 1;
+                      favouriteController.addCart(item.id);
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          color: Get.theme.accentColor),
+                      width: 50,
+                      height: 35,
+                      child: Center(
+                          child: Image.asset("assets/images/carrt_icon.png")),
+                    ),
+                  )),
               ],
             ),
           ],

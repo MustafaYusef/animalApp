@@ -113,6 +113,25 @@ class OrderDetailsScreen extends StatelessWidget {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
+                                      Text(
+                                        order.shppingPrice.toString() +
+                                            " " +
+                                            "د.ع",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.grey[700]),
+                                      ).addDirectionality(),
+                                      Text(
+                                        "سعر التوصيل : ",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.grey[700]),
+                                      ).addDirectionality(),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
                                       Expanded(child: Container()),
                                       Text(
                                         order.createdAt

@@ -72,33 +72,41 @@ class MainScreen extends StatelessWidget {
             ),
           ),
           actions: [
-            Padding(
-              padding: EdgeInsets.only(right: 15, top: 10),
-              child: Obx(
-                () => Container(
+            Obx(
+              () => Padding(
+                padding: EdgeInsets.only(right: 15, top: 10),
+                child: Container(
                   child: favouriteController.cartModel.value == null
                       ? Container()
-                      : Container(
-                          child: favouriteController
-                                      .cartModel.value.data.myCart.length ==
-                                  0
-                              ? Container()
-                              : Badge(
-                                  badgeContent: Text(
-                                    favouriteController
-                                        .cartModel.value.data.myCart.length
-                                        .toString(),
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 10),
+                      : InkWell(
+                          onTap: () {
+                            Get.to(CartScreen());
+                          },
+                          child: Container(
+                            child: favouriteController
+                                        .cartModel.value.data.myCart.length ==
+                                    0
+                                ? Icon(
+                                    Icons.shopping_cart_outlined,
+                                    color: Colors.black,
+                                    size: 25,
+                                  )
+                                : Badge(
+                                    badgeContent: Text(
+                                      favouriteController
+                                          .cartModel.value.data.myCart.length
+                                          .toString(),
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 10),
+                                    ),
+                                    badgeColor: Colors.deepOrange,
+                                    child: Icon(
+                                      Icons.shopping_cart_outlined,
+                                      color: Colors.black,
+                                      size: 25,
+                                    ),
                                   ),
-                                  badgeColor: Colors.deepOrange,
-                                  child: InkWell(
-                                      onTap: () {
-                                        Get.to(CartScreen());
-                                      },
-                                      child: Icon(Icons.shopping_cart_outlined,
-                                          color: Colors.black)),
-                                ),
+                          ),
                         ),
                 ),
               ),
@@ -164,272 +172,326 @@ class MainScreen extends StatelessWidget {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        "assets/images/icon_cat.png",
-                                        width: 25,
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.all(10),
-                                        child: Text(
-                                          "أحجز الأن",
-                                          style: TextStyle(fontSize: 20),
-                                        ).addDirectionality(),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Image.asset(
-                                        "assets/images/icon_cat.png",
-                                        width: 25,
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
                                   Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 20),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            height: 140,
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 10),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              border: Border.all(
-                                                  color: Colors.grey[300]),
-                                              color: Get.theme.accentColor,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.5),
-                                                  spreadRadius: 2,
-                                                  blurRadius: 20,
-                                                  offset: Offset(0,
-                                                      3), // changes position of shadow
-                                                ),
-                                              ],
-                                            ),
-                                            child: InkWell(
-                                              onTap: () {
-                                                Get.to(ServicesScreen(0));
-                                              },
-                                              child: Column(
+                                    child: controller.inReview.value
+                                        ? Container()
+                                        : Column(
+                                            children: [
+                                              Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
                                                 children: [
-                                                  Container(
-                                                    height: 50,
-                                                    width: 50,
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10)),
-                                                    child: Icon(
-                                                      Icons
-                                                          .local_attraction_outlined,
-                                                      color:
-                                                          Get.theme.accentColor,
-                                                      size: 25,
-                                                    ),
+                                                  Image.asset(
+                                                    "assets/images/icon_cat.png",
+                                                    width: 25,
                                                   ),
                                                   SizedBox(
-                                                    height: 10,
+                                                    width: 10,
                                                   ),
-                                                  Text(
-                                                    "داخل العيادة",
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        color: Colors.white),
-                                                  ).addDirectionality(),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 30,
-                                        ),
-                                        Expanded(
-                                          child: InkWell(
-                                            onTap: () {
-                                              print("click     ........");
-                                              Get.to(ServicesScreen(1));
-                                            },
-                                            child: Container(
-                                              height: 140,
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 10),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                border: Border.all(
-                                                    color: Colors.grey[300]),
-                                                color: Colors.white,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.grey
-                                                        .withOpacity(0.5),
-                                                    spreadRadius: 2,
-                                                    blurRadius: 20,
-                                                    offset: Offset(0,
-                                                        3), // changes position of shadow
-                                                  ),
-                                                ],
-                                              ),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
                                                   Container(
-                                                    height: 50,
-                                                    width: 50,
-                                                    decoration: BoxDecoration(
-                                                        color: Get
-                                                            .theme.accentColor,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10)),
-                                                    child: Icon(
-                                                      Icons.home_outlined,
-                                                      color: Colors.white,
-                                                      size: 30,
-                                                    ),
+                                                    margin: EdgeInsets.all(10),
+                                                    child: Text(
+                                                      "أحجز الأن",
+                                                      style: TextStyle(
+                                                          fontSize: 20),
+                                                    ).addDirectionality(),
                                                   ),
                                                   SizedBox(
-                                                    height: 10,
+                                                    width: 10,
                                                   ),
-                                                  Text(
-                                                    "داخل المنزل",
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        color: Get
-                                                            .theme.accentColor),
-                                                  ).addDirectionality(),
+                                                  Image.asset(
+                                                    "assets/images/icon_cat.png",
+                                                    width: 25,
+                                                  ),
                                                 ],
                                               ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 10),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: Text(
-                                            "الحيوانات الخاصة بك",
-                                            style: TextStyle(fontSize: 20),
-                                          ).addDirectionality(),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Image.asset(
-                                          "assets/images/icon_cat2.png",
-                                          width: 25,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Obx(
-                                    () => Container(
-                                      height: 170,
-                                      color: Colors.white,
-                                      width: MediaQuery.of(context).size.width,
-                                      child: controller
-                                                  .controller.petsList.value ==
-                                              null
-                                          ? Container(
-                                              child: controller.noPets.value
-                                                  ? AddPetsCard()
-                                                  : Container(
-                                                      color: Colors.white,
-                                                      height: 170,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      child: Shimmer.fromColors(
-                                                        baseColor: Colors.white,
-                                                        highlightColor:
-                                                            Colors.grey[100],
-                                                        enabled: true,
-                                                        child: ListView.builder(
-                                                            itemCount: 4,
-                                                            shrinkWrap: true,
-                                                            reverse: true,
-                                                            scrollDirection:
-                                                                Axis.horizontal,
-                                                            itemBuilder:
-                                                                (context,
-                                                                    index) {
-                                                              return Card(
-                                                                child:
-                                                                    Container(
-                                                                  width: 170,
-                                                                  height: 170,
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 20),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Expanded(
+                                                      child: Container(
+                                                        height: 140,
+                                                        margin: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal: 10),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(20),
+                                                          border: Border.all(
+                                                              color: Colors
+                                                                  .grey[300]),
+                                                          color: Get.theme
+                                                              .accentColor,
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                      0.5),
+                                                              spreadRadius: 2,
+                                                              blurRadius: 20,
+                                                              offset: Offset(0,
+                                                                  3), // changes position of shadow
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        child: InkWell(
+                                                          onTap: () {
+                                                            Get.to(
+                                                                ServicesScreen(
+                                                                    0));
+                                                          },
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Container(
+                                                                height: 50,
+                                                                width: 50,
+                                                                decoration: BoxDecoration(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10)),
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .local_attraction_outlined,
+                                                                  color: Get
+                                                                      .theme
+                                                                      .accentColor,
+                                                                  size: 25,
                                                                 ),
-                                                              );
-                                                            }),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              Text(
+                                                                "داخل العيادة",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        20,
+                                                                    color: Colors
+                                                                        .white),
+                                                              ).addDirectionality(),
+                                                            ],
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
-                                            )
-                                          : Container(
-                                              child: ListView.builder(
-                                                  itemCount: controller
-                                                          .controller
-                                                          .petsList
-                                                          .value
-                                                          .data
-                                                          .myPet
-                                                          .length +
-                                                      1,
-                                                  shrinkWrap: true,
-                                                  reverse: true,
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    return controller
-                                                                .controller
-                                                                .petsList
-                                                                .value
-                                                                .data
-                                                                .myPet
-                                                                .length ==
-                                                            index
-                                                        ? AddPetsCard()
-                                                        : PetsCard(controller
-                                                            .controller
-                                                            .petsList
-                                                            .value
-                                                            .data
-                                                            .myPet[index]);
-                                                  }),
-                                            ),
-                                    ),
+                                                    SizedBox(
+                                                      width: 30,
+                                                    ),
+                                                    Expanded(
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          print(
+                                                              "click     ........");
+                                                          Get.to(ServicesScreen(
+                                                              1));
+                                                        },
+                                                        child: Container(
+                                                          height: 140,
+                                                          margin: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20),
+                                                            border: Border.all(
+                                                                color: Colors
+                                                                    .grey[300]),
+                                                            color: Colors.white,
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Colors
+                                                                    .grey
+                                                                    .withOpacity(
+                                                                        0.5),
+                                                                spreadRadius: 2,
+                                                                blurRadius: 20,
+                                                                offset: Offset(
+                                                                    0,
+                                                                    3), // changes position of shadow
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Container(
+                                                                height: 50,
+                                                                width: 50,
+                                                                decoration: BoxDecoration(
+                                                                    color: Get
+                                                                        .theme
+                                                                        .accentColor,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10)),
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .home_outlined,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  size: 30,
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              Text(
+                                                                "داخل المنزل",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        20,
+                                                                    color: Get
+                                                                        .theme
+                                                                        .accentColor),
+                                                              ).addDirectionality(),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                  ),
+
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    child: controller.inReview.value
+                                        ? Container()
+                                        : Column(
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 10),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    Container(
+                                                      margin:
+                                                          EdgeInsets.all(10),
+                                                      child: Text(
+                                                        "الحيوانات الخاصة بك",
+                                                        style: TextStyle(
+                                                            fontSize: 20),
+                                                      ).addDirectionality(),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Image.asset(
+                                                      "assets/images/icon_cat2.png",
+                                                      width: 25,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Obx(
+                                                () => Container(
+                                                  height: 170,
+                                                  color: Colors.white,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  child:
+                                                      controller
+                                                                  .controller
+                                                                  .petsList
+                                                                  .value ==
+                                                              null
+                                                          ? Container(
+                                                              child: controller
+                                                                      .noPets
+                                                                      .value
+                                                                  ? AddPetsCard()
+                                                                  : Container(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      height:
+                                                                          170,
+                                                                      width: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width,
+                                                                      child: Shimmer
+                                                                          .fromColors(
+                                                                        baseColor:
+                                                                            Colors.white,
+                                                                        highlightColor:
+                                                                            Colors.grey[100],
+                                                                        enabled:
+                                                                            true,
+                                                                        child: ListView.builder(
+                                                                            itemCount: 4,
+                                                                            shrinkWrap: true,
+                                                                            reverse: true,
+                                                                            scrollDirection: Axis.horizontal,
+                                                                            itemBuilder: (context, index) {
+                                                                              return Card(
+                                                                                child: Container(
+                                                                                  width: 170,
+                                                                                  height: 170,
+                                                                                ),
+                                                                              );
+                                                                            }),
+                                                                      ),
+                                                                    ),
+                                                            )
+                                                          : Container(
+                                                              child: ListView
+                                                                  .builder(
+                                                                      itemCount: controller
+                                                                              .controller
+                                                                              .petsList
+                                                                              .value
+                                                                              .data
+                                                                              .myPet
+                                                                              .length +
+                                                                          1,
+                                                                      shrinkWrap:
+                                                                          true,
+                                                                      reverse:
+                                                                          true,
+                                                                      scrollDirection:
+                                                                          Axis
+                                                                              .horizontal,
+                                                                      itemBuilder:
+                                                                          (context,
+                                                                              index) {
+                                                                        return controller.controller.petsList.value.data.myPet.length ==
+                                                                                index
+                                                                            ? AddPetsCard()
+                                                                            : PetsCard(controller.controller.petsList.value.data.myPet[index]);
+                                                                      }),
+                                                            ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                   ),
 
                                   //       SizedBox(

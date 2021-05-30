@@ -159,48 +159,100 @@ class LoginScreen extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      TextFormField(
-                                        controller: _loginController
-                                            .passwordTextController,
-                                        keyboardType: TextInputType.text,
-                                        obscureText: true,
-                                        decoration: InputDecoration(
-                                          fillColor: Colors.grey[100],
-                                          filled: true,
-                                          hintText: "كلمة المرور",
-                                          hintStyle: TextStyle(
+                                      Obx(
+                                        () => TextFormField(
+                                          controller: _loginController
+                                              .passwordTextController,
+                                          keyboardType: TextInputType.text,
+                                          obscureText:
+                                              _loginController.isPassHide.value,
+                                          decoration: InputDecoration(
+                                            fillColor: Colors.grey[100],
+                                            filled: true,
+                                            hintText: "كلمة المرور",
+                                            hintStyle: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                            contentPadding: EdgeInsets.all(10),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              borderSide: BorderSide(
+                                                color: Colors.transparent,
+                                                width: 0,
+                                              ),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              borderSide: BorderSide(
+                                                color: Colors.transparent,
+                                                width: 0,
+                                              ),
+                                            ),
+                                            suffix: Container(
+                                              height: 30,
+                                              child: _loginController
+                                                      .isPassHide.value
+                                                  ? InkWell(
+                                                      child: Icon(
+                                                        Icons.visibility_off,
+                                                        color: Get
+                                                            .theme.primaryColor,
+                                                        size: 20,
+                                                      ),
+                                                      onTap: () {
+                                                        // setState(() {
+                                                        if (_loginController
+                                                            .isPassHide.value) {
+                                                          _loginController
+                                                              .isPassHide
+                                                              .value = false;
+                                                        } else {
+                                                          _loginController
+                                                              .isPassHide
+                                                              .value = true;
+                                                        }
+                                                        // });
+                                                      },
+                                                    )
+                                                  : InkWell(
+                                                      child: Icon(
+                                                        Icons.visibility,
+                                                        color: Get
+                                                            .theme.primaryColor,
+                                                        size: 20,
+                                                      ),
+                                                      onTap: () {
+                                                        if (_loginController
+                                                            .isPassHide.value) {
+                                                          _loginController
+                                                              .isPassHide
+                                                              .value = false;
+                                                        } else {
+                                                          _loginController
+                                                              .isPassHide
+                                                              .value = true;
+                                                        }
+                                                      },
+                                                    ),
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 10),
+                                            ),
+                                          ),
+                                          validator: (value) =>
+                                              value.trim().isEmpty
+                                                  ? "يجب عليك ادخال كلمة المرور"
+                                                  : null,
+                                          style: TextStyle(
                                             fontSize: 18,
-                                            color: Colors.grey,
+                                            color: Colors.black,
                                             fontWeight: FontWeight.normal,
                                           ),
-                                          contentPadding: EdgeInsets.all(10),
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            borderSide: BorderSide(
-                                              color: Colors.transparent,
-                                              width: 0,
-                                            ),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            borderSide: BorderSide(
-                                              color: Colors.transparent,
-                                              width: 0,
-                                            ),
-                                          ),
-                                        ),
-                                        validator: (value) =>
-                                            value.trim().isEmpty
-                                                ? "يجب عليك ادخال كلمة المرور"
-                                                : null,
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ).addDirectionality(),
+                                        ).addDirectionality(),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -215,10 +267,11 @@ class LoginScreen extends StatelessWidget {
                                       color: Get.theme.accentColor,
                                       onPressed: () {
                                         if (_formKey.currentState.validate()) {
-                                          if (GetUtils.isPhoneNumber(
-                                              _loginController
+                                          if (_loginController
                                                   .phoneController.text
-                                                  .toString())) {
+                                                  .toString()
+                                                  .length ==
+                                              11) {
                                             _loginController.loginRequest();
                                           } else {
                                             // Toast.show(validEmail(), Get.context,

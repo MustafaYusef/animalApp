@@ -11,6 +11,7 @@ import 'package:animal_app/ui/screens/favouriteScreen.dart';
 import 'package:animal_app/ui/screens/mainScreen.dart';
 import 'package:animal_app/ui/screens/profile/profileScreen.dart';
 import 'package:animal_app/ui/screens/sectionsScreen.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'metods/extentions.dart';
 import 'controller/mainController/itemDetailsController.dart';
@@ -61,14 +62,14 @@ class _MainState extends State<Main> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    // OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
 
-    // OneSignal.shared.init("678edd4c-48a6-435a-8bd3-c0823ce40f8d", iOSSettings: {
-    //   OSiOSSettings.autoPrompt: true,
-    //   OSiOSSettings.inAppLaunchUrl: false
-    // });
-    // OneSignal.shared
-    //     .setInFocusDisplayType(OSNotificationDisplayType.notification);
+    OneSignal.shared.init("c208430d-d217-4a01-9fd2-1671cf75fe39", iOSSettings: {
+      OSiOSSettings.autoPrompt: true,
+      OSiOSSettings.inAppLaunchUrl: false
+    });
+    OneSignal.shared
+        .setInFocusDisplayType(OSNotificationDisplayType.notification);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: PreferredSize(
@@ -182,7 +183,8 @@ class _MyLottieState extends State<MyLottie> {
 
     Timer(Duration(seconds: 3), () {
       if (prefs.getBool('intro') == null) {
-        Get.offAll(IntroScreen());
+        // Get.offAll(IntroScreen());
+        Get.offAll(Main(0));
       } else {
         // Get.offAll(IntroScreen());
         Get.offAll(Main(0));

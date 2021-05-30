@@ -17,13 +17,13 @@ import '../../constant.dart';
 class MainController extends GetxController {
   MainRepostary repo = MainRepostary();
 
-  var mainCategory = List<MainCategory>().obs;
+  var mainCategory = <MainCategory>[].obs;
   var noNetFlage = false.obs;
-  var banners1 = List<BannerItem>().obs;
-  var banners2 = List<BannerItem>().obs;
-
-  var popularItem = List<ItemOffer>().obs;
-  var offersItem = List<ItemOffer>().obs;
+  var banners1 = <BannerItem>[].obs;
+  var banners2 = <BannerItem>[].obs;
+  var inReview = true.obs;
+  var popularItem = <ItemOffer>[].obs;
+  var offersItem = <ItemOffer>[].obs;
   var offerEmpty = false.obs;
   var myPets = MyPetsModel().obs;
   var noPets = false.obs;
@@ -47,7 +47,11 @@ class MainController extends GetxController {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      String token = await prefs.getString('token');
+      String token = prefs.getString('token');
+      final reviewCheck = await repo.getReviewCheck();
+      await prefs.setBool("inReview", reviewCheck.data.reviewCheck.inReview);
+      inReview.value = prefs.getBool("inReview");
+      inReview.value = false;
       final banners = await repo.getFirstBanner();
       banners1.assignAll(banners.data.banners);
       final banners33 = await repo.getMainCategory();

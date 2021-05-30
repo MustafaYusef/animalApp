@@ -54,7 +54,7 @@ class ItemDetailsScreen extends StatelessWidget {
     return WillPopScope(
       onWillPop: () {
         // Get.delete<ItemDetailsController>();
-        controller.count.value = 0;
+        controller.count.value = 1;
         Get.back();
       },
       child: Scaffold(
@@ -166,7 +166,7 @@ class ItemDetailsScreen extends StatelessWidget {
                                             margin: EdgeInsets.zero,
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(20.0),
+                                                  BorderRadius.circular(10.0),
                                             ),
                                             semanticContainer: true,
                                             clipBehavior:
@@ -342,7 +342,7 @@ class ItemDetailsScreen extends StatelessWidget {
                               )),
                         ),
                         Container(
-                          margin: EdgeInsets.symmetric(horizontal: 30),
+                          margin: EdgeInsets.symmetric(horizontal: 20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [

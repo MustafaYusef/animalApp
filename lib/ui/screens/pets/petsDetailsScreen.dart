@@ -40,6 +40,7 @@ class PetsDetailsScreen extends StatelessWidget {
                   width: Get.width,
                   color: Colors.grey[100],
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Container(
                         color: Colors.grey[100],
@@ -110,28 +111,25 @@ class PetsDetailsScreen extends StatelessWidget {
                                       ),
                                       Row(
                                         children: [
-                                          Expanded(
-                                            child: Container(
-                                              // margin: EdgeInsets.all(10),
-                                              child: Column(
-                                                children: [
-                                                  Text(
-                                                    "الأسم",
-                                                    style:
-                                                        TextStyle(fontSize: 18),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Text(
-                                                    item.name,
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        color:
-                                                            Colors.grey[700]),
-                                                  ),
-                                                ],
-                                              ),
+                                          Container(
+                                            margin: EdgeInsets.only(right: 10),
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  "الأسم",
+                                                  style:
+                                                      TextStyle(fontSize: 18),
+                                                ),
+                                                SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Text(
+                                                  item.name,
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      color: Colors.grey[700]),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                           Expanded(
@@ -148,8 +146,8 @@ class PetsDetailsScreen extends StatelessWidget {
                                                     height: 5,
                                                   ),
                                                   Text(
-                                                    calculateAge(item.age)
-                                                        .toString(),
+                                                    getAge(
+                                                        calculateAge(item.age)),
                                                     style: TextStyle(
                                                         fontSize: 16,
                                                         color:
@@ -159,79 +157,82 @@ class PetsDetailsScreen extends StatelessWidget {
                                               ),
                                             ),
                                           ),
-                                          Expanded(
-                                            child: Container(
-                                              // margin: EdgeInsets.all(10),
-                                              child: Column(
-                                                children: [
-                                                  Text(
-                                                    "الجنس",
-                                                    style:
-                                                        TextStyle(fontSize: 18),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Text(
-                                                    item.sex == 0
-                                                        ? "ذكر"
-                                                        : "أنثى",
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        color:
-                                                            Colors.grey[700]),
-                                                  ),
-                                                ],
-                                              ),
+                                          Container(
+                                            margin: EdgeInsets.only(left: 10),
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  "الجنس",
+                                                  style:
+                                                      TextStyle(fontSize: 18),
+                                                ),
+                                                SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Text(
+                                                  item.sex == 0
+                                                      ? "ذكر"
+                                                      : "أنثى",
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      color: Colors.grey[700]),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ],
                                       ).addDirectionality(),
-                                      SizedBox(
-                                        height: 10,
+                                      Expanded(
+                                        child: Container(),
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Container(
-                                            // margin: EdgeInsets.all(5),
-                                            child: Row(
+                                      item.lastVaccine == ""
+                                          ? Container()
+                                          : Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
                                               children: [
-                                                Text(
-                                                  item.lastVaccine
-                                                      .toString()
-                                                      .split(" ")[0],
-                                                  style:
-                                                      TextStyle(fontSize: 16),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Container(
+                                                  // margin: EdgeInsets.all(5),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        item.lastVaccine
+                                                            .toString()
+                                                            .split(" ")[0],
+                                                        style: TextStyle(
+                                                            fontSize: 16),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 20,
+                                                      ),
+                                                      Text(
+                                                        "تاريخ أخر لقاح",
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            color: Colors
+                                                                .grey[700]),
+                                                      ).addDirectionality(),
+                                                    ],
+                                                  ),
                                                 ),
                                                 SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Image.asset(
+                                                  "assets/images/icon_cat.png",
+                                                  height: 20,
                                                   width: 20,
                                                 ),
-                                                Text(
-                                                  "تاريخ أخر لقاح",
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      color: Colors.grey[700]),
-                                                ).addDirectionality(),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
                                               ],
                                             ),
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Image.asset(
-                                            "assets/images/icon_cat.png",
-                                            height: 20,
-                                            width: 20,
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                        ],
+                                      SizedBox(
+                                        height: 10,
                                       ),
                                     ],
                                   ),
@@ -271,17 +272,19 @@ class PetsDetailsScreen extends StatelessWidget {
                         height: 60.0,
                         width: 150,
                         margin: EdgeInsets.only(left: 10),
-                        child: RaisedButton(
-                          color: Get.theme.accentColor,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Get.theme.accentColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(0),
+                                    topRight: Radius.circular(30),
+                                    bottomLeft: Radius.circular(30),
+                                    bottomRight: Radius.circular(30))),
+                          ),
                           onPressed: () {
                             Get.to(ServicesScreen(null));
                           },
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(0),
-                                  topRight: Radius.circular(30),
-                                  bottomLeft: Radius.circular(30),
-                                  bottomRight: Radius.circular(30))),
                           child: Container(
                             alignment: Alignment.center,
                             child: Row(
@@ -310,13 +313,15 @@ class PetsDetailsScreen extends StatelessWidget {
                         height: 50.0,
                         width: 70,
                         margin: EdgeInsets.only(right: 10),
-                        child: RaisedButton(
-                          color: Get.theme.accentColor,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Get.theme.accentColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
                           onPressed: () {
                             favouriteController.deletePet(item.id);
                           },
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
                           child: Container(
                             alignment: Alignment.center,
                             child: Row(
@@ -337,13 +342,15 @@ class PetsDetailsScreen extends StatelessWidget {
                         height: 50.0,
                         width: 70,
                         margin: EdgeInsets.only(right: 20),
-                        child: RaisedButton(
-                          color: Get.theme.primaryColor,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Get.theme.primaryColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
                           onPressed: () {
                             Get.to(EditPetsScreen(item));
                           },
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
                           child: Container(
                             alignment: Alignment.center,
                             child: Row(

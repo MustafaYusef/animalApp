@@ -483,20 +483,11 @@ class BookingScreen extends StatelessWidget {
                                       color: Get.theme.accentColor,
                                       onPressed: () {
                                         if (_formKey.currentState.validate()) {
-                                          if (GetUtils.isPhoneNumber(
-                                                  _loginController
-                                                      .phoneController.text
-                                                      .toString()) &&
-                                              _loginController
-                                                      .phoneController.text
-                                                      .toString()
-                                                      .length ==
-                                                  11 &&
-                                              _loginController
-                                                      .phoneController.text
-                                                      .toString()
-                                                      .substring(0, 2) ==
-                                                  "07") {
+                                          if (_loginController
+                                                  .phoneController.text
+                                                  .toString()
+                                                  .length ==
+                                              11) {
                                             _loginController
                                                 .bookServices(item.id);
                                           } else {

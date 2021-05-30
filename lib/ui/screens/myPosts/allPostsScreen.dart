@@ -2,7 +2,6 @@ import 'package:animal_app/controller/mainController/postController.dart';
 import 'package:animal_app/ui/customWidget/circularProgress.dart';
 import 'package:animal_app/ui/customWidget/noNetWidget.dart';
 import 'package:animal_app/ui/customWidget/postCard.dart';
-import 'package:animal_app/ui/screens/authScreen/loginScreen.dart';
 import 'package:animal_app/ui/screens/authScreen/regesterSceen.dart';
 import 'package:animal_app/ui/screens/myPosts/myPosts/addPostScreen.dart';
 import 'package:animal_app/ui/screens/myPosts/myPosts/myPostsScreen.dart';

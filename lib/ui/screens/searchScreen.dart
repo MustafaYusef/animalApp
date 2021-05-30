@@ -150,26 +150,20 @@ class SearchScreen extends StatelessWidget {
                                                 : Column(
                                                     children: [
                                                       Expanded(
-                                                        child: RefreshIndicator(
-                                                          onRefresh: () {
-                                                            return favouriteController
-                                                                .getSerch();
-                                                          },
-                                                          child:
-                                                              ListView.builder(
-                                                                  itemCount:
-                                                                      favouriteController
-                                                                          .searchItems
-                                                                          .value
-                                                                          .length,
-                                                                  itemBuilder:
-                                                                      (context,
-                                                                          index) {
-                                                                    return searchItemCard(favouriteController
-                                                                        .searchItems
-                                                                        .value[index]);
-                                                                  }),
-                                                        ),
+                                                        child: ListView.builder(
+                                                            itemCount:
+                                                                favouriteController
+                                                                    .searchItems
+                                                                    .value
+                                                                    .length,
+                                                            itemBuilder:
+                                                                (context,
+                                                                    index) {
+                                                              return searchItemCard(
+                                                                  favouriteController
+                                                                      .searchItems
+                                                                      .value[index]);
+                                                            }),
                                                       ),
                                                     ],
                                                   ),

@@ -8,7 +8,7 @@ import 'package:animal_app/controller/authController/loginController.dart';
 import 'package:animal_app/data/myOrderModel.dart';
 import 'package:animal_app/data/shippingPrice.dart';
 import 'package:animal_app/metods/state.dart';
-
+import 'package:animal_app/metods/methods.dart';
 import 'package:animal_app/repostarys/mainRepastory.dart';
 import 'package:animal_app/ui/customWidget/popLoading.dart';
 
@@ -23,7 +23,7 @@ class OrderController extends GetxController {
   ItemDetailsController cartController = Get.find();
 
   TextEditingController nameTextController;
-  TextEditingController promoController;
+  TextEditingController noteController;
 
   var noNetFlage = false.obs;
   var isLoading = false.obs;
@@ -43,36 +43,70 @@ class OrderController extends GetxController {
     phoneController = TextEditingController();
     addressController = TextEditingController();
     nameTextController = TextEditingController();
-    promoController = TextEditingController();
+    noteController = TextEditingController();
     shippingPrice.value = null;
     selectedProv.value = null;
     selectedcity.value = null;
-    // getShippingPrice();
     getProfile();
+    getShippingPrice();
 
     repo = MainRepostary();
 
     super.onInit();
   }
 
+  Future<void> getShippingPrice() async {
+    // Get.dialog(popUpLoading(), barrierDismissible: false);
+    try {
+      // String playerId = await getuserId();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      String token = await prefs.getString('token');
+
+      final order = await repo.getShipingPrice(token);
+      shippingPrice.value = order;
+      print("token    :" +
+          shippingPrice.value.data.getShippingPrice[0].amount.toString());
+      // if (selectedProv.value?.keys.toString() == "(بغداد)") {
+      //   selectedShipPrice.value =
+      //       shippingPrice.value.data.getShippingPrice[0].amount;
+      // } else {
+      //   selectedShipPrice.value =
+      //       shippingPrice.value.data.getShippingPrice[1].amount;
+      // }
+      // Get.back();
+      // emit(AuthcubitLogin(login));
+    } on SocketException catch (_) {
+      noNetFlage.value = true;
+
+      // Get.back();
+
+      Get.snackbar(noNet, noNet,
+          duration: Duration(seconds: 3),
+          icon: Icon(
+            Icons.info,
+            color: Colors.white,
+          ),
+          colorText: Colors.white,
+          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+    } catch (_) {
+      // Get.back();
+      print(_.toString());
+      Get.snackbar("لديك خطأ في معلومات الدخول", "لديك خطأ في معلومات الدخول",
+          duration: Duration(seconds: 3),
+          icon: Icon(
+            Icons.info,
+            color: Colors.white,
+          ),
+          colorText: Colors.white,
+          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+    }
+  }
+
   Future<void> getProfile() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     phoneController.text = prefs.getString('phone');
-    nameTextController.text = prefs.getString('name');
-    selectedcity.value = prefs.getString('city');
-    print("object");
-    print(prefs.getString('prov'));
-    try {
-      if (prefs.getString('prov') == "" || prefs.getString('prov') == null) {
-        selectedProv.value = null;
-      } else {
-        selectedProv.value = States.js[States.js
-            .indexWhere((e) => e.keys.first == prefs.getString('prov'))];
-      }
-    } catch (_) {
-      print(_);
-    }
   }
 
   // Future<void> initial() {
@@ -84,7 +118,6 @@ class OrderController extends GetxController {
   final orders = <MyOrder>[].obs;
   // final _paginationFilter = PaginationFilter().obs;
   final lastPage = false.obs;
-
 
   Future<void> getOrder() async {
     noNetFlage.value = false;
@@ -211,16 +244,12 @@ class OrderController extends GetxController {
       final login = await repo.makeOrder(
           token,
           nameTextController.text.toString(),
-          phoneController.text.toString(),
+          phoneController.text.toString().changeToEngilish(),
           selectedProv.value.keys.first,
           selectedcity.value,
-          addressController.text.isEmpty
-              ? "null"
-              : addressController.text.toString(),
+          addressController.text.toString(),
           selectedShipPrice.value,
-          promoController.text.toString().isEmpty
-              ? null
-              : promoController.text.toString());
+          noteController.text.toString());
       cartController.getCart();
       print("token    :" + token);
 
@@ -253,7 +282,7 @@ class OrderController extends GetxController {
           backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
     } catch (_) {
       Get.back();
-      Get.snackbar(_.toString(), _.toString(),
+      Get.snackbar(_.toString().split(":")[1], _.toString().split(":")[1],
           duration: Duration(seconds: 3),
           icon: Icon(
             Icons.info,

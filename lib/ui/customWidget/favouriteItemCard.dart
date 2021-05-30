@@ -45,7 +45,7 @@ class FavouriteCard extends StatelessWidget {
               child: Stack(
                 children: [
                   CachedNetworkImage(
-                    fit: BoxFit.contain,
+                    fit: BoxFit.cover,
                     width: (Get.width / 3) - 10,
                     height: 110,
                     imageUrl: imageUrl + item.items.covePhoto,

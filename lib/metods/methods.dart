@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:time_machine/time_machine.dart';
 // import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 List<String> convertToString(String s) {
@@ -13,19 +15,64 @@ List<int> convertToInt(String s) {
   return list;
 }
 
-calculateAge(DateTime birthDate) {
+Period calculateAge(DateTime birthDate) {
   DateTime currentDate = DateTime.now();
-  int age = currentDate.year - birthDate.year;
-  int month1 = currentDate.month;
-  int month2 = birthDate.month;
-  if (month2 > month1) {
-    age--;
-  } else if (month1 == month2) {
-    int day1 = currentDate.day;
-    int day2 = birthDate.day;
-    if (day2 > day1) {
-      age--;
-    }
+  int age;
+  // int month1 = currentDate.month;
+  // int month2 = birthDate.month;
+  // if (month2 > month1) {
+  //   age--;
+  // } else if (month1 == month2) {
+  //   int day1 = currentDate.day;
+  //   int day2 = birthDate.day;
+  //   if (day2 > day1) {
+  //     age--;
+  //   }
+  // }
+  LocalDate a = LocalDate.today();
+  LocalDate b =
+      LocalDate.dateTime(DateTime.parse(birthDate.toString().split(" ")[0]));
+  print("aaaaaaa");
+  print(a);
+  print("bbbbbbbb");
+
+  print(b);
+  Period diff = a.periodSince(b);
+  // age = currentDate.difference(birthDate).inDays ~/ 30;
+  // if (age >= 12) {
+  //   return age / 12;
+  // } else {
+  //   return age;
+  // }
+  return diff;
+}
+
+Future<String> getId() async {
+  String playerId = "null";
+  try {
+    var status = await OneSignal.shared.getPermissionSubscriptionState();
+    playerId = status.subscriptionStatus.userId;
+    print("plyer id  " + playerId.toString());
+  } catch (_) {
+    print("play servicesss   one signel");
+    print(_.toString());
+  }
+
+  return playerId;
+}
+
+String getAge(Period period) {
+  String age;
+  if (period.years >= 1) {
+    age = period.years.toString() +
+        " سنة " +
+        (period.months >= 1 ? " و " + period.months.toString() + " شهر " : "");
+  } else if (period.months >= 1) {
+    age = period.months.toString() +
+        " شهر " +
+        (period.days >= 1 ? " و " + period.days.toString() + " يوم " : "");
+  } else {
+    age = period.days.toString() + " يوم ";
   }
   return age;
 }
@@ -50,6 +97,8 @@ extension replaceArabicNumber on String {
     for (int i = 0; i < this.length; i++) {
       if (numberMap.containsKey(this[i])) {
         output += numberMap[this[i]];
+      } else {
+        output += this[i];
       }
     }
     if (output == "") {

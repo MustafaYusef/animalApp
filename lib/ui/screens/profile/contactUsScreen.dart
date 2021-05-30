@@ -16,10 +16,10 @@ class ContactUsScreen extends StatelessWidget {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Get.theme.primaryColor,
+          backgroundColor: Colors.white,
           elevation: 0,
           title: Text("تواصل معنا",
-                  style: TextStyle(color: Colors.white, fontSize: 22))
+                  style: TextStyle(color: Colors.black, fontSize: 22))
               .addDirectionality(),
           centerTitle: true,
         ),
@@ -27,12 +27,36 @@ class ContactUsScreen extends StatelessWidget {
             child: Container(
           child: Column(
             children: [
+              Card(
+                margin: EdgeInsets.all(10),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        "عيادة الكرخ للعناية بالحيوانات الأليفة",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Icon(
+                        Icons.pets,
+                        color: Get.theme.primaryColor,
+                        size: 35,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               InkWell(
                 onTap: () async {
                   if (Platform.isIOS) {
                     try {
                       await launch(
-                        "https://www.facebook.com/Tebafashionn/",
+                        "https://maps.app.goo.gl/dUaTEJ6wJMNxha5o7",
                         forceSafariVC: false,
                       );
                     } catch (_) {
@@ -42,7 +66,7 @@ class ContactUsScreen extends StatelessWidget {
                     print("click");
                     try {
                       await launch(
-                        "https://www.facebook.com/Tebafashionn/",
+                        "https://maps.app.goo.gl/dUaTEJ6wJMNxha5o7",
                         forceSafariVC: false,
                       );
                     } catch (_) {
@@ -58,17 +82,65 @@ class ContactUsScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          "تواصل معنا على صفحتنا",
+                          "فرع الكاظمية",
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(
                           width: 20,
                         ),
-                        Image.asset(
-                          "assets/images/facebook.png",
-                          width: 50,
-                          height: 50,
+                        Icon(
+                          Icons.pin_drop,
+                          color: Get.theme.primaryColor,
+                          size: 35,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () async {
+                  if (Platform.isIOS) {
+                    try {
+                      await launch(
+                        "https://maps.app.goo.gl/1nQYYCzWKUW18TZeA",
+                        forceSafariVC: false,
+                      );
+                    } catch (_) {
+                      print(_.toString());
+                    }
+                  } else if (Platform.isAndroid) {
+                    print("click");
+                    try {
+                      await launch(
+                        "https://maps.app.goo.gl/1nQYYCzWKUW18TZeA",
+                        forceSafariVC: false,
+                      );
+                    } catch (_) {
+                      print(_.toString());
+                    }
+                  }
+                },
+                child: Card(
+                  margin: EdgeInsets.all(10),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "فرع حي الأعلام",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Icon(
+                          Icons.pin_drop,
+                          color: Get.theme.primaryColor,
+                          size: 35,
                         ),
                       ],
                     ),
@@ -149,10 +221,11 @@ String getUrl() {
   // Uri.parse(message);
 
   if (Platform.isAndroid) {
+    // ٠٧٧٢٥٣٩٦٥٥٨
     // add the [https]
-    return "https://wa.me/+9647733333965/?text=${Uri.parse(message)}"; // new line
+    return "https://wa.me/+9647725396558/?text=${Uri.parse(message)}"; // new line
   } else {
     // add the [https]
-    return "https://api.whatsapp.com/send?phone=+9647733333965=${Uri.parse(message)}"; // new line
+    return "https://api.whatsapp.com/send?phone=+9647725396558=${Uri.parse(message)}"; // new line
   }
 }

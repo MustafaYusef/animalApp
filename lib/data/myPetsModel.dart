@@ -69,7 +69,7 @@ class MyPet {
   int sex;
   bool softDelete;
   String description;
-  DateTime lastVaccine;
+  var lastVaccine;
   String photo;
   DateTime updatedAt;
   DateTime createdAt;
@@ -82,7 +82,7 @@ class MyPet {
         sex: json["sex"],
         softDelete: json["softDelete"],
         description: json["description"],
-        lastVaccine: DateTime.parse(json["last_vaccine"]),
+        lastVaccine: json["last_vaccine"],
         photo: json["photo"],
         updatedAt: DateTime.parse(json["updatedAt"]),
         createdAt: DateTime.parse(json["createdAt"]),

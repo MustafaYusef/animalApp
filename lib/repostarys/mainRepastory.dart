@@ -5,6 +5,7 @@ import 'package:animal_app/data/itemsSerach.dart';
 import 'package:animal_app/data/myBookingServices.dart';
 import 'package:animal_app/data/myPetsModel.dart';
 import 'package:animal_app/data/myPostModel.dart';
+import 'package:animal_app/data/reviewCheck.dart';
 import 'package:animal_app/data/servicesModel.dart';
 import 'package:http/http.dart';
 // import 'package:animal_app/data/AllitemsModel.dart';
@@ -152,9 +153,22 @@ class MainRepostary {
         baseUrl + "users/booking/my?page=$page&limit=$limit",
         headers: {"Authorization": token});
     if (response.statusCode == 200) {
+      print("suceesssssss");
       return myBookingModelFromJson(response.body);
     } else {
       throw Exception(myBookingModelFromJson(response.body).message);
+    }
+  }
+
+  Future<ReviewCheckModel> getReviewCheck() async {
+    final response = await get(
+      baseUrl + "users/review/byId/3",
+    );
+    if (response.statusCode == 200) {
+      print("suceesssssss");
+      return reviewCheckModelFromJson(response.body);
+    } else {
+      throw Exception(reviewCheckModelFromJson(response.body).message);
     }
   }
 
@@ -325,7 +339,7 @@ class MainRepostary {
     } else {
       print("failll");
 
-      throw Exception(response.body);
+      throw Exception(addResModelFromJson(response.body).message);
     }
   }
 
@@ -357,7 +371,7 @@ class MainRepostary {
     } else {
       print("failll");
 
-      throw Exception(response.body);
+      throw Exception(addResModelFromJson(response.body).message);
     }
   }
 
@@ -399,7 +413,7 @@ class MainRepostary {
     } else {
       print("failll");
 
-      throw Exception(response.body);
+      throw Exception(addResModelFromJson(response.body).message);
     }
   }
 
@@ -411,7 +425,7 @@ class MainRepostary {
       String city,
       String address,
       int shippingPrice,
-      String promo) async {
+      String notes) async {
     print(token);
     final response = await post(baseUrl + "orders/new",
         headers: {"Authorization": token, "Content-Type": "application/json"},
@@ -422,7 +436,7 @@ class MainRepostary {
           "city": city,
           "address": address,
           "shpping_price": shippingPrice.toString(),
-          "promo": promo
+          "notes": notes
         }));
     if (response.statusCode == 200 || response.statusCode == 201) {
       return addResModelFromJson(response.body);

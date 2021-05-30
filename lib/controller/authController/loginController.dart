@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:animal_app/controller/mainController/favouriteController.dart';
 import 'package:animal_app/controller/mainController/itemDetailsController.dart';
 import 'package:animal_app/controller/mainController/mainScreenController.dart';
+import 'package:animal_app/controller/mainController/myPetsController.dart';
+import 'package:animal_app/controller/servicesController.dart';
 import 'package:animal_app/main.dart';
 import 'package:animal_app/metods/methods.dart';
 import 'package:animal_app/ui/screens/authScreen/loginScreen.dart';
@@ -16,7 +18,6 @@ import 'dart:io';
 import 'package:animal_app/data/profileModel.dart';
 import 'package:animal_app/repostarys/authRepostary.dart';
 import 'package:animal_app/ui/customWidget/popLoading.dart';
-import 'package:animal_app/ui/screens/profile/profileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,6 +27,8 @@ import '../../constant.dart';
 class LoginController extends GetxController {
   TextEditingController phoneController;
   TextEditingController passwordTextController;
+  var isPassHide = true.obs;
+  var isPassHideReg = true.obs;
 
   TextEditingController nameTextController;
   TextEditingController phoneRegController;
@@ -35,7 +38,7 @@ class LoginController extends GetxController {
   var selectedProv = Map<String, List<String>>().obs;
   var profile = ProfileModel().obs;
   var needLogin = false.obs;
-
+  var inReview = true.obs;
   AuthRepostary repo;
 
   @override
@@ -46,6 +49,7 @@ class LoginController extends GetxController {
     phoneRegController = TextEditingController();
     passwordRegTextController = TextEditingController();
     // emailController = TextEditingController();
+    inReview.value = false;
 
     needLogin.value = false;
     selectedProv.value = null;
@@ -58,9 +62,18 @@ class LoginController extends GetxController {
   Future<void> loginRequest() async {
     Get.dialog(popUpLoading(), barrierDismissible: false);
     try {
-      // String playerId = await getuserId();
-      final login = await repo.Login(phoneController?.text.toString(),
-          passwordTextController?.text.toString(), "ddd");
+      var playerId;
+      try {
+        playerId = await getId();
+      } catch (_) {
+        playerId = "null";
+      }
+      print("changeToEngilish     " +
+          phoneController?.text.toString().changeToEngilish());
+      final login = await repo.Login(
+          phoneController?.text.toString().changeToEngilish(),
+          passwordTextController?.text.toString(),
+          playerId);
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -75,6 +88,8 @@ class LoginController extends GetxController {
       Get.delete<MainController>();
       Get.delete<ItemDetailsController>();
       Get.delete<FavouriteController>();
+      Get.delete<MyPetsController>();
+      Get.delete<ServicesController>();
 
       Get.offAll(Main(0));
       // Get.dialog(null);
@@ -100,7 +115,7 @@ class LoginController extends GetxController {
           backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
     } catch (_) {
       Get.back();
-      Get.snackbar("لديك خطأ في معلومات الدخول", "لديك خطأ في معلومات الدخول",
+      Get.snackbar(_.toString().split(":")[1], _.toString().split(":")[1],
           duration: Duration(seconds: 3),
           icon: Icon(
             Icons.info,
@@ -114,12 +129,17 @@ class LoginController extends GetxController {
   Future<void> regesterRequest() async {
     Get.dialog(popUpLoading(), barrierDismissible: false);
     try {
-      // var playerId = await getuserId();
+      var playerId;
+      try {
+        playerId = await getId();
+      } catch (_) {
+        playerId = "null";
+      }
       final login = await repo.Regester(
           nameTextController?.text.toString(),
-          phoneRegController?.text.toString(),
+          phoneRegController?.text.toString().changeToEngilish(),
           passwordRegTextController?.text.toString(),
-          "ggg");
+          playerId);
 
       Get.back();
       Get.offAll(LoginScreen());
@@ -152,7 +172,7 @@ class LoginController extends GetxController {
           backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
     } catch (_) {
       Get.back();
-      Get.snackbar("لديك خطأ في معلومات الدخول", "لديك خطأ في معلومات الدخول",
+      Get.snackbar(_.toString().split(":")[1], _.toString().split(":")[1],
           duration: Duration(seconds: 3),
           icon: Icon(
             Icons.info,
@@ -168,7 +188,9 @@ class LoginController extends GetxController {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      String token = await prefs.getString('token');
+      inReview.value = prefs.getBool("inReview");
+      inReview.value = false;
+      String token = prefs.getString('token');
       print(token);
       if (token == null) {
         needLogin.value = true;
@@ -176,9 +198,6 @@ class LoginController extends GetxController {
         final login = await repo.getProfile(token);
         await prefs.setString('name', login.data.profile.name);
         await prefs.setString('phone', login.data.profile.phone);
-        await prefs.setString('prov', login.data.profile.government);
-        await prefs.setString('city', login.data.profile.city);
-        await prefs.setString('email', login.data.profile.email);
 
         profile.value = login;
       }

@@ -114,7 +114,7 @@ class _SectionsItemScreenState extends State<SectionsItemScreen> {
                           )
                         : SingleChildScrollView(
                             child: Container(
-                              height: MediaQuery.of(context).size.height - 100,
+                              height: Get.height - 120,
                               child: Column(children: [
                                 Expanded(
                                   child: _controller.sectionsList.value.data

@@ -15,7 +15,7 @@ import '../../constant.dart';
 
 class ItemDetailsController extends GetxController {
   MainRepostary repo = MainRepostary();
-  var count = 0.obs;
+  var count = 1.obs;
   var sumCart = 0.obs;
   int id;
   var selectedSize = SizeItem().obs;
@@ -28,7 +28,7 @@ class ItemDetailsController extends GetxController {
   var noNetFlage = false.obs;
   var image = "".obs;
 
-  var countArray = List<int>().obs;
+  var countArray = <int>[].obs;
   @override
   void onInit() {
     repo = MainRepostary();
@@ -98,7 +98,7 @@ class ItemDetailsController extends GetxController {
       } else {
         Get.dialog(popUpLoading(), barrierDismissible: false);
         final banners1 = await repo.addCart(id, count.value, token);
-        // count.value = 0;
+        count.value = 1;
         getCart();
         Get.back();
         Get.snackbar(banners1.data.msg, banners1.data.msg,

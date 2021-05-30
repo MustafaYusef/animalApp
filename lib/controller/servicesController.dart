@@ -28,7 +28,7 @@ class ServicesController extends GetxController {
   // TextEditingController nameTextController;
   // var selectedType = "".obs;
   // MyPetsController controller = Get.find();
-  var myPets = List<MyPet>().obs;
+  var myPets = <MyPet>[].obs;
 
   MainRepostary repo;
   @override
@@ -39,21 +39,26 @@ class ServicesController extends GetxController {
     petNameController = TextEditingController();
     notesController = TextEditingController();
     sectionsList.value = null;
-    // selectedType.value = null;
+    getProfile();
     repo = MainRepostary();
     print("init booking  ...........");
-    getPets();
+    // getPets();
     super.onInit();
   }
 
-  Future<void> getPets() async {
-    // myPets.assignAll(controller.petsList.value.data.myPet);
-    // await controller.getMyPets();
-    // if (myPets.isEmpty) {
-    //   myPets.add(MyPet(name: ".. إضافة حيوان"));
-    // }
-    // myPets.assignAll(controller.petsList.value.data.myPet);
+  Future<void> getProfile() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    phoneController.text = prefs.getString('phone');
   }
+  // Future<void> getPets() async {
+  //   myPets.assignAll(controller.petsList.value.data.myPet);
+  //   await controller.getMyPets();
+  //   if (myPets.isEmpty) {
+  //     myPets.add(MyPet(name: ".. إضافة حيوان"));
+  //   }
+  //   myPets.assignAll(controller.petsList.value.data.myPet);
+  // }
 
   Future<void> getSections(int inHouse) async {
     // Get.dialog(popUpLoading(), barrierDismissible: false);
@@ -80,7 +85,7 @@ class ServicesController extends GetxController {
           backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
     } catch (_) {
       // Get.back();
-      Get.snackbar("لديك خطأ في معلومات الدخول", "لديك خطأ في معلومات الدخول",
+      Get.snackbar(_.toString().split(":")[1], _.toString().split(":")[1],
           duration: Duration(seconds: 3),
           icon: Icon(
             Icons.info,
@@ -126,6 +131,7 @@ class ServicesController extends GetxController {
           colorText: Colors.white,
           backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
     } on SocketException catch (_) {
+      Get.back();
       noNetFlage.value = true;
       Get.snackbar(noNet, noNet,
           duration: Duration(seconds: 3),
@@ -136,8 +142,8 @@ class ServicesController extends GetxController {
           colorText: Colors.white,
           backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
     } catch (_) {
-      // Get.back();
-      Get.snackbar("لديك خطأ في معلومات الدخول", "لديك خطأ في معلومات الدخول",
+      Get.back();
+      Get.snackbar(_.toString().split(":")[1], _.toString().split(":")[1],
           duration: Duration(seconds: 3),
           icon: Icon(
             Icons.info,
@@ -188,7 +194,7 @@ class ServicesController extends GetxController {
           backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
     } catch (_) {
       // Get.back();
-      Get.snackbar("لديك خطأ في معلومات الدخول", "لديك خطأ في معلومات الدخول",
+      Get.snackbar(_.toString().split(":")[1], _.toString().split(":")[1],
           duration: Duration(seconds: 3),
           icon: Icon(
             Icons.info,
