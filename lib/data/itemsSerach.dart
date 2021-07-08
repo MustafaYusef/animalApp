@@ -14,9 +14,9 @@ class ItemsSearchModel {
     this.data,
   });
 
-  int statusCode;
-  String message;
-  Data data;
+  int? statusCode;
+  String? message;
+  Data? data;
 
   factory ItemsSearchModel.fromJson(Map<String, dynamic> json) =>
       ItemsSearchModel(
@@ -28,7 +28,7 @@ class ItemsSearchModel {
   Map<String, dynamic> toJson() => {
         "statusCode": statusCode,
         "message": message,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
@@ -37,7 +37,7 @@ class Data {
     this.item,
   });
 
-  List<ItemSearch> item;
+  List<ItemSearch>? item;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         item: List<ItemSearch>.from(
@@ -45,7 +45,7 @@ class Data {
       );
 
   Map<String, dynamic> toJson() => {
-        "item": List<dynamic>.from(item.map((x) => x.toJson())),
+        "item": List<dynamic>.from(item!.map((x) => x.toJson())),
       };
 }
 
@@ -65,18 +65,18 @@ class ItemSearch {
     this.createdAt,
   });
 
-  int id;
-  String name;
-  bool softDelete;
-  String description;
-  int price;
-  int buyed;
-  int offerPrice;
-  bool offer;
-  int count;
-  String covePhoto;
-  DateTime updatedAt;
-  DateTime createdAt;
+  int? id;
+  String? name;
+  bool? softDelete;
+  String? description;
+  int? price;
+  int? buyed;
+  int? offerPrice;
+  bool? offer;
+  int? count;
+  String? covePhoto;
+  DateTime? updatedAt;
+  DateTime? createdAt;
 
   factory ItemSearch.fromJson(Map<String, dynamic> json) => ItemSearch(
         id: json["id"],
@@ -104,7 +104,7 @@ class ItemSearch {
         "offer": offer,
         "count": count,
         "cove_photo": covePhoto,
-        "updatedAt": updatedAt.toIso8601String(),
-        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
       };
 }

@@ -14,9 +14,9 @@ class ReviewCheckModel {
     this.data,
   });
 
-  int statusCode;
-  String message;
-  Data data;
+  int? statusCode;
+  String? message;
+  Data? data;
 
   factory ReviewCheckModel.fromJson(Map<String, dynamic> json) =>
       ReviewCheckModel(
@@ -28,7 +28,7 @@ class ReviewCheckModel {
   Map<String, dynamic> toJson() => {
         "statusCode": statusCode,
         "message": message,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
@@ -37,14 +37,14 @@ class Data {
     this.reviewCheck,
   });
 
-  ReviewCheck reviewCheck;
+  ReviewCheck? reviewCheck;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         reviewCheck: ReviewCheck.fromJson(json["review_check"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "review_check": reviewCheck.toJson(),
+        "review_check": reviewCheck!.toJson(),
       };
 }
 
@@ -54,8 +54,8 @@ class ReviewCheck {
     this.inReview,
   });
 
-  int id;
-  bool inReview;
+  int? id;
+  bool? inReview;
 
   factory ReviewCheck.fromJson(Map<String, dynamic> json) => ReviewCheck(
         id: json["id"],

@@ -14,9 +14,9 @@ class CheckPromoModel {
     this.data,
   });
 
-  int statusCode;
-  String message;
-  Data data;
+  int? statusCode;
+  String? message;
+  Data? data;
 
   factory CheckPromoModel.fromJson(Map<String, dynamic> json) =>
       CheckPromoModel(
@@ -28,7 +28,7 @@ class CheckPromoModel {
   Map<String, dynamic> toJson() => {
         "statusCode": statusCode,
         "message": message,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
@@ -37,7 +37,7 @@ class Data {
     this.amount,
   });
 
-  int amount;
+  int? amount;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         amount: json["amount"],

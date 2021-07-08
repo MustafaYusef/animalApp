@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:animal_app/ui/screens/introScreen.dart';
 import 'package:animal_app/ui/screens/myPosts/allPostsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,7 +9,6 @@ import 'package:lottie/lottie.dart';
 import 'package:animal_app/ui/screens/favouriteScreen.dart';
 import 'package:animal_app/ui/screens/mainScreen.dart';
 import 'package:animal_app/ui/screens/profile/profileScreen.dart';
-import 'package:animal_app/ui/screens/sectionsScreen.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'metods/extentions.dart';
@@ -38,7 +36,7 @@ void main() => runApp(
     );
 
 class Main extends StatefulWidget {
-  int indexB = 0;
+  int? indexB = 0;
   Main([this.indexB]);
 
   @override
@@ -58,18 +56,20 @@ class _MainState extends State<Main> with TickerProviderStateMixin {
 
   bool isOpened = false;
 
-  MainScreen _child;
+  MainScreen? _child;
 
   @override
   Widget build(BuildContext context) {
     OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
 
-    OneSignal.shared.init("c208430d-d217-4a01-9fd2-1671cf75fe39", iOSSettings: {
-      OSiOSSettings.autoPrompt: true,
-      OSiOSSettings.inAppLaunchUrl: false
+    OneSignal.shared.setAppId("c208430d-d217-4a01-9fd2-1671cf75fe39");
+    OneSignal.shared.setNotificationWillShowInForegroundHandler(
+        (OSNotificationReceivedEvent event) {
+      /// Display Notification, send null to not display, send notification to display
+      event.complete(event.notification);
     });
-    OneSignal.shared
-        .setInFocusDisplayType(OSNotificationDisplayType.notification);
+    // OneSignal.shared
+    //     .setInFocusDisplayType(OSNotificationDisplayType.notification);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: PreferredSize(
@@ -151,7 +151,7 @@ class _MainState extends State<Main> with TickerProviderStateMixin {
     );
   }
 
-  Widget selectedWidget(int index) {
+  Widget? selectedWidget(int? index) {
     if (index == 0) {
       return _child;
     } else if (index == 1) {
@@ -170,25 +170,25 @@ class MyLottie extends StatefulWidget {
 }
 
 class _MyLottieState extends State<MyLottie> {
-  SharedPreferences prefs;
-  getInsatant() async {
-    prefs = await SharedPreferences.getInstance();
-    // var intro = ;
-  }
+  // late SharedPreferences prefs;
+  // getInsatant() async {
+  //   prefs = await SharedPreferences.getInstance();
+  //   // var intro = ;
+  // }
 
   @override
   void initState() {
     super.initState();
-    getInsatant();
+    // getInsatant();
 
     Timer(Duration(seconds: 3), () {
-      if (prefs.getBool('intro') == null) {
-        // Get.offAll(IntroScreen());
-        Get.offAll(Main(0));
-      } else {
-        // Get.offAll(IntroScreen());
-        Get.offAll(Main(0));
-      }
+      // if (prefs.getBool('intro') == null) {
+      //   // Get.offAll(IntroScreen());
+      //   Get.offAll(Main(0));
+      // } else {
+      // Get.offAll(IntroScreen());
+      Get.offAll(Main(0));
+      // }
     });
   }
 

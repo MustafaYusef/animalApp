@@ -6,7 +6,7 @@ import 'package:animal_app/metods/extentions.dart';
 import 'package:animal_app/ui/screens/authScreen/regesterSceen.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
-  ResetPasswordScreen({Key key}) : super(key: key);
+  ResetPasswordScreen({Key? key}) : super(key: key);
   final ResetPasswordController _loginController =
       Get.put(ResetPasswordController());
   final _formKey = GlobalKey<FormState>();
@@ -233,7 +233,7 @@ class ResetPasswordScreen extends StatelessWidget {
                                   child: RaisedButton(
                                     color: Get.theme.primaryColorDark,
                                     onPressed: () {
-                                      if (_formKey.currentState.validate()) {
+                                      if (_formKey.currentState!.validate()) {
                                         // if (GetUtils.isPhoneNumber(
                                         //     _loginController
                                         //         .phoneController.text

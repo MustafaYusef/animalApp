@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:animal_app/metods/extentions.dart';
 
-void selecteImageCollection(MyPetsController controller) {
+void selecteImageCollection(MyPetsController? controller) {
   //  = Get.find();
 
   showModalBottomSheet(
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      context: Get.context,
+      context: Get.context!,
       builder: (builder) {
         return Container(
             height: Get.height / 3,
@@ -26,7 +26,7 @@ void selecteImageCollection(MyPetsController controller) {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        controller.isCamera.value = false;
+                        controller!.isCamera.value = false;
                         controller.getImage();
                       },
                       child: Card(
@@ -48,7 +48,7 @@ void selecteImageCollection(MyPetsController controller) {
                     ),
                     GestureDetector(
                       onTap: () {
-                        controller.isCamera.value = true;
+                        controller!.isCamera.value = true;
                         controller.getImage();
                       },
                       child: Card(

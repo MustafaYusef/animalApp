@@ -14,9 +14,9 @@ class ProfileModel {
     this.data,
   });
 
-  int statusCode;
-  String message;
-  Data data;
+  int? statusCode;
+  String? message;
+  Data? data;
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
         statusCode: json["statusCode"],
@@ -27,7 +27,7 @@ class ProfileModel {
   Map<String, dynamic> toJson() => {
         "statusCode": statusCode,
         "message": message,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
@@ -36,14 +36,14 @@ class Data {
     this.profile,
   });
 
-  Profile profile;
+  Profile? profile;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         profile: Profile.fromJson(json["profile"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "profile": profile.toJson(),
+        "profile": profile!.toJson(),
       };
 }
 
@@ -58,14 +58,14 @@ class Profile {
     this.createdAt,
   });
 
-  int id;
-  String name;
-  String phone;
-  String government;
-  String city;
-  String email;
+  int? id;
+  String? name;
+  String? phone;
+  String? government;
+  String? city;
+  String? email;
 
-  DateTime createdAt;
+  DateTime? createdAt;
 
   factory Profile.fromJson(Map<String, dynamic> json) => Profile(
         id: json["id"],
@@ -84,6 +84,6 @@ class Profile {
         "government": government,
         "city": city,
         "email": email,
-        "createdAt": createdAt.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
       };
 }

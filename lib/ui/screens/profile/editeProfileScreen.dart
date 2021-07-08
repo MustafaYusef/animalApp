@@ -6,7 +6,7 @@ import 'package:animal_app/metods/extentions.dart';
 import 'package:animal_app/metods/state.dart';
 
 class EditProfileScreen extends StatelessWidget {
-  EditProfileScreen({Key key}) : super(key: key);
+  EditProfileScreen({Key? key}) : super(key: key);
   final EditProfileController _loginController =
       Get.put(EditProfileController());
   final _formKey = GlobalKey<FormState>();
@@ -55,7 +55,7 @@ class EditProfileScreen extends StatelessWidget {
                     margin: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      border: Border.all(color: Colors.grey[300]),
+                      border: Border.all(color: Colors.grey[300]!),
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
@@ -126,7 +126,7 @@ class EditProfileScreen extends StatelessWidget {
                                     color: Colors.black,
                                     fontWeight: FontWeight.normal,
                                   ),
-                                  validator: (value) => value.trim().isEmpty
+                                  validator: (value) => value!.trim().isEmpty
                                       ? "يجب عليك ادخال الأسم الكامل"
                                       : null,
                                 ).addDirectionality(),
@@ -241,7 +241,7 @@ class EditProfileScreen extends StatelessWidget {
                                     color: Colors.black,
                                     fontWeight: FontWeight.normal,
                                   ),
-                                  validator: (value) => value.trim().isEmpty
+                                  validator: (value) => value!.trim().isEmpty
                                       ? "يجب عليك ادخال رقم الهاتف"
                                       : null,
                                 ).addDirectionality(),
@@ -258,15 +258,15 @@ class EditProfileScreen extends StatelessWidget {
                               child: RaisedButton(
                                 color: Get.theme.accentColor,
                                 onPressed: () {
-                                  if (_formKey.currentState.validate()) {
+                                  if (_formKey.currentState!.validate()) {
                                     if (GetUtils.isPhoneNumber(_loginController
-                                            .phoneController.text
+                                            .phoneController!.text
                                             .toString()) &&
-                                        _loginController.phoneController.text
+                                        _loginController.phoneController!.text
                                                 .toString()
                                                 .length ==
                                             11 &&
-                                        _loginController.phoneController.text
+                                        _loginController.phoneController!.text
                                                 .toString()
                                                 .substring(0, 2) ==
                                             "07") {

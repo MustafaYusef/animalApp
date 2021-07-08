@@ -13,7 +13,7 @@ import 'package:animal_app/ui/screens/profile/contactUsScreen.dart';
 import 'package:animal_app/ui/screens/profile/editeProfileScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
-  ProfileScreen({Key key}) : super(key: key);
+  ProfileScreen({Key? key}) : super(key: key);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -49,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Container(
                   height: 360,
                   child: Obx(
-                    () => _profController.profile.value == null
+                    () => _profController.noNetFlage.value
                         ? Column(
                             children: [
                               Expanded(
@@ -85,7 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ? NeedToLoginWidget()
                                 : Column(
                                     children: [
-                                      _profController.profile.value.data == null
+                                      _profController.isLoading.value
                                           ? Container(
                                               height: 360,
                                               width: Get.width,
@@ -119,7 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                 .circular(30),
                                                         border: Border.all(
                                                             color: Colors
-                                                                .grey[300]),
+                                                                .grey[300]!),
                                                         color: Colors.white,
                                                         boxShadow: [
                                                           BoxShadow(
@@ -156,10 +156,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                   Text(
                                                                     _profController
                                                                         .profile
-                                                                        .value
-                                                                        .data
-                                                                        .profile
-                                                                        .name,
+                                                                        .value!
+                                                                        .data!
+                                                                        .profile!
+                                                                        .name!,
                                                                     style: TextStyle(
                                                                         fontSize:
                                                                             18),
@@ -197,10 +197,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                   Text(
                                                                     _profController
                                                                         .profile
-                                                                        .value
-                                                                        .data
-                                                                        .profile
-                                                                        .phone,
+                                                                        .value!
+                                                                        .data!
+                                                                        .profile!
+                                                                        .phone!,
                                                                     style: TextStyle(
                                                                         fontSize:
                                                                             18),
@@ -392,7 +392,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               left: 10, right: 10, top: 10, bottom: 0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
-                            border: Border.all(color: Colors.grey[300]),
+                            border: Border.all(color: Colors.grey[300]!),
                             color: Colors.white,
                             boxShadow: [
                               BoxShadow(

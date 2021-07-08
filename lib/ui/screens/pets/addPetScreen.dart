@@ -14,11 +14,14 @@ class AddPetsScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    Future<bool> _wiilPop() async {
+      Get.delete<MyPetsController>();
+      Get.back();
+      return true;
+    }
+
     return WillPopScope(
-      onWillPop: () {
-        Get.delete<MyPetsController>();
-        Get.back();
-      },
+      onWillPop: _wiilPop,
       child: Scaffold(
           backgroundColor: Colors.grey[50],
           appBar: AppBar(
@@ -49,7 +52,7 @@ class AddPetsScreen extends StatelessWidget {
                     height: 10,
                   ),
                   Obx(
-                    () => _loginController.imageFile.value == null
+                    () => _loginController.imageFile.value.path == ""
                         ? InkWell(
                             onTap: () {
                               selecteImageCollection(_loginController);
@@ -58,7 +61,8 @@ class AddPetsScreen extends StatelessWidget {
                                 height: 150,
                                 width: 150,
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey[300]),
+                                    border:
+                                        Border.all(color: Colors.grey[300]!),
                                     color: Colors.white,
                                     boxShadow: [
                                       BoxShadow(
@@ -124,7 +128,7 @@ class AddPetsScreen extends StatelessWidget {
                     margin: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      border: Border.all(color: Colors.grey[300]),
+                      border: Border.all(color: Colors.grey[300]!),
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
@@ -195,7 +199,7 @@ class AddPetsScreen extends StatelessWidget {
                                     color: Colors.black,
                                     fontWeight: FontWeight.normal,
                                   ),
-                                  validator: (value) => value.trim().isEmpty
+                                  validator: (value) => value!.trim().isEmpty
                                       ? "يجب عليك ادخال أسم الحيوان"
                                       : null,
                                 ).addDirectionality(),
@@ -247,8 +251,12 @@ class AddPetsScreen extends StatelessWidget {
                                           Icons.keyboard_arrow_down_outlined,
                                           size: 24,
                                         ),
-                                        value:
-                                            _loginController.selectedType.value,
+                                        value: _loginController
+                                                    .selectedType.value ==
+                                                ""
+                                            ? null
+                                            : _loginController
+                                                .selectedType.value,
                                         items: types.map((e) {
                                           return DropdownMenuItem(
                                             child: Container(
@@ -276,7 +284,7 @@ class AddPetsScreen extends StatelessWidget {
                                         }).toList(),
                                         onChanged: (value) {
                                           _loginController.selectedType.value =
-                                              value;
+                                              value.toString();
                                         }),
                                   ).addDirectionality(),
                                 ),
@@ -328,8 +336,12 @@ class AddPetsScreen extends StatelessWidget {
                                           Icons.keyboard_arrow_down_outlined,
                                           size: 24,
                                         ),
-                                        value:
-                                            _loginController.selectedSex.value,
+                                        value: _loginController
+                                                    .selectedSex.value ==
+                                                ""
+                                            ? null
+                                            : _loginController
+                                                .selectedSex.value,
                                         items: sexes.map((e) {
                                           return DropdownMenuItem(
                                             child: Container(
@@ -357,7 +369,7 @@ class AddPetsScreen extends StatelessWidget {
                                         }).toList(),
                                         onChanged: (value) {
                                           _loginController.selectedSex.value =
-                                              value;
+                                              value.toString();
                                         }),
                                   ).addDirectionality(),
                                 ),
@@ -388,7 +400,7 @@ class AddPetsScreen extends StatelessWidget {
                                     keyboardType: TextInputType.text,
                                     readOnly: true,
                                     onTap: () async {
-                                      final DateTime picked =
+                                      final DateTime? picked =
                                           await showDatePicker(
                                               context: context,
                                               initialDate: _loginController
@@ -403,8 +415,7 @@ class AddPetsScreen extends StatelessWidget {
                                                   .selectedAgeDate.value) {
                                         _loginController.selectedAgeDate.value =
                                             picked;
-                                        _loginController
-                                                .ageController.text =
+                                        _loginController.ageController!.text =
                                             (_loginController.selectedAgeDate
                                                             .value.month
                                                             .toString()
@@ -422,10 +433,8 @@ class AddPetsScreen extends StatelessWidget {
                                                         .month
                                                         .toString()) +
                                                 "-" +
-                                                (_loginController
-                                                            .selectedAgeDate
-                                                            .value
-                                                            .day
+                                                (_loginController.selectedAgeDate
+                                                            .value.day
                                                             .toString()
                                                             .length <
                                                         2
@@ -508,7 +517,7 @@ class AddPetsScreen extends StatelessWidget {
                                     keyboardType: TextInputType.text,
                                     readOnly: true,
                                     onTap: () async {
-                                      final DateTime picked =
+                                      final DateTime? picked =
                                           await showDatePicker(
                                               context: context,
                                               initialDate: _loginController
@@ -524,7 +533,7 @@ class AddPetsScreen extends StatelessWidget {
                                         _loginController
                                             .selectedFromDate.value = picked;
                                         _loginController
-                                                .vacsinDateController.text =
+                                                .vacsinDateController!.text =
                                             (_loginController.selectedFromDate
                                                             .value.month
                                                             .toString()
@@ -671,7 +680,7 @@ class AddPetsScreen extends StatelessWidget {
                               child: RaisedButton(
                                 color: Get.theme.accentColor,
                                 onPressed: () {
-                                  if (_formKey.currentState.validate()) {
+                                  if (_formKey.currentState!.validate()) {
                                     _loginController.addPets();
                                   }
                                 },

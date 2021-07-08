@@ -12,14 +12,14 @@ import 'package:animal_app/ui/screens/sectionItemsScreen.dart';
 import 'loadingImage.dart';
 
 class myPostCard extends StatelessWidget {
-  MyPost item;
+  MyPost? item;
   myPostCard([this.item]);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print(item.id);
+        print(item!.id);
         Get.to(MyPostDetailsScreen(item));
       },
       child: Card(
@@ -31,7 +31,7 @@ class myPostCard extends StatelessWidget {
               fit: BoxFit.cover,
               width: Get.width / 2,
               height: 250,
-              imageUrl: imageUrl + item.photo,
+              imageUrl: imageUrl + item!.photo!,
               placeholder: (context, url) => loadinImage(),
               errorWidget: (context, url, error) => loadinImage(),
             ),
@@ -70,7 +70,7 @@ class myPostCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        item.likesCount.toString(),
+                        item!.likesCount.toString(),
                         style: TextStyle(
                             fontSize: 18,
                             color: Get.theme.accentColor,
@@ -86,7 +86,7 @@ class myPostCard extends StatelessWidget {
                           padding: EdgeInsets.all(5),
                           child: Directionality(
                             child: Text(
-                              item.description,
+                              item!.description!,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(

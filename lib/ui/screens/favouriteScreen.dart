@@ -3,7 +3,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:responsive_grid/responsive_grid.dart';
 import 'package:animal_app/controller/mainController/favouriteController.dart';
 import 'package:animal_app/ui/customWidget/favouriteItemCard.dart';
 import 'package:animal_app/ui/customWidget/needToLogin.dart';
@@ -14,7 +13,7 @@ import 'package:animal_app/metods/extentions.dart';
 import '../../constant.dart';
 
 class FavouriteScreen extends StatefulWidget {
-  FavouriteScreen({Key key}) : super(key: key);
+  FavouriteScreen({Key? key}) : super(key: key);
 
   @override
   _FavouriteScreenState createState() => _FavouriteScreenState();
@@ -82,7 +81,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                   child: favouriteController.needLogin.value
                       ? NeedToLoginWidget()
                       : Container(
-                          child: favouriteController.favouriteList.value == null
+                          child: favouriteController.favouriteList.value.data ==
+                                  null
                               ? Container(
                                   width: Get.width,
                                   height: Get.height,
@@ -98,7 +98,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                             ? Get.height - 180
                                             : Get.height - 110,
                                         child: favouriteController.favouriteList
-                                                .value.data.myFavorite.isEmpty
+                                                .value.data!.myFavorite!.isEmpty
                                             ? Container(
                                                 width: Get.width,
                                                 height: Get.height,
@@ -120,8 +120,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                               favouriteController
                                                                   .favouriteList
                                                                   .value
-                                                                  .data
-                                                                  .myFavorite
+                                                                  .data!
+                                                                  .myFavorite!
                                                                   .length,
                                                           itemBuilder:
                                                               (context, index) {
@@ -129,8 +129,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                                 favouriteController
                                                                     .favouriteList
                                                                     .value
-                                                                    .data
-                                                                    .myFavorite[index]);
+                                                                    .data!
+                                                                    .myFavorite![index]);
                                                           }),
                                                     ),
                                                   ),

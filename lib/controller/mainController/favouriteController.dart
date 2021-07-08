@@ -12,13 +12,13 @@ import '../../constant.dart';
 
 class FavouriteController extends GetxController {
   MainRepostary repo = MainRepostary();
-
+  var isLoading = false.obs;
   var favouriteList = FavouriteModel().obs;
   var noNetFlage = false.obs;
   var needLogin = false.obs;
   @override
   void onInit() {
-    favouriteList.value = null;
+    // favouriteList.value.data = null;
     repo = MainRepostary();
     needLogin.value = false;
 
@@ -30,10 +30,11 @@ class FavouriteController extends GetxController {
     // Get.dialog(popUpLoading(), barrierDismissible: false);
     noNetFlage.value = false;
     needLogin.value = false;
+    isLoading.value = true;
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      String token = await prefs.getString('token');
+      String? token = await prefs.getString('token');
       if (token == null) {
         needLogin.value = true;
       } else {
@@ -41,7 +42,10 @@ class FavouriteController extends GetxController {
         favouriteList.value = banners1;
         print(favouriteList);
       }
+      isLoading.value = false;
     } on SocketException catch (_) {
+      isLoading.value = false;
+
       noNetFlage.value = true;
       Get.snackbar(noNet, noNet,
           duration: Duration(seconds: 3),
@@ -53,6 +57,8 @@ class FavouriteController extends GetxController {
           backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
     } catch (_) {
       // Get.back();
+      isLoading.value = false;
+
       print(_.toString());
       Get.snackbar(_.toString(), _.toString(),
           duration: Duration(seconds: 3),
@@ -65,12 +71,12 @@ class FavouriteController extends GetxController {
     }
   }
 
-  Future<void> addFavourite(int id) async {
+  Future<void> addFavourite(int? id) async {
     Get.dialog(popUpLoading(), barrierDismissible: false);
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      String token = await prefs.getString('token');
+      String? token = await prefs.getString('token');
       final banners1 = await repo.addFavourite(id, token);
       Get.back();
       print("is opennnnnnnnn");
@@ -102,13 +108,13 @@ class FavouriteController extends GetxController {
     }
   }
 
-  Future<void> deleteFavourite(int id) async {
+  Future<void> deleteFavourite(int? id) async {
     Get.dialog(popUpLoading(), barrierDismissible: false);
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       print(id);
 
-      String token = await prefs.getString('token');
+      String? token = await prefs.getString('token');
       final banners1 = await repo.deleteFavourite(id, token);
       print(token);
       Get.back();

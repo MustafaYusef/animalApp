@@ -2,7 +2,6 @@ import 'package:animal_app/ui/customWidget/circularProgress.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:responsive_grid/responsive_grid.dart';
 import 'package:animal_app/controller/mainController/sectionsController.dart';
 import 'package:animal_app/controller/testController.dart';
 
@@ -12,7 +11,7 @@ import 'package:animal_app/ui/customWidget/sectionCard.dart';
 import 'package:animal_app/ui/customWidget/sectionCard2.dart';
 
 class SectionsScreen extends StatelessWidget {
-  SectionsScreen({Key key}) : super(key: key);
+  SectionsScreen({Key? key}) : super(key: key);
 
   SectionsController _controller = Get.put(SectionsController());
   @override

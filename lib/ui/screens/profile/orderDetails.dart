@@ -65,7 +65,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Text(
-                                        order.name,
+                                        order.name!,
                                         style: TextStyle(
                                             fontSize: 18, color: Colors.black),
                                       ).addDirectionality(),
@@ -80,7 +80,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Text(
-                                        order.phone,
+                                        order.phone!,
                                         style: TextStyle(
                                             fontSize: 16,
                                             color: Colors.grey[700]),
@@ -213,10 +213,10 @@ class OrderDetailsScreen extends StatelessWidget {
                   Expanded(
                       child: Container(
                     child: ListView.builder(
-                        itemCount: order.orderItems.length,
+                        itemCount: order.orderItems!.length,
                         primary: false,
                         itemBuilder: (context, index) {
-                          return orderItemCard(order.orderItems[index]);
+                          return orderItemCard(order.orderItems![index]);
                         }),
                   )),
                 ],

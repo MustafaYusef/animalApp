@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AllPostsScreen extends StatelessWidget {
   // MyPostsScreen({Key key}) : super(key: key);
-  PostController controller;
+  late PostController controller;
   // int status;
   AllPostsScreen() {
     controller = Get.put(PostController());
@@ -33,11 +33,14 @@ class AllPostsScreen extends StatelessWidget {
           }
         }
       });
+    Future<bool> _wiilPop() async {
+      Get.delete<PostController>();
+      Get.back();
+      return true;
+    }
+
     return WillPopScope(
-      onWillPop: () {
-        Get.delete<PostController>();
-        Get.back();
-      },
+      onWillPop: _wiilPop,
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -63,7 +66,7 @@ class AllPostsScreen extends StatelessWidget {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
 
-                    String token = prefs.getString('token');
+                    String? token = prefs.getString('token');
                     if (token == null) {
                       Get.to(RegesterScreen());
                     } else {
@@ -88,7 +91,7 @@ class AllPostsScreen extends StatelessWidget {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
 
-                    String token = prefs.getString('token');
+                    String? token = prefs.getString('token');
                     if (token == null) {
                       Get.to(RegesterScreen());
                     } else {

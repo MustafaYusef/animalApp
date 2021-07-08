@@ -22,10 +22,10 @@ class MyPetsController extends GetxController {
   var petsList = MyPetsModel().obs;
   var noNetFlage = false.obs;
   var needLogin = false.obs;
-  TextEditingController ageController;
-  TextEditingController petNameController;
-  TextEditingController descController;
-  TextEditingController vacsinDateController;
+  TextEditingController? ageController;
+  TextEditingController? petNameController;
+  TextEditingController? descController;
+  TextEditingController? vacsinDateController;
   // TextEditingController addressController;
 
   var selectedFromDate = DateTime.now().obs;
@@ -39,30 +39,30 @@ class MyPetsController extends GetxController {
   var selectedType = "".obs;
   var selectedSex = "".obs;
 
-  var selectedImage = "".obs;
+  RxString? selectedImage;
 
   var imageName = "".obs;
   var isCamera = false.obs;
   var imageFile = File("").obs;
   var picker = ImagePicker();
   String imageBase64 = "";
-  TextEditingController imageController;
-  ServicesController controller;
+  late TextEditingController imageController;
+  late ServicesController controller;
   @override
   void onInit() {
-    petsList.value = null;
+    // petsList.value = null;
     repo = MainRepostary();
     needLogin.value = false;
-    selectedType.value = null;
+    // selectedType.value = null;
     ageController = TextEditingController();
     petNameController = TextEditingController();
     descController = TextEditingController();
     vacsinDateController = TextEditingController();
     imageController = TextEditingController();
     // controller = Get.put(ServicesController());
-    selectedImage.value = null;
-    imageFile.value = null;
-    selectedSex.value = null;
+    // selectedImage.value = null;
+    // imageFile.value = null;
+    // selectedSex.value = null;
     super.onInit();
   }
 
@@ -104,7 +104,7 @@ class MyPetsController extends GetxController {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      String token = await prefs.getString('token');
+      String? token = await prefs.getString('token');
       if (token == null) {
         needLogin.value = true;
         // controller.myPets.add(MyPet(name: ".. إضافة حيوان"));
@@ -112,7 +112,7 @@ class MyPetsController extends GetxController {
         final banners1 = await repo.getMyPets(token);
         petsList.value = banners1;
         controller.myPets.clear();
-        controller.myPets.assignAll(petsList.value.data.myPet);
+        controller.myPets.assignAll(petsList.value.data!.myPet!);
         controller.myPets.add(MyPet(name: ".. إضافة حيوان"));
         print(petsList);
       }
@@ -129,7 +129,7 @@ class MyPetsController extends GetxController {
     } catch (_) {
       // Get.back();
       print(_.toString());
-   Get.snackbar(_.toString().split(":")[1], _.toString().split(":")[1],
+      Get.snackbar(_.toString().split(":")[1], _.toString().split(":")[1],
           duration: Duration(seconds: 3),
           icon: Icon(
             Icons.info,
@@ -145,33 +145,33 @@ class MyPetsController extends GetxController {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       print("vacsine");
-      print(vacsinDateController.text.toString().isEmpty);
-      String token = await prefs.getString('token');
+      print(vacsinDateController!.text.toString().isEmpty);
+      String? token = await prefs.getString('token');
       final banners1 = await repo.addPets(
           token: token,
-          age: ageController.text.toString(),
+          age: ageController!.text.toString(),
           base64: imageBase64,
-          desc: descController.text.toString(),
-          last_vaccine: vacsinDateController.text.toString(),
-          pet: petNameController.text.toString(),
+          desc: descController!.text.toString(),
+          last_vaccine: vacsinDateController!.text.toString(),
+          pet: petNameController!.text.toString(),
           sex: sexes.indexOf(selectedSex.value).toString(),
           type: selectedType.value);
       await getMyPets();
       Get.back();
 
       Get.back();
-      selectedType.value = null;
-      ageController.clear();
-      petNameController.clear();
-      descController.clear();
-      vacsinDateController.clear();
+      selectedType.value = "";
+      ageController!.clear();
+      petNameController!.clear();
+      descController!.clear();
+      vacsinDateController!.clear();
       imageController.clear();
       // addressController.clear();
       imageBase64 = "";
-      selectedImage.value = null;
-      imageFile.value = null;
-      selectedSex.value = null;
-      Get.snackbar(banners1.data.msg, banners1.data.msg,
+      selectedImage = null;
+      imageFile.value = File("");
+      selectedSex.value = "";
+      Get.snackbar(banners1.data!.msg!, banners1.data!.msg!,
           duration: Duration(seconds: 3),
           icon: Icon(
             Icons.info,
@@ -193,7 +193,7 @@ class MyPetsController extends GetxController {
       // Get.back();
       Get.back();
       print(_);
-     Get.snackbar(_.toString().split(":")[1], _.toString().split(":")[1],
+      Get.snackbar(_.toString().split(":")[1], _.toString().split(":")[1],
           duration: Duration(seconds: 3),
           icon: Icon(
             Icons.info,
@@ -204,19 +204,19 @@ class MyPetsController extends GetxController {
     }
   }
 
-  Future<void> deletePet(int id) async {
+  Future<void> deletePet(int? id) async {
     Get.dialog(popUpLoading(), barrierDismissible: false);
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       print(id);
 
-      String token = await prefs.getString('token');
+      String? token = await prefs.getString('token');
       final banners1 = await repo.deletePete(token, id);
       print(token);
       Get.back();
       await getMyPets();
       Get.off(Main(0));
-      Get.snackbar(banners1.data.msg, banners1.data.msg,
+      Get.snackbar(banners1.data!.msg!, banners1.data!.msg!,
           duration: Duration(seconds: 3),
           icon: Icon(
             Icons.info,
@@ -249,37 +249,37 @@ class MyPetsController extends GetxController {
     }
   }
 
-  Future<void> editPets(int id) async {
+  Future<void> editPets(int? id) async {
     Get.dialog(popUpLoading(), barrierDismissible: false);
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      String token = await prefs.getString('token');
+      String? token = await prefs.getString('token');
       final banners1 = await repo.editPets(
           id: id,
           token: token,
-          age: ageController.text.toString(),
+          age: ageController!.text.toString(),
           base64: imageBase64,
-          desc: descController.text.toString(),
-          last_vaccine: vacsinDateController.text.toString(),
-          pet: petNameController.text.toString(),
+          desc: descController!.text.toString(),
+          last_vaccine: vacsinDateController!.text.toString(),
+          pet: petNameController!.text.toString(),
           sex: sexes.indexOf(selectedSex.value).toString(),
           type: selectedType.value);
       Get.back();
 
-      selectedType.value = null;
-      ageController.clear();
-      petNameController.clear();
-      descController.clear();
-      vacsinDateController.clear();
+      selectedType.value = "";
+      ageController!.clear();
+      petNameController!.clear();
+      descController!.clear();
+      vacsinDateController!.clear();
       imageController.clear();
       // addressController.clear();
-      selectedImage.value = null;
-      imageFile.value = null;
-      selectedSex.value = null;
+      selectedImage = null;
+      imageFile.value = File("");
+      selectedSex.value = "";
 
       Get.off(Main(0));
-      Get.snackbar(banners1.data.msg, banners1.data.msg,
+      Get.snackbar(banners1.data!.msg!, banners1.data!.msg!,
           duration: Duration(seconds: 3),
           icon: Icon(
             Icons.info,

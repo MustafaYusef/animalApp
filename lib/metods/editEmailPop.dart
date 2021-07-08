@@ -41,7 +41,7 @@ EditeProfileWarnning() {
         print(prefs.getBool('isPop'));
         Get.back();
       },
-      context: Get.context,
+      context: Get.context!,
       type: AlertType.warning,
       title: "يجب عليك إضافة البريد الألكتروني الى معلومات الحساب",
       buttons: [

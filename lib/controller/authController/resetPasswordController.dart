@@ -16,11 +16,11 @@ import '../../constant.dart';
 
 class ResetPasswordController extends GetxController {
   // TextEditingController phoneController;
-  TextEditingController passwordTextController;
+  TextEditingController? passwordTextController;
 
-  TextEditingController codeController;
+  TextEditingController? codeController;
 
-  TextEditingController emailSendController;
+  TextEditingController? emailSendController;
   // TextEditingController emailResetController;
 
   var selectedcity = "".obs;
@@ -28,7 +28,7 @@ class ResetPasswordController extends GetxController {
   var profile = ProfileModel().obs;
   var needLogin = false.obs;
 
-  AuthRepostary repo;
+  late AuthRepostary repo;
 
   @override
   void onInit() {
@@ -47,9 +47,9 @@ class ResetPasswordController extends GetxController {
     try {
       // String playerId = await getuserId();
       final login = await repo.resetPassword(
-          emailSendController.text.toString(),
-          codeController.text.toString(),
-          passwordTextController.text.toString());
+          emailSendController!.text.toString(),
+          codeController!.text.toString(),
+          passwordTextController!.text.toString());
 
       // SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -101,7 +101,7 @@ class ResetPasswordController extends GetxController {
     try {
       print("senddddddddddddd");
       // var playerId = await getuserId();
-      final login = await repo.SendEmail(emailSendController.text.toString());
+      final login = await repo.SendEmail(emailSendController!.text.toString());
 
       Get.back();
       Get.off(ResetPasswordScreen());

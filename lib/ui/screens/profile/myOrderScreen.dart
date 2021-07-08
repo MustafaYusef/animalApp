@@ -8,7 +8,7 @@ import 'package:animal_app/ui/customWidget/noNetWidget.dart';
 import 'package:animal_app/ui/screens/profile/orderDetails.dart';
 
 class MyOrderScreen extends StatefulWidget {
-  MyOrderScreen({Key key}) : super(key: key);
+  MyOrderScreen({Key? key}) : super(key: key);
 
   @override
   _MyOrderScreenState createState() => _MyOrderScreenState();
@@ -36,11 +36,14 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
           }
         }
       });
+    Future<bool> _wiilPop() async {
+      Get.delete<OrderController>();
+      Get.back();
+      return true;
+    }
+
     return WillPopScope(
-      onWillPop: () {
-        Get.delete<OrderController>();
-        Get.back();
-      },
+      onWillPop: _wiilPop,
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(

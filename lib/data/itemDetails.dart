@@ -14,9 +14,9 @@ class ItemDetailsModel {
     this.data,
   });
 
-  int statusCode;
-  String message;
-  Data data;
+  int? statusCode;
+  String? message;
+  Data? data;
 
   factory ItemDetailsModel.fromJson(Map<String, dynamic> json) =>
       ItemDetailsModel(
@@ -28,7 +28,7 @@ class ItemDetailsModel {
   Map<String, dynamic> toJson() => {
         "statusCode": statusCode,
         "message": message,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
@@ -37,14 +37,14 @@ class Data {
     this.item,
   });
 
-  ItemDetails item;
+  ItemDetails? item;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         item: ItemDetails.fromJson(json["item"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "item": item.toJson(),
+        "item": item!.toJson(),
       };
 }
 
@@ -60,14 +60,14 @@ class ItemDetails {
     this.color,
   });
 
-  int id;
-  String name;
-  String description;
-  int price;
-  int offerPrice;
-  bool offer;
-  String covePhoto;
-  List<ColorItem> color;
+  int? id;
+  String? name;
+  String? description;
+  int? price;
+  int? offerPrice;
+  bool? offer;
+  String? covePhoto;
+  List<ColorItem>? color;
 
   factory ItemDetails.fromJson(Map<String, dynamic> json) => ItemDetails(
         id: json["id"],
@@ -89,7 +89,7 @@ class ItemDetails {
         "offer_price": offerPrice,
         "offer": offer,
         "cove_photo": covePhoto,
-        "color": List<dynamic>.from(color.map((x) => x.toJson())),
+        "color": List<dynamic>.from(color!.map((x) => x.toJson())),
       };
 }
 
@@ -101,10 +101,10 @@ class ColorItem {
     this.size,
   });
 
-  int id;
-  String name;
-  String photo;
-  List<SizeItem> size;
+  int? id;
+  String? name;
+  String? photo;
+  List<SizeItem>? size;
 
   factory ColorItem.fromJson(Map<String, dynamic> json) => ColorItem(
         id: json["id"],
@@ -118,7 +118,7 @@ class ColorItem {
         "id": id,
         "name": name,
         "photo": photo,
-        "size": List<dynamic>.from(size.map((x) => x.toJson())),
+        "size": List<dynamic>.from(size!.map((x) => x.toJson())),
       };
 }
 
@@ -129,9 +129,9 @@ class SizeItem {
     this.count,
   });
 
-  int id;
-  String name;
-  int count;
+  int? id;
+  String? name;
+  int? count;
 
   factory SizeItem.fromJson(Map<String, dynamic> json) => SizeItem(
         id: json["id"],

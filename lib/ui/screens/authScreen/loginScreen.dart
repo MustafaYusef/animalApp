@@ -2,11 +2,12 @@ import 'package:animal_app/controller/authController/loginController.dart';
 import 'package:animal_app/ui/screens/authScreen/regesterSceen.dart';
 import 'package:animal_app/ui/screens/profile/sendEmailScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:animal_app/metods/extentions.dart';
 
 class LoginScreen extends StatelessWidget {
-  LoginScreen({Key key}) : super(key: key);
+  LoginScreen({Key? key}) : super(key: key);
   final LoginController _loginController = Get.put(LoginController());
   final _formKey = GlobalKey<FormState>();
   @override
@@ -60,7 +61,7 @@ class LoginScreen extends StatelessWidget {
                           margin: EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
-                            border: Border.all(color: Colors.grey[300]),
+                            border: Border.all(color: Colors.grey[300]!),
                             color: Colors.white,
                             boxShadow: [
                               BoxShadow(
@@ -104,6 +105,10 @@ class LoginScreen extends StatelessWidget {
                                             _loginController.phoneController,
                                         keyboardType: TextInputType.phone,
                                         maxLength: 11,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp('[0-9,٠-٩]')),
+                                        ],
                                         decoration: InputDecoration(
                                             fillColor: Colors.grey[100],
                                             filled: true,
@@ -137,7 +142,7 @@ class LoginScreen extends StatelessWidget {
                                           fontWeight: FontWeight.normal,
                                         ),
                                         validator: (value) =>
-                                            value.trim().isEmpty
+                                            value!.trim().isEmpty
                                                 ? "يجب عليك ادخال رقم الهاتف"
                                                 : null,
                                       ).addDirectionality(),
@@ -243,7 +248,7 @@ class LoginScreen extends StatelessWidget {
                                             ),
                                           ),
                                           validator: (value) =>
-                                              value.trim().isEmpty
+                                              value!.trim().isEmpty
                                                   ? "يجب عليك ادخال كلمة المرور"
                                                   : null,
                                           style: TextStyle(
@@ -266,9 +271,9 @@ class LoginScreen extends StatelessWidget {
                                     child: RaisedButton(
                                       color: Get.theme.accentColor,
                                       onPressed: () {
-                                        if (_formKey.currentState.validate()) {
+                                        if (_formKey.currentState!.validate()) {
                                           if (_loginController
-                                                  .phoneController.text
+                                                  .phoneController!.text
                                                   .toString()
                                                   .length ==
                                               11) {

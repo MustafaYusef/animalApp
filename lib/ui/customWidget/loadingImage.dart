@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class loadinImage extends StatelessWidget {
-  const loadinImage({Key key}) : super(key: key);
+  const loadinImage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -9,8 +9,8 @@ import '../constant.dart';
 
 class AuthRepostary {
   Future<LoginModel> Login(
-      String phone, String password, String player_id) async {
-    final response = await post(baseUrl + "users/auth/login",
+      String phone, String password, String? player_id) async {
+    final response = await post(Uri.parse(baseUrl + "users/auth/login"),
         headers: {"Content-Type": "application/json"},
         body: json.encode(
             {"phone": phone, "password": password, "player_id": player_id}));
@@ -25,7 +25,7 @@ class AuthRepostary {
   }
 
   Future<ProfileModel> getProfile(String token) async {
-    final response = await get(baseUrl + "users/auth/profile",
+    final response = await get(Uri.parse(baseUrl + "users/auth/profile"),
         headers: {"Authorization": token});
     if (response.statusCode == 200) {
       return profileModelFromJson(response.body);
@@ -37,8 +37,8 @@ class AuthRepostary {
   }
 
   Future<void> Regester(
-      String name, String phone, String password, String player_id) async {
-    final response = await post(baseUrl + "users/auth/register",
+      String name, String phone, String password, String? player_id) async {
+    final response = await post(Uri.parse(baseUrl + "users/auth/register"),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "phone": phone,
@@ -54,11 +54,11 @@ class AuthRepostary {
   }
 
   Future<void> SendEmail(String email) async {
-    final response = await post(baseUrl + "users/auth/mail/send",
+    final response = await post(Uri.parse(baseUrl + "users/auth/mail/send"),
         // headers: {"Content-Type": "application/json"},
         body: ({"email": email}));
     if (response.statusCode == 200 || response.statusCode == 201) {
-      print(addResModelFromJson(response.body).data.msg);
+      print(addResModelFromJson(response.body).data!.msg);
       return;
     } else {
       print("faillllllllllll");
@@ -67,7 +67,8 @@ class AuthRepostary {
   }
 
   Future<void> resetPassword(String email, String code, String password) async {
-    final response = await post(baseUrl + "users/auth/password/reset",
+    final response = await post(
+        Uri.parse(baseUrl + "users/auth/password/reset"),
         headers: {"Content-Type": "application/json"},
         body:
             json.encode({"email": email, "code": code, "password": password}));
@@ -79,12 +80,12 @@ class AuthRepostary {
   }
 
   Future<void> updateProfile(
-    String token,
+    String? token,
     String name,
     String phone,
   ) async {
-    final response = await put(baseUrl + "users/auth/proile/edit",
-        headers: {"Authorization": token},
+    final response = await put(Uri.parse(baseUrl + "users/auth/proile/edit"),
+        headers: {"Authorization": token!},
         body: ({"phone": phone, "name": name}));
     if (response.statusCode == 200 || response.statusCode == 201) {
       return;

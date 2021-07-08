@@ -14,9 +14,9 @@ class MyOrderModel {
     this.data,
   });
 
-  int statusCode;
-  String message;
-  Data data;
+  int? statusCode;
+  String? message;
+  Data? data;
 
   factory MyOrderModel.fromJson(Map<String, dynamic> json) => MyOrderModel(
         statusCode: json["statusCode"],
@@ -27,7 +27,7 @@ class MyOrderModel {
   Map<String, dynamic> toJson() => {
         "statusCode": statusCode,
         "message": message,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
@@ -40,11 +40,11 @@ class Data {
     this.pages,
   });
 
-  List<MyOrder> myOrders;
-  int limit;
-  int totalItems;
-  int totalpages;
-  int pages;
+  List<MyOrder>? myOrders;
+  int? limit;
+  int? totalItems;
+  int? totalpages;
+  int? pages;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         myOrders: List<MyOrder>.from(
@@ -56,7 +56,7 @@ class Data {
       );
 
   Map<String, dynamic> toJson() => {
-        "my_orders": List<dynamic>.from(myOrders.map((x) => x.toJson())),
+        "my_orders": List<dynamic>.from(myOrders!.map((x) => x.toJson())),
         "limit": limit,
         "totalItems": totalItems,
         "totalpages": totalpages,
@@ -80,18 +80,18 @@ class MyOrder {
     this.orderItems,
   });
 
-  int id;
-  String name;
-  String phone;
-  String city;
-  String government;
-  String address;
-  int status;
-  int price;
-  int shppingPrice;
-  DateTime updatedAt;
-  DateTime createdAt;
-  List<OrderItem> orderItems;
+  int? id;
+  String? name;
+  String? phone;
+  String? city;
+  String? government;
+  String? address;
+  int? status;
+  int? price;
+  int? shppingPrice;
+  DateTime? updatedAt;
+  DateTime? createdAt;
+  List<OrderItem>? orderItems;
 
   factory MyOrder.fromJson(Map<String, dynamic> json) => MyOrder(
         id: json["id"],
@@ -119,9 +119,9 @@ class MyOrder {
         "status": status,
         "price": price,
         "shpping_price": shppingPrice,
-        "updatedAt": updatedAt.toIso8601String(),
-        "createdAt": createdAt.toIso8601String(),
-        "orderItems": List<dynamic>.from(orderItems.map((x) => x.toJson())),
+        "updatedAt": updatedAt!.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
+        "orderItems": List<dynamic>.from(orderItems!.map((x) => x.toJson())),
       };
 }
 
@@ -135,12 +135,12 @@ class OrderItem {
     this.count,
   });
 
-  int id;
-  String name;
-  String description;
-  String covePhoto;
-  bool isOffer;
-  int count;
+  int? id;
+  String? name;
+  String? description;
+  String? covePhoto;
+  bool? isOffer;
+  int? count;
 
   factory OrderItem.fromJson(Map<String, dynamic> json) => OrderItem(
         id: json["id"],

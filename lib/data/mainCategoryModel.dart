@@ -88,9 +88,9 @@ class MainCategoryModel {
     this.data,
   });
 
-  int statusCode;
-  String message;
-  Data data;
+  int? statusCode;
+  String? message;
+  Data? data;
 
   factory MainCategoryModel.fromJson(Map<String, dynamic> json) =>
       MainCategoryModel(
@@ -102,7 +102,7 @@ class MainCategoryModel {
   Map<String, dynamic> toJson() => {
         "statusCode": statusCode,
         "message": message,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
@@ -111,7 +111,7 @@ class Data {
     this.categories,
   });
 
-  List<MainCategory> categories;
+  List<MainCategory>? categories;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         categories: List<MainCategory>.from(
@@ -119,7 +119,7 @@ class Data {
       );
 
   Map<String, dynamic> toJson() => {
-        "categories": List<dynamic>.from(categories.map((x) => x.toJson())),
+        "categories": List<dynamic>.from(categories!.map((x) => x.toJson())),
       };
 }
 
@@ -131,10 +131,10 @@ class MainCategory {
     this.photo,
   });
 
-  int id;
-  String name;
-  String nameEn;
-  String photo;
+  int? id;
+  String? name;
+  String? nameEn;
+  String? photo;
 
   factory MainCategory.fromJson(Map<String, dynamic> json) => MainCategory(
         id: json["id"],

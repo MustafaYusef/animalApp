@@ -17,17 +17,17 @@ class ItemDetailsController extends GetxController {
   MainRepostary repo = MainRepostary();
   var count = 1.obs;
   var sumCart = 0.obs;
-  int id;
+  int? id;
   var selectedSize = SizeItem().obs;
   var selectedColor = ColorItem().obs;
   var needLogin = false.obs;
-
+  var isEmpty = false;
   // var itemDetails = ItemDetails().obs;
   var cartModel = CartModel().obs;
   var current = 0.obs;
   var noNetFlage = false.obs;
   var image = "".obs;
-
+  var isLoading = false.obs;
   var countArray = <int>[].obs;
   @override
   void onInit() {
@@ -38,15 +38,15 @@ class ItemDetailsController extends GetxController {
 
     // selectedSize.value = null;
     // selectedColor.value = null;
-    cartModel.value = null;
+    // cartModel.value = null;
     super.onInit();
   }
 
-  Future<void> updateCart(int id, int count1) async {
+  Future<void> updateCart(int? id, int count1) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      String token = await prefs.getString('token');
+      String? token = await prefs.getString('token');
       if (token == null) {
         Get.to(LoginScreen());
       } else {
@@ -54,7 +54,7 @@ class ItemDetailsController extends GetxController {
         final banners1 = await repo.addCart(id, count1, token);
         getCart();
         Get.back();
-        Get.snackbar(banners1.data.msg, banners1.data.msg,
+        Get.snackbar(banners1.data!.msg!, banners1.data!.msg!,
             duration: Duration(seconds: 3),
             icon: Icon(
               Icons.info,
@@ -88,20 +88,20 @@ class ItemDetailsController extends GetxController {
     }
   }
 
-  Future<void> addCart(int id) async {
+  Future<void> addCart(int? id) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      String token = await prefs.getString('token');
+      String? token = await prefs.getString('token');
       if (token == null) {
         Get.to(RegesterScreen());
       } else {
         Get.dialog(popUpLoading(), barrierDismissible: false);
         final banners1 = await repo.addCart(id, count.value, token);
         count.value = 1;
-        getCart();
+        await getCart();
         Get.back();
-        Get.snackbar(banners1.data.msg, banners1.data.msg,
+        Get.snackbar(banners1.data!.msg!, banners1.data!.msg!,
             duration: Duration(seconds: 3),
             icon: Icon(
               Icons.info,
@@ -135,12 +135,12 @@ class ItemDetailsController extends GetxController {
     }
   }
 
-  Future<void> deleteCart(int id) async {
+  Future<void> deleteCart(int? id) async {
     Get.dialog(popUpLoading(), barrierDismissible: false);
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      String token = await prefs.getString('token');
+      String? token = await prefs.getString('token');
       final banners1 = await repo.deleteCart(id, token);
       Get.back();
       Get.snackbar("تم حذف المنتج ", "تم حذف المنتج من السلة",
@@ -151,7 +151,7 @@ class ItemDetailsController extends GetxController {
           ),
           colorText: Colors.white,
           backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
-      cartModel.value = null;
+      cartModel.value = CartModel();
       getCart();
     } on SocketException catch (_) {
       Get.back();
@@ -179,6 +179,7 @@ class ItemDetailsController extends GetxController {
   }
 
   Future<void> getCart() async {
+    isLoading.value = true;
     // Get.dialog(popUpLoading(), barrierDismissible: false);
     noNetFlage.value = false;
     needLogin.value = false;
@@ -186,20 +187,25 @@ class ItemDetailsController extends GetxController {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      String token = await prefs.getString('token');
+      String? token = await prefs.getString('token');
       if (token == null) {
         needLogin.value = true;
+        // isEmpty.value = true;
       } else {
         final banners1 = await repo.getCart(token);
-        countArray.assignAll(banners1.data.myCart.map((e) => e.count).toList());
+        countArray.value = banners1.data!.myCart!.map((e) => e.count!).toList();
         cartModel.value = banners1;
-        cartModel.value.data.myCart.forEach((e) {
-          sumCart.value +=
-              e.offer ? e.itemOfferPrice * e.count : e.itemPrice * e.count;
-        });
-        print(cartModel.value.data.myCart);
+        // cartModel.value.data!.myCart!.forEach((e) {
+        //   sumCart.value +=
+        //       e.offer! ? e.itemOfferPrice! * e.count! : e.itemPrice! * e.count!;
+        // });
+        print("carttttttttt ..........   ");
+        print(cartModel.value.data!.myCart);
       }
+
+      isLoading.value = false;
     } on SocketException catch (_) {
+      isLoading.value = false;
       noNetFlage.value = true;
 
       Get.snackbar(noNet, noNet,
@@ -211,6 +217,8 @@ class ItemDetailsController extends GetxController {
           colorText: Colors.white,
           backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
     } catch (_) {
+      isLoading.value = false;
+
       // Get.back();
       Get.snackbar(_.toString(), _.toString(),
           duration: Duration(seconds: 3),

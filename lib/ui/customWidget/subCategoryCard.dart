@@ -19,8 +19,9 @@ class SubCategoryCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         print("here iam mother fucker");
-        _controller.sectionsList.value = null;
-        _controller.id.value = item.id;
+        // _controller.sectionsList.value = null;
+        _controller.isMainLoading.value = true;
+        _controller.id.value = item.id!;
         _controller.itemsOffPop.clear();
         _controller.page.value = 1;
         _controller.getSubCategory();
@@ -44,7 +45,7 @@ class SubCategoryCard extends StatelessWidget {
                         padding: EdgeInsets.all(5),
                         child: Directionality(
                           child: Text(
-                            item.name,
+                            item.name!,
                             style: TextStyle(
                                 fontSize: 20,
                                 color: Colors.white,
@@ -71,7 +72,7 @@ class SubCategoryCard extends StatelessWidget {
                   fit: BoxFit.contain,
                   width: 90,
                   height: 90,
-                  imageUrl: imageUrl + item.photo,
+                  imageUrl: imageUrl + item.photo!,
                   placeholder: (context, url) => loadinImage(),
                   errorWidget: (context, url, error) => loadinImage(),
                 ),

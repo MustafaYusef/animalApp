@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:animal_app/metods/extentions.dart';
 
-void selecteImagePost(MyPostController controller) {
+void selecteImagePost(MyPostController? controller) {
   //  = Get.find();
 
   showModalBottomSheet(
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      context: Get.context,
+      context: Get.context!,
       builder: (builder) {
         return Container(
             height: Get.height / 3,
@@ -28,7 +28,7 @@ void selecteImagePost(MyPostController controller) {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        controller.isCamera.value = false;
+                        controller!.isCamera.value = false;
                         controller.getImage();
                       },
                       child: Card(
@@ -50,7 +50,7 @@ void selecteImagePost(MyPostController controller) {
                     ),
                     GestureDetector(
                       onTap: () {
-                        controller.isCamera.value = true;
+                        controller!.isCamera.value = true;
                         controller.getImage();
                       },
                       child: Card(

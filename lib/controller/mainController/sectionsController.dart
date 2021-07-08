@@ -9,9 +9,9 @@ import 'package:animal_app/repostarys/mainRepastory.dart';
 import '../../constant.dart';
 
 class SectionsController extends GetxController {
-  var sectionsList = List<MainCategory>().obs;
+  var sectionsList = <MainCategory>[].obs;
   var noNetFlage = false.obs;
-  MainRepostary repo;
+  late MainRepostary repo;
   var isLoading = false.obs;
   @override
   void onInit() {
@@ -27,9 +27,9 @@ class SectionsController extends GetxController {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      String token = await prefs.getString('token');
+      String? token = await prefs.getString('token');
       final banners1 = await repo.getMainCategory();
-      sectionsList.assignAll(banners1.data.categories);
+      sectionsList.assignAll(banners1.data!.categories!);
       isLoading.value = false;
     } on SocketException catch (_) {
       isLoading.value = false;

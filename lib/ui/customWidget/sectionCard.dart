@@ -8,14 +8,14 @@ import 'package:animal_app/ui/screens/sectionItemsScreen.dart';
 import 'loadingImage.dart';
 
 class sectionCard extends StatelessWidget {
-  MainCategory item;
+  MainCategory? item;
   sectionCard([this.item]);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print(item.id);
+        print(item!.id);
         Get.to(SectionsItemScreen(item));
       },
       child: Card(
@@ -27,7 +27,7 @@ class sectionCard extends StatelessWidget {
               fit: BoxFit.cover,
               width: Get.width / 2.5,
               height: 130,
-              imageUrl: imageUrl + item.photo,
+              imageUrl: imageUrl + item!.photo!,
               placeholder: (context, url) => loadinImage(),
               errorWidget: (context, url, error) => loadinImage(),
             ),
@@ -42,7 +42,7 @@ class sectionCard extends StatelessWidget {
                     padding: EdgeInsets.all(5),
                     child: Directionality(
                       child: Text(
-                        item.name,
+                        item!.name!,
                         style: TextStyle(
                             fontSize: 18,
                             color: Colors.white,

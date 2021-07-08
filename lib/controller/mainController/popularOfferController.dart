@@ -16,7 +16,7 @@ class OfferPopularController extends GetxController {
   var page = 1.obs;
   var status = 0.obs;
   // var selectedShipPrice = 0.obs;
-  MainRepostary repo;
+  late MainRepostary repo;
   final itemsOffPop = <ItemOffer>[].obs;
   // final _paginationFilter = PaginationFilter().obs;
   final lastPage = false.obs;
@@ -40,10 +40,10 @@ class OfferPopularController extends GetxController {
           await repo.getOfferOrPopularItems(status.value, page.value, 10);
 
       isLoading.value = false;
-      if (order.data.items.isEmpty) {
+      if (order.data!.items!.isEmpty) {
         lastPage.value = true;
       } else {
-        itemsOffPop.addAll(order.data.items);
+        itemsOffPop.addAll(order.data!.items!);
         page.value++;
       }
 

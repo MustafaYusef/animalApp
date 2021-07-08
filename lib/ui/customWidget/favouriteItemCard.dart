@@ -23,14 +23,14 @@ class FavouriteCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         Get.to(ItemDetailsScreen(Item(
-            id: item.items.id,
-            name: item.items.name,
-            description: item.items.description,
-            offer: item.items.offer,
-            offerPrice: item.items.offerPrice,
-            count: item.items.count,
-            covePhoto: item.items.covePhoto,
-            price: item.items.price)));
+            id: item.items!.id,
+            name: item.items!.name,
+            description: item.items!.description,
+            offer: item.items!.offer,
+            offerPrice: item.items!.offerPrice,
+            count: item.items!.count,
+            covePhoto: item.items!.covePhoto,
+            price: item.items!.price)));
       },
       child: Card(
         shape:
@@ -48,11 +48,11 @@ class FavouriteCard extends StatelessWidget {
                     fit: BoxFit.cover,
                     width: (Get.width / 3) - 10,
                     height: 110,
-                    imageUrl: imageUrl + item.items.covePhoto,
+                    imageUrl: imageUrl + item.items!.covePhoto!,
                     placeholder: (context, url) => loadinImage(),
                     errorWidget: (context, url, error) => loadinImage(),
                   ),
-                  if (item.items.count != 0)
+                  if (item.items!.count != 0)
                     Container()
                   else
                     Container(
@@ -88,7 +88,7 @@ class FavouriteCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          item.items.name,
+                          item.items!.name!,
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 18,
@@ -99,7 +99,7 @@ class FavouriteCard extends StatelessWidget {
                             child: InkWell(
                           onTap: () async {
                             if (favouriteController
-                                .favouriteList.value.data.myFavorite
+                                .favouriteList.value.data!.myFavorite!
                                 .contains(item)) {
                               print("yes");
 
@@ -120,7 +120,7 @@ class FavouriteCard extends StatelessWidget {
                             height: 35,
                             child: Center(
                                 child: favouriteController
-                                        .favouriteList.value.data.myFavorite
+                                        .favouriteList.value.data!.myFavorite!
                                         .contains(item)
                                     ? Icon(
                                         Icons.favorite,
@@ -142,11 +142,11 @@ class FavouriteCard extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              item.items.offer
-                                  ? item.items.offerPrice.toString() +
+                              item.items!.offer!
+                                  ? item.items!.offerPrice.toString() +
                                       " " +
                                       "د.ع"
-                                  : item.items.price.toString() + " " + "د.ع",
+                                  : item.items!.price.toString() + " " + "د.ع",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 17,
@@ -155,9 +155,9 @@ class FavouriteCard extends StatelessWidget {
                             SizedBox(
                               width: 5,
                             ),
-                            item.items.offer
+                            item.items!.offer!
                                 ? Text(
-                                    item.items.price.toString(),
+                                    item.items!.price.toString(),
                                     style: TextStyle(
                                         decoration: TextDecoration.lineThrough,
                                         color: red,

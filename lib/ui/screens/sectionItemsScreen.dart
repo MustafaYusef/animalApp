@@ -1,7 +1,6 @@
 import 'package:animal_app/ui/customWidget/circularProgress.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:responsive_grid/responsive_grid.dart';
 import 'package:animal_app/controller/mainController/itemsSectionController.dart';
 import 'package:animal_app/data/mainCategoryModel.dart';
 import 'package:animal_app/data/offerPopularItem.dart';
@@ -14,7 +13,7 @@ import 'package:animal_app/ui/customWidget/sectionCard2.dart';
 import 'package:animal_app/ui/customWidget/subCategoryCard.dart';
 
 class SectionsItemScreen extends StatefulWidget {
-  final MainCategory section;
+  final MainCategory? section;
   SectionsItemScreen(this.section);
 
   @override
@@ -26,8 +25,10 @@ class _SectionsItemScreenState extends State<SectionsItemScreen> {
 
   @override
   void initState() {
-    print("category id    " + widget.section.id.toString());
-    _controller.id.value = widget.section.id;
+    print("category id    " + widget.section!.id.toString());
+    _controller.id.value = widget.section!.id!;
+    _controller.isMainLoading.value = true;
+
     _controller.getSubCategory();
     super.initState();
   }
@@ -41,23 +42,27 @@ class _SectionsItemScreenState extends State<SectionsItemScreen> {
             _scrollController.position.maxScrollExtent) {
           if (!_controller.isLoading.value) {
             if (!_controller.lastPage.value) {
+              _controller.isLoading.value = true;
               _controller.getSubCategory();
             }
           }
         }
       });
+    Future<bool> _wiilPop() async {
+      Get.delete<SectionsItemsController>();
+      Get.back();
+      return true;
+    }
+
     return WillPopScope(
-      onWillPop: () {
-        Get.delete<SectionsItemsController>();
-        Get.back();
-      },
+      onWillPop: _wiilPop,
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.white,
           centerTitle: true,
           title: Text(
-            widget.section.name,
+            widget.section!.name!,
             style: TextStyle(
                 fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
           ).addDirectionality(),
@@ -98,7 +103,7 @@ class _SectionsItemScreenState extends State<SectionsItemScreen> {
                       ],
                     ))
                 : Container(
-                    child: _controller.sectionsList.value == null
+                    child: _controller.isMainLoading.value
                         ? Container(
                             width: Get.width,
                             height: Get.height,
@@ -117,8 +122,8 @@ class _SectionsItemScreenState extends State<SectionsItemScreen> {
                               height: Get.height - 120,
                               child: Column(children: [
                                 Expanded(
-                                  child: _controller.sectionsList.value.data
-                                          .subCategory.isEmpty
+                                  child: _controller.sectionsList.value.data!
+                                          .subCategory!.isEmpty
                                       ? Column(
                                           children: [
                                             Expanded(
@@ -187,18 +192,25 @@ class _SectionsItemScreenState extends State<SectionsItemScreen> {
                                         )
                                       : RefreshIndicator(
                                           onRefresh: () {
+                                            // _controller.page.value = 1;
+                                            // _controller.itemsOffPop.clear();
+                                            // _controller.lastPage.value = false;
                                             return _controller.getSubCategory();
                                           },
                                           child: ListView.builder(
-                                            itemCount: _controller.sectionsList
-                                                .value.data.subCategory.length,
+                                            itemCount: _controller
+                                                .sectionsList
+                                                .value
+                                                .data!
+                                                .subCategory!
+                                                .length,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
                                               return SubCategoryCard(_controller
                                                   .sectionsList
                                                   .value
-                                                  .data
-                                                  .subCategory[index]);
+                                                  .data!
+                                                  .subCategory![index]);
                                             },
                                           ),
                                         ),

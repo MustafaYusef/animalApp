@@ -14,9 +14,9 @@ class AddResModel {
         this.data,
     });
 
-    int statusCode;
-    String message;
-    Data data;
+    int? statusCode;
+    String? message;
+    Data? data;
 
     factory AddResModel.fromJson(Map<String, dynamic> json) => AddResModel(
         statusCode: json["statusCode"],
@@ -27,7 +27,7 @@ class AddResModel {
     Map<String, dynamic> toJson() => {
         "statusCode": statusCode,
         "message": message,
-        "data": data.toJson(),
+        "data": data!.toJson(),
     };
 }
 
@@ -36,7 +36,7 @@ class Data {
         this.msg,
     });
 
-    String msg;
+    String? msg;
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
         msg: json["msg"],

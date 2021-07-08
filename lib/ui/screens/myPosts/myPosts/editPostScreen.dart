@@ -12,9 +12,9 @@ import '../../../../constant.dart';
 class EditPostScreen extends StatelessWidget {
   EditPostScreen(String desc) {
     _loginController = Get.put(MyPostController());
-    _loginController.descController.text = desc;
+    _loginController!.descController!.text = desc;
   }
-  MyPostController _loginController;
+  MyPostController? _loginController;
   // ItemDetailsController cartController = Get.find();
   final _formKey = GlobalKey<FormState>();
   @override
@@ -23,7 +23,7 @@ class EditPostScreen extends StatelessWidget {
       onWillPop: () {
         Get.delete<PostController>();
         Get.back();
-      },
+      } as Future<bool> Function()?,
       child: Scaffold(
           backgroundColor: Colors.grey[50],
           appBar: AppBar(
@@ -51,7 +51,7 @@ class EditPostScreen extends StatelessWidget {
                   Column(
                     children: [
                       Obx(
-                        () => _loginController.imageFile.value == null
+                        () => _loginController!.imageFile.value == null
                             ? InkWell(
                                 onTap: () {
                                   selecteImagePost(_loginController);
@@ -60,8 +60,8 @@ class EditPostScreen extends StatelessWidget {
                                     height: Get.width - 200,
                                     width: Get.width - 200,
                                     decoration: BoxDecoration(
-                                        border:
-                                            Border.all(color: Colors.grey[300]),
+                                        border: Border.all(
+                                            color: Colors.grey[300]!),
                                         color: Colors.white,
                                         boxShadow: [
                                           BoxShadow(
@@ -105,7 +105,7 @@ class EditPostScreen extends StatelessWidget {
                                               BorderRadius.circular(25.0),
                                         ),
                                         child: Image.file(
-                                          _loginController.imageFile.value,
+                                          _loginController!.imageFile.value,
                                           fit: BoxFit.cover,
                                         ),
                                       )),
@@ -143,7 +143,7 @@ class EditPostScreen extends StatelessWidget {
                         margin: EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
-                          border: Border.all(color: Colors.grey[300]),
+                          border: Border.all(color: Colors.grey[300]!),
                           color: Colors.white,
                           boxShadow: [
                             BoxShadow(
@@ -183,7 +183,7 @@ class EditPostScreen extends StatelessWidget {
                                     ),
                                     TextFormField(
                                       controller:
-                                          _loginController.descController,
+                                          _loginController!.descController,
                                       keyboardType: TextInputType.multiline,
                                       textInputAction: TextInputAction.newline,
                                       maxLines: null,
@@ -293,8 +293,8 @@ class EditPostScreen extends StatelessWidget {
                                   child: RaisedButton(
                                     color: Get.theme.accentColor,
                                     onPressed: () {
-                                      if (_formKey.currentState.validate()) {
-                                        _loginController.editPost();
+                                      if (_formKey.currentState!.validate()) {
+                                        _loginController!.editPost();
                                       }
                                     },
                                     shape: RoundedRectangleBorder(

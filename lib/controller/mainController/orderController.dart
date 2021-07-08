@@ -18,12 +18,12 @@ import '../../constant.dart';
 import 'itemDetailsController.dart';
 
 class OrderController extends GetxController {
-  TextEditingController phoneController;
-  TextEditingController addressController;
+  TextEditingController? phoneController;
+  TextEditingController? addressController;
   ItemDetailsController cartController = Get.find();
 
-  TextEditingController nameTextController;
-  TextEditingController noteController;
+  TextEditingController? nameTextController;
+  TextEditingController? noteController;
 
   var noNetFlage = false.obs;
   var isLoading = false.obs;
@@ -36,7 +36,7 @@ class OrderController extends GetxController {
   var selectedShipPrice = 0.obs;
   var disscountAmount = 0.obs;
 
-  MainRepostary repo;
+  late MainRepostary repo;
   LoginController loginController = Get.put(LoginController());
   @override
   void onInit() {
@@ -44,9 +44,14 @@ class OrderController extends GetxController {
     addressController = TextEditingController();
     nameTextController = TextEditingController();
     noteController = TextEditingController();
-    shippingPrice.value = null;
-    selectedProv.value = null;
-    selectedcity.value = null;
+    selectedProv.value = States.js[0];
+    // selectedcity.value = null;
+    // selectedProv = null;
+    // selectedProv = null;
+    // selectedProv.value = null;
+    // shippingPrice.value = null;
+    // selectedProv.value = null;
+    // selectedcity.value = null;
     getProfile();
     getShippingPrice();
 
@@ -61,19 +66,19 @@ class OrderController extends GetxController {
       // String playerId = await getuserId();
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      String token = await prefs.getString('token');
+      String? token = await prefs.getString('token');
 
       final order = await repo.getShipingPrice(token);
       shippingPrice.value = order;
       print("token    :" +
-          shippingPrice.value.data.getShippingPrice[0].amount.toString());
-      // if (selectedProv.value?.keys.toString() == "(بغداد)") {
-      //   selectedShipPrice.value =
-      //       shippingPrice.value.data.getShippingPrice[0].amount;
-      // } else {
-      //   selectedShipPrice.value =
-      //       shippingPrice.value.data.getShippingPrice[1].amount;
-      // }
+          shippingPrice.value.data!.getShippingPrice![0].amount.toString());
+      if (selectedProv.value.keys.toString() == "(بغداد)") {
+        selectedShipPrice.value =
+            shippingPrice.value.data!.getShippingPrice![0].amount!;
+      } else {
+        selectedShipPrice.value =
+            shippingPrice.value.data!.getShippingPrice![1].amount!;
+      }
       // Get.back();
       // emit(AuthcubitLogin(login));
     } on SocketException catch (_) {
@@ -106,7 +111,7 @@ class OrderController extends GetxController {
   Future<void> getProfile() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    phoneController.text = prefs.getString('phone');
+    phoneController!.text = prefs.getString('phone')!;
   }
 
   // Future<void> initial() {
@@ -130,7 +135,7 @@ class OrderController extends GetxController {
       // if (_paginationFilter.value.page > 1) {
       //   isLoading.value = true;
       // }
-      String token = await prefs.getString('token');
+      String? token = await prefs.getString('token');
       print("order page  " + page.toString());
       // print("order limit  " + _paginationFilter.value.limit.toString());
 
@@ -139,10 +144,10 @@ class OrderController extends GetxController {
       //   _lastPage.value = true;
       // }
       isLoading.value = false;
-      if (order.data.myOrders.isEmpty) {
+      if (order.data!.myOrders!.isEmpty) {
         lastPage.value = true;
       } else {
-        orders.addAll(order.data.myOrders);
+        orders.addAll(order.data!.myOrders!);
         page.value++;
       }
 
@@ -188,7 +193,7 @@ class OrderController extends GetxController {
       // String playerId = await getuserId();
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      String token = await prefs.getString('token');
+      String token = await prefs.getString('token')!;
       final login = await repo.cancelOrder(token, id);
 
       print("token    :" + token);
@@ -199,7 +204,7 @@ class OrderController extends GetxController {
       page.value = 1;
       orders.clear();
       getOrder();
-      Get.snackbar(login.data.msg, login.data.msg,
+      Get.snackbar(login.data!.msg!, login.data!.msg!,
           duration: Duration(seconds: 3),
           icon: Icon(
             Icons.info,
@@ -238,26 +243,26 @@ class OrderController extends GetxController {
       // String playerId = await getuserId();
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      String token = await prefs.getString('token');
+      String token = await prefs.getString('token')!;
 
       print(selectedProv.value.keys.first);
       final login = await repo.makeOrder(
           token,
-          nameTextController.text.toString(),
-          phoneController.text.toString().changeToEngilish(),
+          nameTextController!.text.toString(),
+          phoneController!.text.toString().changeToEngilish(),
           selectedProv.value.keys.first,
           selectedcity.value,
-          addressController.text.toString(),
+          addressController!.text.toString(),
           selectedShipPrice.value,
-          noteController.text.toString());
+          noteController!.text.toString());
       cartController.getCart();
       print("token    :" + token);
 
       Get.back();
 
-      phoneController.clear();
-      addressController.clear();
-      nameTextController.clear();
+      phoneController!.clear();
+      addressController!.clear();
+      nameTextController!.clear();
       Get.off(MyOrderScreen());
       Get.snackbar("تم ارسال الطلب بنجاح", "تم ارسال الطلب بنجاح",
           duration: Duration(seconds: 3),

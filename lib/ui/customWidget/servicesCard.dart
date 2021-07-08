@@ -13,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'loadingImage.dart';
 
 class servicesCard extends StatelessWidget {
-  Service item;
+  Service? item;
   servicesCard([this.item]);
 
   @override
@@ -22,7 +22,7 @@ class servicesCard extends StatelessWidget {
       onTap: () async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
 
-        String token = prefs.getString('token');
+        String? token = prefs.getString('token');
         if (token == null) {
           Get.to(RegesterScreen());
         } else {
@@ -48,7 +48,7 @@ class servicesCard extends StatelessWidget {
                         padding: EdgeInsets.all(5),
                         child: Directionality(
                           child: Text(
-                            item.name,
+                            item!.name!,
                             style: TextStyle(
                                 fontSize: 20,
                                 color: Colors.white,
@@ -62,7 +62,7 @@ class servicesCard extends StatelessWidget {
                           Container(
                             child: Directionality(
                               child: Text(
-                                item.cost,
+                                item!.cost!,
                                 style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.white,
@@ -91,7 +91,7 @@ class servicesCard extends StatelessWidget {
                   fit: BoxFit.cover,
                   width: 90,
                   height: 90,
-                  imageUrl: imageUrl + item.photo,
+                  imageUrl: imageUrl + item!.photo!,
                   placeholder: (context, url) => loadinImage(),
                   errorWidget: (context, url, error) => loadinImage(),
                 ),

@@ -14,9 +14,9 @@ class FavouriteModel {
     this.data,
   });
 
-  int statusCode;
-  String message;
-  Data data;
+  int? statusCode;
+  String? message;
+  Data? data;
 
   factory FavouriteModel.fromJson(Map<String, dynamic> json) => FavouriteModel(
         statusCode: json["statusCode"],
@@ -27,7 +27,7 @@ class FavouriteModel {
   Map<String, dynamic> toJson() => {
         "statusCode": statusCode,
         "message": message,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
@@ -36,7 +36,7 @@ class Data {
     this.myFavorite,
   });
 
-  List<MyFavorite> myFavorite;
+  List<MyFavorite>? myFavorite;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         myFavorite: List<MyFavorite>.from(
@@ -44,7 +44,7 @@ class Data {
       );
 
   Map<String, dynamic> toJson() => {
-        "my_favorite": List<dynamic>.from(myFavorite.map((x) => x.toJson())),
+        "my_favorite": List<dynamic>.from(myFavorite!.map((x) => x.toJson())),
       };
 }
 
@@ -54,8 +54,8 @@ class MyFavorite {
     this.items,
   });
 
-  int id;
-  Items items;
+  int? id;
+  Items? items;
 
   factory MyFavorite.fromJson(Map<String, dynamic> json) => MyFavorite(
         id: json["id"],
@@ -64,7 +64,7 @@ class MyFavorite {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "items": items.toJson(),
+        "items": items!.toJson(),
       };
 }
 
@@ -85,19 +85,19 @@ class Items {
     this.createdAt,
   });
 
-  int id;
-  String name;
-  bool softDelete;
-  String description;
-  int price;
-  int buyed;
-  int offerPrice;
-  bool offer;
-  String barcode;
-  String covePhoto;
-  int count;
-  DateTime updatedAt;
-  DateTime createdAt;
+  int? id;
+  String? name;
+  bool? softDelete;
+  String? description;
+  int? price;
+  int? buyed;
+  int? offerPrice;
+  bool? offer;
+  String? barcode;
+  String? covePhoto;
+  int? count;
+  DateTime? updatedAt;
+  DateTime? createdAt;
 
   factory Items.fromJson(Map<String, dynamic> json) => Items(
         id: json["id"],
@@ -127,7 +127,7 @@ class Items {
         "barcode": barcode,
         "cove_photo": covePhoto,
         "count": count,
-        "updatedAt": updatedAt.toIso8601String(),
-        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
       };
 }

@@ -8,7 +8,7 @@ import 'package:animal_app/ui/screens/sectionItemsScreen.dart';
 import 'loadingImage.dart';
 
 class sectionCard2 extends StatelessWidget {
-  MainCategory item;
+  MainCategory? item;
   sectionCard2([this.item]);
 
   @override
@@ -36,7 +36,7 @@ class sectionCard2 extends StatelessWidget {
                         padding: EdgeInsets.all(5),
                         child: Directionality(
                           child: Text(
-                            item.name,
+                            item!.name!,
                             style: TextStyle(
                                 fontSize: 20,
                                 color: Colors.white,
@@ -63,7 +63,7 @@ class sectionCard2 extends StatelessWidget {
                   fit: BoxFit.contain,
                   width: 90,
                   height: 90,
-                  imageUrl: imageUrl + item.photo,
+                  imageUrl: imageUrl + item!.photo!,
                   placeholder: (context, url) => loadinImage(),
                   errorWidget: (context, url, error) => loadinImage(),
                 ),

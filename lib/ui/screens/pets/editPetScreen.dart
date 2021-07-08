@@ -11,25 +11,28 @@ class EditPetsScreen extends StatelessWidget {
   MyPet pet;
   EditPetsScreen(this.pet) {
     _loginController = Get.put(MyPetsController());
-    _loginController.selectedType.value = pet.type;
-    _loginController.ageController.text = pet.age.toString().split(" ")[0];
-    _loginController.petNameController.text = pet.name;
-    _loginController.descController.text = pet.description;
-    _loginController.vacsinDateController.text =
+    _loginController!.selectedType.value = pet.type!;
+    _loginController!.ageController!.text = pet.age.toString().split(" ")[0];
+    _loginController!.petNameController!.text = pet.name!;
+    _loginController!.descController!.text = pet.description!;
+    _loginController!.vacsinDateController!.text =
         pet.lastVaccine.toString().split(" ")[0];
-    _loginController.selectedSex.value = pet.sex == 0 ? "ذكر" : "أنثى";
+    _loginController!.selectedSex.value = pet.sex == 0 ? "ذكر" : "أنثى";
     // _loginController.addressController.text = pet.;
   }
-  MyPetsController _loginController;
+  MyPetsController? _loginController;
   // ItemDetailsController cartController = Get.find();
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    Future<bool> _wiilPop() async {
+      Get.delete<MyPetsController>();
+      Get.back();
+      return true;
+    }
+
     return WillPopScope(
-      onWillPop: () {
-        Get.delete<MyPetsController>();
-        Get.back();
-      },
+      onWillPop: _wiilPop,
       child: Scaffold(
           backgroundColor: Colors.grey[50],
           appBar: AppBar(
@@ -60,7 +63,7 @@ class EditPetsScreen extends StatelessWidget {
                     height: 10,
                   ),
                   Obx(
-                    () => _loginController.imageFile.value == null
+                    () => _loginController!.imageFile.value.path == ""
                         ? InkWell(
                             onTap: () {
                               selecteImageCollection(_loginController);
@@ -69,7 +72,8 @@ class EditPetsScreen extends StatelessWidget {
                                 height: 150,
                                 width: 150,
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey[300]),
+                                    border:
+                                        Border.all(color: Colors.grey[300]!),
                                     color: Colors.white,
                                     boxShadow: [
                                       BoxShadow(
@@ -99,7 +103,7 @@ class EditPetsScreen extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(75.0),
                                     ),
                                     child: Image.file(
-                                      _loginController.imageFile.value,
+                                      _loginController!.imageFile.value,
                                       fit: BoxFit.cover,
                                     ),
                                   )),
@@ -135,7 +139,7 @@ class EditPetsScreen extends StatelessWidget {
                     margin: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      border: Border.all(color: Colors.grey[300]),
+                      border: Border.all(color: Colors.grey[300]!),
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
@@ -174,7 +178,7 @@ class EditPetsScreen extends StatelessWidget {
                                 ),
                                 TextFormField(
                                   controller:
-                                      _loginController.petNameController,
+                                      _loginController!.petNameController,
                                   keyboardType: TextInputType.text,
                                   decoration: InputDecoration(
                                       fillColor: Colors.grey[100],
@@ -206,7 +210,7 @@ class EditPetsScreen extends StatelessWidget {
                                     color: Colors.black,
                                     fontWeight: FontWeight.normal,
                                   ),
-                                  validator: (value) => value.trim().isEmpty
+                                  validator: (value) => value!.trim().isEmpty
                                       ? "يجب عليك ادخال أسم الحيوان"
                                       : null,
                                 ).addDirectionality(),
@@ -258,8 +262,12 @@ class EditPetsScreen extends StatelessWidget {
                                           Icons.keyboard_arrow_down_outlined,
                                           size: 24,
                                         ),
-                                        value:
-                                            _loginController.selectedType.value,
+                                        value: _loginController!
+                                                    .selectedType.value ==
+                                                ""
+                                            ? null
+                                            : _loginController!
+                                                .selectedType.value,
                                         items: types.map((e) {
                                           return DropdownMenuItem(
                                             child: Container(
@@ -285,8 +293,8 @@ class EditPetsScreen extends StatelessWidget {
                                             value: e,
                                           );
                                         }).toList(),
-                                        onChanged: (value) {
-                                          _loginController.selectedType.value =
+                                        onChanged: (dynamic value) {
+                                          _loginController!.selectedType.value =
                                               value;
                                         }),
                                   ).addDirectionality(),
@@ -339,8 +347,12 @@ class EditPetsScreen extends StatelessWidget {
                                           Icons.keyboard_arrow_down_outlined,
                                           size: 24,
                                         ),
-                                        value:
-                                            _loginController.selectedSex.value,
+                                        value: _loginController!
+                                                    .selectedSex.value ==
+                                                ""
+                                            ? null
+                                            : _loginController!
+                                                .selectedSex.value,
                                         items: sexes.map((e) {
                                           return DropdownMenuItem(
                                             child: Container(
@@ -366,8 +378,8 @@ class EditPetsScreen extends StatelessWidget {
                                             value: e,
                                           );
                                         }).toList(),
-                                        onChanged: (value) {
-                                          _loginController.selectedSex.value =
+                                        onChanged: (dynamic value) {
+                                          _loginController!.selectedSex.value =
                                               value;
                                         }),
                                   ).addDirectionality(),
@@ -395,14 +407,14 @@ class EditPetsScreen extends StatelessWidget {
                                   // width: 120,
                                   // margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                                   child: TextFormField(
-                                    controller: _loginController.ageController,
+                                    controller: _loginController!.ageController,
                                     keyboardType: TextInputType.text,
                                     readOnly: true,
                                     onTap: () async {
-                                      final DateTime picked =
+                                      final DateTime? picked =
                                           await showDatePicker(
                                               context: context,
-                                              initialDate: _loginController
+                                              initialDate: _loginController!
                                                   .selectedFromDate.value,
                                               firstDate: DateTime(1990),
                                               lastDate: DateTime(2050),
@@ -410,30 +422,30 @@ class EditPetsScreen extends StatelessWidget {
                                               confirmText: "تم");
                                       if (picked != null &&
                                           picked !=
-                                              _loginController
+                                              _loginController!
                                                   .selectedAgeDate.value) {
-                                        _loginController.selectedAgeDate.value =
-                                            picked;
-                                        _loginController
-                                                .ageController.text =
-                                            (_loginController.selectedAgeDate
+                                        _loginController!
+                                            .selectedAgeDate.value = picked;
+                                        _loginController!
+                                                .ageController!.text =
+                                            (_loginController!.selectedAgeDate
                                                             .value.month
                                                             .toString()
                                                             .length <
                                                         2
                                                     ? "0" +
-                                                        _loginController
+                                                        _loginController!
                                                             .selectedAgeDate
                                                             .value
                                                             .month
                                                             .toString()
-                                                    : _loginController
+                                                    : _loginController!
                                                         .selectedAgeDate
                                                         .value
                                                         .month
                                                         .toString()) +
                                                 "-" +
-                                                (_loginController
+                                                (_loginController!
                                                             .selectedAgeDate
                                                             .value
                                                             .day
@@ -441,18 +453,18 @@ class EditPetsScreen extends StatelessWidget {
                                                             .length <
                                                         2
                                                     ? "0" +
-                                                        _loginController
+                                                        _loginController!
                                                             .selectedAgeDate
                                                             .value
                                                             .day
                                                             .toString()
-                                                    : _loginController
+                                                    : _loginController!
                                                         .selectedAgeDate
                                                         .value
                                                         .day
                                                         .toString()) +
                                                 "-" +
-                                                _loginController
+                                                _loginController!
                                                     .selectedAgeDate.value.year
                                                     .toString();
                                       }
@@ -515,14 +527,14 @@ class EditPetsScreen extends StatelessWidget {
                                   // margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                                   child: TextFormField(
                                     controller:
-                                        _loginController.vacsinDateController,
+                                        _loginController!.vacsinDateController,
                                     keyboardType: TextInputType.text,
                                     readOnly: true,
                                     onTap: () async {
-                                      final DateTime picked =
+                                      final DateTime? picked =
                                           await showDatePicker(
                                               context: context,
-                                              initialDate: _loginController
+                                              initialDate: _loginController!
                                                   .selectedFromDate.value,
                                               firstDate: DateTime(1990),
                                               lastDate: DateTime(2050),
@@ -530,49 +542,46 @@ class EditPetsScreen extends StatelessWidget {
                                               confirmText: "تم");
                                       if (picked != null &&
                                           picked !=
-                                              _loginController
+                                              _loginController!
                                                   .selectedFromDate.value) {
-                                        _loginController
+                                        _loginController!
                                             .selectedFromDate.value = picked;
-                                        _loginController
-                                                .vacsinDateController.text =
-                                            (_loginController.selectedFromDate
+                                        _loginController!.vacsinDateController!.text =
+                                            (_loginController!.selectedFromDate
                                                             .value.month
                                                             .toString()
                                                             .length <
                                                         2
                                                     ? "0" +
-                                                        _loginController
+                                                        _loginController!
                                                             .selectedFromDate
                                                             .value
                                                             .month
                                                             .toString()
-                                                    : _loginController
+                                                    : _loginController!
                                                         .selectedFromDate
                                                         .value
                                                         .month
                                                         .toString()) +
                                                 "-" +
-                                                (_loginController
-                                                            .selectedFromDate
-                                                            .value
-                                                            .day
+                                                (_loginController!.selectedFromDate
+                                                            .value.day
                                                             .toString()
                                                             .length <
                                                         2
                                                     ? "0" +
-                                                        _loginController
+                                                        _loginController!
                                                             .selectedFromDate
                                                             .value
                                                             .day
                                                             .toString()
-                                                    : _loginController
+                                                    : _loginController!
                                                         .selectedFromDate
                                                         .value
                                                         .day
                                                         .toString()) +
                                                 "-" +
-                                                _loginController
+                                                _loginController!
                                                     .selectedFromDate.value.year
                                                     .toString();
                                       }
@@ -632,7 +641,7 @@ class EditPetsScreen extends StatelessWidget {
                                   ],
                                 ),
                                 TextFormField(
-                                  controller: _loginController.descController,
+                                  controller: _loginController!.descController,
                                   keyboardType: TextInputType.text,
                                   decoration: InputDecoration(
                                       fillColor: Colors.grey[100],
@@ -682,8 +691,8 @@ class EditPetsScreen extends StatelessWidget {
                               child: RaisedButton(
                                 color: Get.theme.accentColor,
                                 onPressed: () {
-                                  if (_formKey.currentState.validate()) {
-                                    _loginController.editPets(pet.id);
+                                  if (_formKey.currentState!.validate()) {
+                                    _loginController!.editPets(pet.id);
                                   }
                                 },
                                 shape: RoundedRectangleBorder(

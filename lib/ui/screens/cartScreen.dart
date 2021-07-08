@@ -1,18 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-
 import 'package:animal_app/controller/mainController/itemDetailsController.dart';
 import 'package:animal_app/ui/customWidget/cartItemCard.dart';
-import 'package:animal_app/ui/customWidget/favouriteItemCard.dart';
 import 'package:animal_app/metods/extentions.dart';
 import 'package:animal_app/ui/customWidget/needToLogin.dart';
 import 'package:animal_app/ui/customWidget/noNetWidget.dart';
 import 'package:animal_app/ui/screens/makeOrderScreen.dart';
-
-import 'authScreen/regesterSceen.dart';
 
 // class CartScreen extends StatefulWidget {
 //   CartScreen({Key key}) : super(key: key);
@@ -21,13 +14,24 @@ import 'authScreen/regesterSceen.dart';
 //   _CartScreenState createState() => _CartScreenState();
 // }
 
-class CartScreen extends StatelessWidget {
-  ItemDetailsController favouriteController = Get.put(ItemDetailsController());
+class CartScreen extends StatefulWidget {
   // @override
   // void initState() {
   //   super.initState();
   //   favouriteController.getCart();
   // }
+
+  @override
+  _CartScreenState createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  ItemDetailsController favouriteController = Get.put(ItemDetailsController());
+  @override
+  void initState() {
+    super.initState();
+    favouriteController.getCart();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +53,7 @@ class CartScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: Obx(
-                  () => favouriteController.cartModel.value == null
+                  () => favouriteController.isLoading.value
                       ? Padding(
                           padding: const EdgeInsets.all(0.0),
                           child: favouriteController.needLogin.value
@@ -101,89 +105,84 @@ class CartScreen extends StatelessWidget {
                         )
                       : Container(
                           child: favouriteController
-                                  .cartModel.value.data.myCart.isEmpty
-                              ? Container(
-                                  width: Get.width,
-                                  height: Get.height,
-                                  child: Center(child: Text("السلة فارغة")),
-                                )
-                              : SingleChildScrollView(
-                                  child: Container(
-                                    height: GetPlatform.isIOS
-                                        ? Get.height - 120
-                                        : Get.height - 120,
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                          child: RefreshIndicator(
-                                            onRefresh: () {
-                                              return favouriteController
-                                                  .getCart();
-                                            },
-                                            child: Padding(
-                                              padding:
-                                                  EdgeInsets.only(bottom: 100),
-                                              child: ListView.builder(
-                                                  itemCount: favouriteController
-                                                      .cartModel
-                                                      .value
-                                                      .data
-                                                      .myCart
-                                                      .length,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    return CartitemCard(
-                                                        favouriteController
-                                                            .cartModel
-                                                            .value
-                                                            .data
-                                                            .myCart[index]);
-                                                  }),
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          bottom: 10,
-                                          child: Container(
-                                            height: 50.0,
-                                            color: Colors.transparent,
-                                            width: Get.width - 40,
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 20),
-                                            child: RaisedButton(
-                                              color: Colors.black,
-                                              onPressed: () {
-                                                Get.to(MakeOrderScreen());
-                                              },
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0)),
-                                              padding: EdgeInsets.all(0.0),
-                                              child: Container(
-                                                alignment: Alignment.center,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      "أكمال الطلب",
-                                                      style: TextStyle(
-                                                          fontSize: 16,
-                                                          color: Colors.white,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ).addDirectionality(),
-                                                    // Expanded(child: Container())
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                  .cartModel.value.data!.myCart!.isEmpty
+                              ? RefreshIndicator(
+                                  onRefresh: () {
+                                    return favouriteController.getCart();
+                                  },
+                                  child: SingleChildScrollView(
+                                    child: Container(
+                                      width: Get.width,
+                                      height: Get.height,
+                                      child: Center(child: Text("السلة فارغة")),
                                     ),
                                   ),
+                                )
+                              : Column(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        child: RefreshIndicator(
+                                          onRefresh: () {
+                                            return favouriteController
+                                                .getCart();
+                                          },
+                                          child: Obx(
+                                            () => ListView.builder(
+                                                itemCount: favouriteController
+                                                    .cartModel
+                                                    .value
+                                                    .data!
+                                                    .myCart!
+                                                    .length,
+                                                itemBuilder: (context, index) {
+                                                  return CartitemCard(
+                                                      favouriteController
+                                                          .cartModel
+                                                          .value
+                                                          .data!
+                                                          .myCart![index]);
+                                                }),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 50.0,
+                                      color: Colors.transparent,
+                                      width: Get.width - 40,
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 10),
+                                      child: RaisedButton(
+                                        color: Colors.black,
+                                        onPressed: () {
+                                          Get.to(MakeOrderScreen());
+                                        },
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0)),
+                                        padding: EdgeInsets.all(0.0),
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "أكمال الطلب",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ).addDirectionality(),
+                                              // Expanded(child: Container())
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 )),
                 ),
               ),

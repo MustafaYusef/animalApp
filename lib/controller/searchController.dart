@@ -17,11 +17,11 @@ import '../constant.dart';
 class SerchController extends GetxController {
   var noNetFlage = false.obs;
   var isLoading = false.obs;
-  TextEditingController searchController;
+  TextEditingController? searchController;
   var isEmptyFlage = false.obs;
   var page = 1.obs;
   var status = 0.obs;
-  MainRepostary repo;
+  late MainRepostary repo;
 
   final searchItems = <ItemSearch>[].obs;
 
@@ -45,9 +45,9 @@ class SerchController extends GetxController {
       // String token = prefs.getString('token');
       print("order page  " + page.toString());
 
-      final order = await repo.getSearch(searchController.text.toString());
+      final order = await repo.getSearch(searchController!.text.toString());
 
-      searchItems.addAll(order.data.item);
+      searchItems.addAll(order.data!.item!);
 
       if (searchItems.isEmpty) {
         isEmptyFlage.value = true;

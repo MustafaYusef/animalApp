@@ -16,12 +16,12 @@ import '../../constant.dart';
 class PostController extends GetxController {
   var noNetFlage = false.obs;
   var isLoading = false.obs;
-  TextEditingController descController;
+  TextEditingController? descController;
   var isEmptyFlage = false.obs;
   var page = 1.obs;
   var status = 0.obs;
   // var selectedShipPrice = 0.obs;
-  MainRepostary repo;
+  late MainRepostary repo;
   final itemsOffPop = <AllPost>[].obs;
   // final _paginationFilter = PaginationFilter().obs;
   final lastPage = false.obs;
@@ -83,10 +83,10 @@ class PostController extends GetxController {
       final order = await repo.getPost(page.value, 10);
 
       isLoading.value = false;
-      if (order.data.allPosts.isEmpty) {
+      if (order.data!.allPosts!.isEmpty) {
         lastPage.value = true;
       } else {
-        itemsOffPop.addAll(order.data.allPosts);
+        itemsOffPop.addAll(order.data!.allPosts!);
         page.value++;
       }
 
@@ -126,16 +126,16 @@ class PostController extends GetxController {
     }
   }
 
-  Future<void> likePost(int id) async {
+  Future<void> likePost(int? id) async {
     Get.dialog(popUpLoading(), barrierDismissible: false);
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      String token = await prefs.getString('token');
+      String? token = await prefs.getString('token');
       final banners1 = await repo.likePost(id, token);
       Get.back();
 
-      Get.snackbar(banners1.data.msg, banners1.data.msg,
+      Get.snackbar(banners1.data!.msg!, banners1.data!.msg!,
           duration: Duration(seconds: 3),
           icon: Icon(
             Icons.info,

@@ -9,7 +9,7 @@ import 'package:animal_app/ui/screens/authScreen/regesterSceen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SendEmailScreen extends StatelessWidget {
-  SendEmailScreen({Key key}) : super(key: key);
+  SendEmailScreen({Key? key}) : super(key: key);
   final ResetPasswordController _loginController =
       Get.put(ResetPasswordController());
   final _formKey = GlobalKey<FormState>();
@@ -127,7 +127,7 @@ class SendEmailScreen extends StatelessWidget {
                                   child: RaisedButton(
                                     color: Get.theme.primaryColorDark,
                                     onPressed: () {
-                                      if (_formKey.currentState.validate()) {
+                                      if (_formKey.currentState!.validate()) {
                                         // if (GetUtils.isPhoneNumber(
                                         //     _loginController
                                         //         .phoneController.text

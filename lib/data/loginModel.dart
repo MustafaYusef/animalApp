@@ -14,9 +14,9 @@ class LoginModel {
     this.data,
   });
 
-  int statusCode;
-  String message;
-  Data data;
+  int? statusCode;
+  String? message;
+  Data? data;
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
         statusCode: json["statusCode"],
@@ -27,7 +27,7 @@ class LoginModel {
   Map<String, dynamic> toJson() => {
         "statusCode": statusCode,
         "message": message,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
@@ -36,7 +36,7 @@ class Data {
     this.token,
   });
 
-  String token;
+  String? token;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         token: json["token"],

@@ -14,10 +14,10 @@ class Welcome {
         this.userTypes,
     });
 
-    String id;
-    String name;
-    String username;
-    List<UserType> userTypes;
+    String? id;
+    String? name;
+    String? username;
+    List<UserType>? userTypes;
 
     factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
         id: json["id"],
@@ -30,7 +30,7 @@ class Welcome {
         "id": id,
         "name": name,
         "username": username,
-        "user_types": List<dynamic>.from(userTypes.map((x) => x.toJson())),
+        "user_types": List<dynamic>.from(userTypes!.map((x) => x.toJson())),
     };
 }
 
@@ -41,9 +41,9 @@ class UserType {
         this.name,
     });
 
-    String id;
-    String userId;
-    String name;
+    String? id;
+    String? userId;
+    String? name;
 
     factory UserType.fromJson(Map<String, dynamic> json) => UserType(
         id: json["id"],

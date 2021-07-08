@@ -14,9 +14,9 @@ class MyPetsModel {
     this.data,
   });
 
-  int statusCode;
-  String message;
-  Data data;
+  int? statusCode;
+  String? message;
+  Data? data;
 
   factory MyPetsModel.fromJson(Map<String, dynamic> json) => MyPetsModel(
         statusCode: json["statusCode"],
@@ -27,7 +27,7 @@ class MyPetsModel {
   Map<String, dynamic> toJson() => {
         "statusCode": statusCode,
         "message": message,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
@@ -36,14 +36,14 @@ class Data {
     this.myPet,
   });
 
-  List<MyPet> myPet;
+  List<MyPet>? myPet;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         myPet: List<MyPet>.from(json["my_pet"].map((x) => MyPet.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "my_pet": List<dynamic>.from(myPet.map((x) => x.toJson())),
+        "my_pet": List<dynamic>.from(myPet!.map((x) => x.toJson())),
       };
 }
 
@@ -62,17 +62,17 @@ class MyPet {
     this.createdAt,
   });
 
-  int id;
-  String name;
-  String type;
-  DateTime age;
-  int sex;
-  bool softDelete;
-  String description;
+  int? id;
+  String? name;
+  String? type;
+  DateTime? age;
+  int? sex;
+  bool? softDelete;
+  String? description;
   var lastVaccine;
-  String photo;
-  DateTime updatedAt;
-  DateTime createdAt;
+  String? photo;
+  DateTime? updatedAt;
+  DateTime? createdAt;
 
   factory MyPet.fromJson(Map<String, dynamic> json) => MyPet(
         id: json["id"],
@@ -92,13 +92,13 @@ class MyPet {
         "id": id,
         "name": name,
         "type": type,
-        "age": age.toIso8601String(),
+        "age": age!.toIso8601String(),
         "sex": sex,
         "softDelete": softDelete,
         "description": description,
         "last_vaccine": lastVaccine.toIso8601String(),
         "photo": photo,
-        "updatedAt": updatedAt.toIso8601String(),
-        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
       };
 }

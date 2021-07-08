@@ -81,7 +81,7 @@ class itemMainCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
-                      item.name,
+                      item.name!,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -95,7 +95,7 @@ class itemMainCard extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              item.offer
+                              item.offer!
                                   ? item.offerPrice.toString() + " " + "د.ع"
                                   : item.price.toString() + " " + "د.ع",
                               style: TextStyle(
@@ -106,7 +106,7 @@ class itemMainCard extends StatelessWidget {
                             SizedBox(
                               width: 5,
                             ),
-                            item.offer
+                            item.offer!
                                 ? Text(
                                     item.price.toString(),
                                     style: TextStyle(

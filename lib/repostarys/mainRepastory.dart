@@ -40,7 +40,7 @@ class MainRepostary {
   // }
 
   Future<BannersModel> getFirstBanner() async {
-    final response = await get(baseUrl + "dashbord/banners");
+    final response = await get(Uri.parse(baseUrl + "dashbord/banners"));
     if (response.statusCode == 200) {
       return bannersModelFromJson(response.body);
     } else {
@@ -49,7 +49,7 @@ class MainRepostary {
   }
 
   Future<BannersModel> getSecondBanner() async {
-    final response = await get(baseUrl + "dashbord/bannersb");
+    final response = await get(Uri.parse(baseUrl + "dashbord/bannersb"));
     if (response.statusCode == 200) {
       return bannersModelFromJson(response.body);
     } else {
@@ -61,8 +61,8 @@ class MainRepostary {
   // status 1==popular
   Future<OfferPopularItemsModel> getOfferOrPopularItems(
       int status, int page, int limit) async {
-    final response = await get(
-        baseUrl + "items/offers/all?page=$page&limit=$limit&status=$status");
+    final response = await get(Uri.parse(
+        baseUrl + "items/offers/all?page=$page&limit=$limit&status=$status"));
     if (response.statusCode == 200) {
       return offerPopularItemsModelFromJson(response.body);
     } else {
@@ -71,7 +71,7 @@ class MainRepostary {
   }
 
   Future<MyPetsModel> getMyPets(String token) async {
-    final response = await get(baseUrl + "users/pet/my/all",
+    final response = await get(Uri.parse(baseUrl + "users/pet/my/all"),
         headers: {"Authorization": token});
     if (response.statusCode == 200) {
       return myPetsModelFromJson(response.body);
@@ -81,7 +81,7 @@ class MainRepostary {
   }
 
   Future<MainCategoryModel> getMainCategory() async {
-    final response = await get(baseUrl + "category/mains");
+    final response = await get(Uri.parse(baseUrl + "category/mains"));
     if (response.statusCode == 200) {
       return mainCategoryModelFromJson(response.body);
     } else {
@@ -90,8 +90,8 @@ class MainRepostary {
   }
 
   Future<AllPostModel> getPost(int page, int limit) async {
-    final response =
-        await get(baseUrl + "users/social/posts/all?page=$page&limit=$limit");
+    final response = await get(
+        Uri.parse(baseUrl + "users/social/posts/all?page=$page&limit=$limit"));
     if (response.statusCode == 200) {
       return allPostModelFromJson(response.body);
     } else {
@@ -100,7 +100,8 @@ class MainRepostary {
   }
 
   Future<ItemsSearchModel> getSearch(String query) async {
-    final response = await get(baseUrl + "users/search?search=$query");
+    final response =
+        await get(Uri.parse(baseUrl + "users/search?search=$query"));
     if (response.statusCode == 200) {
       return itemsSearchModelFromJson(response.body);
     } else {
@@ -108,10 +109,10 @@ class MainRepostary {
     }
   }
 
-  Future<MyPostModel> getMyPost(String token, int page, int limit) async {
+  Future<MyPostModel> getMyPost(String? token, int page, int limit) async {
     final response = await get(
-        baseUrl + "users/social/posts/my?page=$page&limit=$limit",
-        headers: {"Authorization": token});
+        Uri.parse(baseUrl + "users/social/posts/my?page=$page&limit=$limit"),
+        headers: {"Authorization": token!});
     if (response.statusCode == 200) {
       return myPostModelFromJson(response.body);
     } else {
@@ -121,8 +122,8 @@ class MainRepostary {
 
   Future<ItemsPaginationModel> getCategoryItem(
       int categoryId, int page, int limit) async {
-    final response = await get(baseUrl +
-        "customers/category?category_id=$categoryId&page=$page&limit=$limit");
+    final response = await get(Uri.parse(baseUrl +
+        "customers/category?category_id=$categoryId&page=$page&limit=$limit"));
     if (response.statusCode == 200) {
       return itemsPaginationModelFromJson(response.body);
     } else {
@@ -133,14 +134,14 @@ class MainRepostary {
 // nuill all
 // 0=false
 // 1=true
-  Future<ServicesModel> getServices(int in_house) async {
+  Future<ServicesModel> getServices(int? in_house) async {
     String url;
     if (in_house == null) {
       url = "dashbord/services/all?in_house=";
     } else {
       url = "dashbord/services/all?in_house=$in_house";
     }
-    final response = await get(baseUrl + url);
+    final response = await get(Uri.parse(baseUrl + url));
     if (response.statusCode == 200) {
       return servicesModelFromJson(response.body);
     } else {
@@ -148,10 +149,11 @@ class MainRepostary {
     }
   }
 
-  Future<MyBookingModel> getMyBooking(String token, int page, int limit) async {
+  Future<MyBookingModel> getMyBooking(
+      String? token, int page, int limit) async {
     final response = await get(
-        baseUrl + "users/booking/my?page=$page&limit=$limit",
-        headers: {"Authorization": token});
+        Uri.parse(baseUrl + "users/booking/my?page=$page&limit=$limit"),
+        headers: {"Authorization": token!});
     if (response.statusCode == 200) {
       print("suceesssssss");
       return myBookingModelFromJson(response.body);
@@ -160,20 +162,20 @@ class MainRepostary {
     }
   }
 
-  Future<ReviewCheckModel> getReviewCheck() async {
+  Future<ReviewCheckModel> getReviewCheck(int id) async {
     final response = await get(
-      baseUrl + "users/review/byId/3",
+      Uri.parse(baseUrl + "users/review/byId/$id"),
     );
     if (response.statusCode == 200) {
       print("suceesssssss");
-      return reviewCheckModelFromJson(response.body);
+      return reviewCheckModelFromJson(response.body.toString());
     } else {
       throw Exception(reviewCheckModelFromJson(response.body).message);
     }
   }
 
   Future<ItemDetailsModel> getItemDetaild(int id) async {
-    final response = await get(baseUrl + "items/item/$id");
+    final response = await get(Uri.parse(baseUrl + "items/item/$id"));
     if (response.statusCode == 200) {
       return itemDetailsModelFromJson(response.body);
     } else {
@@ -181,20 +183,20 @@ class MainRepostary {
     }
   }
 
-  Future<AddResModel> addFavourite(int id, String token) async {
-    final response = await post(baseUrl + "users/favorite/$id",
-        headers: {"Authorization": token});
+  Future<AddResModel> addFavourite(int? id, String? token) async {
+    final response = await post(Uri.parse(baseUrl + "users/favorite/$id"),
+        headers: {"Authorization": token!});
     if (response.statusCode == 200 || response.statusCode == 201) {
       // print(addResModelFromJson(response.body).data.msg);
       return addResModelFromJson(response.body);
     } else {
-      throw Exception(addResModelFromJson(response.body).data.msg);
+      throw Exception(addResModelFromJson(response.body).data!.msg);
     }
   }
 
-  Future<AddResModel> likePost(int id, String token) async {
-    final response = await post(baseUrl + "users/social/like/$id",
-        headers: {"Authorization": token});
+  Future<AddResModel> likePost(int? id, String? token) async {
+    final response = await post(Uri.parse(baseUrl + "users/social/like/$id"),
+        headers: {"Authorization": token!});
     if (response.statusCode == 200 || response.statusCode == 201) {
       // print(addResModelFromJson(response.body).data.msg);
       return addResModelFromJson(response.body);
@@ -203,10 +205,10 @@ class MainRepostary {
     }
   }
 
-  Future<AddResModel> deleteFavourite(int id, String token) async {
+  Future<AddResModel> deleteFavourite(int? id, String? token) async {
     print(token);
-    final response = await delete(baseUrl + "users/favorite/$id",
-        headers: {"Authorization": token, "Content-Type": "application/json"});
+    final response = await delete(Uri.parse(baseUrl + "users/favorite/$id"),
+        headers: {"Authorization": token!, "Content-Type": "application/json"});
     if (response.statusCode == 200) {
       return addResModelFromJson(response.body);
     } else {
@@ -215,7 +217,7 @@ class MainRepostary {
   }
 
   Future<FavouriteModel> getFavourite(String token) async {
-    final response = await get(baseUrl + "users/favorite/my",
+    final response = await get(Uri.parse(baseUrl + "users/favorite/my"),
         headers: {"Authorization": token});
     if (response.statusCode == 200) {
       return favouriteModelFromJson(response.body);
@@ -224,10 +226,10 @@ class MainRepostary {
     }
   }
 
-  Future<MyOrderModel> getOrder(String token, int page, int limit) async {
+  Future<MyOrderModel> getOrder(String? token, int page, int limit) async {
     final response = await get(
-        baseUrl + "orders/orders/my?page=$page&limit=$limit",
-        headers: {"Authorization": token});
+        Uri.parse(baseUrl + "orders/orders/my?page=$page&limit=$limit"),
+        headers: {"Authorization": token!});
     if (response.statusCode == 200) {
       return myOrderModelFromJson(response.body);
     } else {
@@ -235,9 +237,9 @@ class MainRepostary {
     }
   }
 
-  Future<ShippingPriceRes> getShipingPrice(String token) async {
-    final response =
-        await get(baseUrl + "users/shpinng", headers: {"Authorization": token});
+  Future<ShippingPriceRes> getShipingPrice(String? token) async {
+    final response = await get(Uri.parse(baseUrl + "users/shpinng"),
+        headers: {"Authorization": token!});
     if (response.statusCode == 200) {
       return shippingPriceResFromJson(response.body);
     } else {
@@ -246,7 +248,7 @@ class MainRepostary {
   }
 
   Future<AddResModel> cancelOrder(String token, int id) async {
-    final response = await delete(baseUrl + "orders/order/$id",
+    final response = await delete(Uri.parse(baseUrl + "orders/order/$id"),
         headers: {"Authorization": token});
     if (response.statusCode == 200) {
       return addResModelFromJson(response.body);
@@ -255,9 +257,9 @@ class MainRepostary {
     }
   }
 
-  Future<AddResModel> deletePost(String token, int id) async {
-    final response = await delete(baseUrl + "users/pet/$id",
-        headers: {"Authorization": token});
+  Future<AddResModel> deletePost(String? token, int? id) async {
+    final response = await delete(Uri.parse(baseUrl + "users/pet/$id"),
+        headers: {"Authorization": token!});
     if (response.statusCode == 200) {
       return addResModelFromJson(response.body);
     } else {
@@ -265,9 +267,9 @@ class MainRepostary {
     }
   }
 
-  Future<AddResModel> deletePete(String token, int id) async {
-    final response = await delete(baseUrl + "users/pet/$id",
-        headers: {"Authorization": token});
+  Future<AddResModel> deletePete(String? token, int? id) async {
+    final response = await delete(Uri.parse(baseUrl + "users/pet/$id"),
+        headers: {"Authorization": token!});
     if (response.statusCode == 200) {
       return addResModelFromJson(response.body);
     } else {
@@ -275,9 +277,9 @@ class MainRepostary {
     }
   }
 
-  Future<AddResModel> addCart(int size_id, int count, String token) async {
+  Future<AddResModel> addCart(int? size_id, int count, String token) async {
     print(token);
-    final response = await post(baseUrl + "users/cart/add",
+    final response = await post(Uri.parse(baseUrl + "users/cart/add"),
         headers: {"Authorization": token, "Content-Type": "application/json"},
         body: json.encode(
             {"item_id": size_id.toString(), "count": count.toString()}));
@@ -289,15 +291,15 @@ class MainRepostary {
   }
 
   Future<AddResModel> bookServices(
-      {String token,
-      String phone,
-      String pet,
-      String address,
-      String notes,
-      int service_id}) async {
+      {String? token,
+      String? phone,
+      String? pet,
+      String? address,
+      String? notes,
+      int? service_id}) async {
     print(token);
-    final response = await post(baseUrl + "users/booking/new",
-        headers: {"Authorization": token, "Content-Type": "application/json"},
+    final response = await post(Uri.parse(baseUrl + "users/booking/new"),
+        headers: {"Authorization": token!, "Content-Type": "application/json"},
         body: json.encode({
           "phone": phone,
           "pet_id": pet,
@@ -313,17 +315,17 @@ class MainRepostary {
   }
 
   Future<AddResModel> addPets(
-      {String token,
-      String type,
-      String pet,
-      String base64,
-      String age,
-      String desc,
-      String sex,
-      String last_vaccine}) async {
+      {String? token,
+      String? type,
+      String? pet,
+      String? base64,
+      String? age,
+      String? desc,
+      String? sex,
+      String? last_vaccine}) async {
     print(token);
-    final response = await post(baseUrl + "users/pet/add", headers: {
-      "Authorization": token,
+    final response = await post(Uri.parse(baseUrl + "users/pet/add"), headers: {
+      "Authorization": token!,
     }, body: {
       "type": type,
       "name": pet,
@@ -344,18 +346,18 @@ class MainRepostary {
   }
 
   Future<AddResModel> editPets(
-      {String token,
-      int id,
-      String type,
-      String pet,
-      String base64,
-      String age,
-      String desc,
-      String sex,
-      String last_vaccine}) async {
+      {String? token,
+      int? id,
+      String? type,
+      String? pet,
+      String? base64,
+      String? age,
+      String? desc,
+      String? sex,
+      String? last_vaccine}) async {
     print(token);
-    final response = await put(baseUrl + "users/pet/$id", headers: {
-      "Authorization": token,
+    final response = await put(Uri.parse(baseUrl + "users/pet/$id"), headers: {
+      "Authorization": token!,
     }, body: {
       "type": type,
       "name": pet,
@@ -376,13 +378,14 @@ class MainRepostary {
   }
 
   Future<AddResModel> addPost({
-    String token,
-    String desc,
-    String base64,
+    String? token,
+    String? desc,
+    String? base64,
   }) async {
     print(token);
-    final response = await post(baseUrl + "users/social/post/add", headers: {
-      "Authorization": token,
+    final response =
+        await post(Uri.parse(baseUrl + "users/social/post/add"), headers: {
+      "Authorization": token!,
     }, body: {
       "base64": base64,
       "description": desc
@@ -398,10 +401,11 @@ class MainRepostary {
   }
 
   Future<AddResModel> editPost(
-      {String token, String desc, String base64, int id}) async {
+      {String? token, String? desc, String? base64, int? id}) async {
     print(token);
-    final response = await post(baseUrl + "users/social/post/add", headers: {
-      "Authorization": token,
+    final response =
+        await post(Uri.parse(baseUrl + "users/social/post/add"), headers: {
+      "Authorization": token!,
     }, body: {
       "base64": base64,
       "description": desc,
@@ -427,7 +431,7 @@ class MainRepostary {
       int shippingPrice,
       String notes) async {
     print(token);
-    final response = await post(baseUrl + "orders/new",
+    final response = await post(Uri.parse(baseUrl + "orders/new"),
         headers: {"Authorization": token, "Content-Type": "application/json"},
         body: json.encode({
           "name": name,
@@ -445,9 +449,9 @@ class MainRepostary {
     }
   }
 
-  Future<AddResModel> deleteCart(int id, String token) async {
-    final response = await delete(baseUrl + "users/cart/$id",
-        headers: {"Authorization": token});
+  Future<AddResModel> deleteCart(int? id, String? token) async {
+    final response = await delete(Uri.parse(baseUrl + "users/cart/$id"),
+        headers: {"Authorization": token!});
     if (response.statusCode == 200) {
       return addResModelFromJson(response.body);
     } else {
@@ -456,8 +460,8 @@ class MainRepostary {
   }
 
   Future<CartModel> getCart(String token) async {
-    final response =
-        await get(baseUrl + "users/cart", headers: {"Authorization": token});
+    final response = await get(Uri.parse(baseUrl + "users/cart"),
+        headers: {"Authorization": token});
     if (response.statusCode == 200) {
       return cartModelFromJson(response.body);
     } else {

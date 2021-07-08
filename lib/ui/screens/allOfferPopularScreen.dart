@@ -7,7 +7,7 @@ import 'package:animal_app/ui/customWidget/itemCardAllOffer.dart';
 import 'package:animal_app/ui/customWidget/noNetWidget.dart';
 
 class AllOfferPopularScreen extends StatelessWidget {
-  OfferPopularController controller;
+  late OfferPopularController controller;
   int status;
   AllOfferPopularScreen(this.status) {
     controller = Get.put(OfferPopularController());
@@ -28,11 +28,15 @@ class AllOfferPopularScreen extends StatelessWidget {
           }
         }
       });
+
+    Future<bool> _wiilPop() async {
+      Get.delete<OfferPopularController>();
+      Get.back();
+      return true;
+    }
+
     return WillPopScope(
-      onWillPop: () {
-        Get.delete<OfferPopularController>();
-        Get.back();
-      },
+      onWillPop: _wiilPop,
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -69,7 +73,7 @@ class AllOfferPopularScreen extends StatelessWidget {
                                           controller.page.value = 1;
                                           controller.itemsOffPop.clear();
                                           controller.lastPage.value = false;
-                                          return controller.getPopolarOfffer();
+                                          controller.getPopolarOfffer();
                                         },
                                         child: Text(
                                           "إعادة المحاولة",

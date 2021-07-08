@@ -25,22 +25,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../constant.dart';
 
 class LoginController extends GetxController {
-  TextEditingController phoneController;
-  TextEditingController passwordTextController;
+  TextEditingController? phoneController;
+  TextEditingController? passwordTextController;
   var isPassHide = true.obs;
   var isPassHideReg = true.obs;
 
-  TextEditingController nameTextController;
-  TextEditingController phoneRegController;
-  TextEditingController passwordRegTextController;
+  TextEditingController? nameTextController;
+  TextEditingController? phoneRegController;
+  TextEditingController? passwordRegTextController;
   // TextEditingController emailController;
-  var selectedcity = "".obs;
-  var selectedProv = Map<String, List<String>>().obs;
-  var profile = ProfileModel().obs;
+  RxString? selectedcity;
+  RxMap<String, List<String>>? selectedProv = Map<String, List<String>>().obs;
+  Rx<ProfileModel?> profile = ProfileModel().obs;
   var needLogin = false.obs;
-  var inReview = true.obs;
-  AuthRepostary repo;
+  var noNetFlage = false.obs;
 
+  var inReview = true.obs;
+  late AuthRepostary repo;
+  var isLoading = false.obs;
   @override
   void onInit() {
     phoneController = TextEditingController();
@@ -52,8 +54,8 @@ class LoginController extends GetxController {
     inReview.value = false;
 
     needLogin.value = false;
-    selectedProv.value = null;
-    selectedcity.value = null;
+    // selectedProv.value = null;
+    // selectedcity = null;
     repo = AuthRepostary();
 
     super.onInit();
@@ -69,17 +71,17 @@ class LoginController extends GetxController {
         playerId = "null";
       }
       print("changeToEngilish     " +
-          phoneController?.text.toString().changeToEngilish());
+          phoneController!.text.toString().changeToEngilish());
       final login = await repo.Login(
-          phoneController?.text.toString().changeToEngilish(),
-          passwordTextController?.text.toString(),
+          phoneController!.text.toString().changeToEngilish(),
+          passwordTextController!.text.toString(),
           playerId);
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      await prefs.setString('token', login.data.token);
+      await prefs.setString('token', login.data!.token!);
 
-      String token = await prefs.getString('token');
+      String token = await prefs.getString('token')!;
 
       print("token    :" + token);
       final dd = await getProfile();
@@ -136,20 +138,20 @@ class LoginController extends GetxController {
         playerId = "null";
       }
       final login = await repo.Regester(
-          nameTextController?.text.toString(),
-          phoneRegController?.text.toString().changeToEngilish(),
-          passwordRegTextController?.text.toString(),
+          nameTextController!.text.toString(),
+          phoneRegController!.text.toString().changeToEngilish(),
+          passwordRegTextController!.text.toString(),
           playerId);
 
       Get.back();
       Get.offAll(LoginScreen());
-      nameTextController.clear();
-      phoneRegController.clear();
+      nameTextController!.clear();
+      phoneRegController!.clear();
       // emailController.clear();
 
-      passwordRegTextController.clear();
-      selectedProv.value = null;
-      selectedcity.value = null;
+      passwordRegTextController!.clear();
+      selectedProv = null;
+      selectedcity = null;
 
       Get.snackbar("تم انشاء حساب بنجاح", "تم انشاء حساب بنجاح",
           duration: Duration(seconds: 3),
@@ -185,26 +187,30 @@ class LoginController extends GetxController {
 
   Future<void> getProfile() async {
     needLogin.value = false;
+    isLoading.value = true;
+    noNetFlage.value = false;
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      inReview.value = prefs.getBool("inReview");
-      inReview.value = false;
-      String token = prefs.getString('token');
+      inReview.value = prefs.getBool("inReview")!;
+      // inReview.value = false;
+      String? token = prefs.getString('token');
       print(token);
       if (token == null) {
         needLogin.value = true;
       } else {
         final login = await repo.getProfile(token);
-        await prefs.setString('name', login.data.profile.name);
-        await prefs.setString('phone', login.data.profile.phone);
+        await prefs.setString('name', login.data!.profile!.name!);
+        await prefs.setString('phone', login.data!.profile!.phone!);
 
         profile.value = login;
       }
       // var playerId = await getuserId();
-
+      isLoading.value = false;
     } on SocketException catch (_) {
-      profile.value = null;
+      // profile.value = null;
+      isLoading.value = false;
+      noNetFlage.value = true;
 
       Get.snackbar(noNet, noNet,
           duration: Duration(seconds: 3),
@@ -215,6 +221,8 @@ class LoginController extends GetxController {
           colorText: Colors.white,
           backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
     } catch (_) {
+      isLoading.value = false;
+
       Get.snackbar(_.toString(), _.toString(),
           duration: Duration(seconds: 3),
           icon: Icon(

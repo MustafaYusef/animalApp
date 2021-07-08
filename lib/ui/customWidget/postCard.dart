@@ -11,14 +11,14 @@ import 'package:animal_app/ui/screens/sectionItemsScreen.dart';
 import 'loadingImage.dart';
 
 class postCard extends StatelessWidget {
-  AllPost item;
+  AllPost? item;
   postCard([this.item]);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print(item.id);
+        print(item!.id);
         Get.to(PostDetailsScreen(item));
       },
       child: Card(
@@ -30,7 +30,7 @@ class postCard extends StatelessWidget {
               fit: BoxFit.cover,
               width: Get.width / 2,
               height: 250,
-              imageUrl: imageUrl + item.photo,
+              imageUrl: imageUrl + item!.photo!,
               placeholder: (context, url) => loadinImage(),
               errorWidget: (context, url, error) => loadinImage(),
             ),
@@ -50,7 +50,7 @@ class postCard extends StatelessWidget {
                         margin: EdgeInsets.all(5),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: Colors.grey[300]),
+                          border: Border.all(color: Colors.grey[300]!),
                           color: Get.theme.accentColor,
                           boxShadow: [
                             BoxShadow(
@@ -69,7 +69,7 @@ class postCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        item.likesCount.toString(),
+                        item!.likesCount.toString(),
                         style: TextStyle(
                             fontSize: 18,
                             color: Get.theme.accentColor,
@@ -85,7 +85,7 @@ class postCard extends StatelessWidget {
                           padding: EdgeInsets.all(5),
                           child: Directionality(
                             child: Text(
-                              item.description,
+                              item!.description!,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(

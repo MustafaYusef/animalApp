@@ -13,9 +13,9 @@ class CartModel {
     this.data,
   });
 
-  int statusCode;
-  String message;
-  Data data;
+  int? statusCode;
+  String? message;
+  Data? data;
 
   factory CartModel.fromJson(Map<String, dynamic> json) => CartModel(
         statusCode: json["statusCode"],
@@ -26,7 +26,7 @@ class CartModel {
   Map<String, dynamic> toJson() => {
         "statusCode": statusCode,
         "message": message,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
@@ -35,7 +35,7 @@ class Data {
     this.myCart,
   });
 
-  List<MyCart> myCart;
+  List<MyCart>? myCart;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         myCart:
@@ -43,7 +43,7 @@ class Data {
       );
 
   Map<String, dynamic> toJson() => {
-        "my_cart": List<dynamic>.from(myCart.map((x) => x.toJson())),
+        "my_cart": List<dynamic>.from(myCart!.map((x) => x.toJson())),
       };
 }
 
@@ -61,16 +61,16 @@ class MyCart {
     this.itemPhoto,
   });
 
-  int id;
-  int count;
-  bool offer;
-  int itemId;
-  String itemName;
-  String itemDescription;
-  int itemPrice;
-  int item_count;
-  int itemOfferPrice;
-  String itemPhoto;
+  int? id;
+  int? count;
+  bool? offer;
+  int? itemId;
+  String? itemName;
+  String? itemDescription;
+  int? itemPrice;
+  int? item_count;
+  int? itemOfferPrice;
+  String? itemPhoto;
 
   factory MyCart.fromJson(Map<String, dynamic> json) => MyCart(
         id: json["id"],

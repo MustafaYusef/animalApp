@@ -14,9 +14,9 @@ class AllPostModel {
     this.data,
   });
 
-  int statusCode;
-  String message;
-  Data data;
+  int? statusCode;
+  String? message;
+  Data? data;
 
   factory AllPostModel.fromJson(Map<String, dynamic> json) => AllPostModel(
         statusCode: json["statusCode"],
@@ -27,7 +27,7 @@ class AllPostModel {
   Map<String, dynamic> toJson() => {
         "statusCode": statusCode,
         "message": message,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
@@ -40,11 +40,11 @@ class Data {
     this.pages,
   });
 
-  List<AllPost> allPosts;
-  int limit;
-  int totalItems;
-  int totalpages;
-  int pages;
+  List<AllPost>? allPosts;
+  int? limit;
+  int? totalItems;
+  int? totalpages;
+  int? pages;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         allPosts: List<AllPost>.from(
@@ -56,7 +56,7 @@ class Data {
       );
 
   Map<String, dynamic> toJson() => {
-        "all_posts": List<dynamic>.from(allPosts.map((x) => x.toJson())),
+        "all_posts": List<dynamic>.from(allPosts!.map((x) => x.toJson())),
         "limit": limit,
         "totalItems": totalItems,
         "totalpages": totalpages,
@@ -75,13 +75,13 @@ class AllPost {
     this.createdAt,
   });
 
-  int id;
-  int likesCount;
-  bool allowed;
-  String description;
-  String photo;
-  DateTime updatedAt;
-  DateTime createdAt;
+  int? id;
+  int? likesCount;
+  bool? allowed;
+  String? description;
+  String? photo;
+  DateTime? updatedAt;
+  DateTime? createdAt;
 
   factory AllPost.fromJson(Map<String, dynamic> json) => AllPost(
         id: json["id"],
@@ -99,7 +99,7 @@ class AllPost {
         "allowed": allowed,
         "description": description,
         "photo": photo,
-        "updatedAt": updatedAt.toIso8601String(),
-        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
       };
 }

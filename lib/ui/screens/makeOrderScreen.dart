@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:animal_app/controller/authController/loginController.dart';
 import 'package:animal_app/controller/mainController/itemDetailsController.dart';
@@ -10,7 +11,7 @@ import 'package:animal_app/metods/state.dart';
 import '../../constant.dart';
 
 class MakeOrderScreen extends StatelessWidget {
-  MakeOrderScreen({Key key}) : super(key: key);
+  MakeOrderScreen({Key? key}) : super(key: key);
   OrderController _loginController = Get.put(OrderController());
   ItemDetailsController cartController = Get.find();
   final _formKey = GlobalKey<FormState>();
@@ -134,7 +135,7 @@ class MakeOrderScreen extends StatelessWidget {
                         margin: EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
-                          border: Border.all(color: Colors.grey[300]),
+                          border: Border.all(color: Colors.grey[300]!),
                           color: Colors.white,
                           boxShadow: [
                             BoxShadow(
@@ -208,9 +209,10 @@ class MakeOrderScreen extends StatelessWidget {
                                         color: Colors.black,
                                         fontWeight: FontWeight.normal,
                                       ),
-                                      validator: (value) => value.trim().isEmpty
-                                          ? "يجب عليك ادخال الأسم الكامل"
-                                          : null,
+                                      validator: (value) =>
+                                          value!.trim().isEmpty
+                                              ? "يجب عليك ادخال الأسم الكامل"
+                                              : null,
                                     ).addDirectionality(),
                                     SizedBox(
                                       height: 10,
@@ -291,11 +293,16 @@ class MakeOrderScreen extends StatelessWidget {
                                                 value: e,
                                               );
                                             }).toList(),
-                                            onChanged: (value) {
+                                            onChanged: (dynamic value) {
                                               _loginController
-                                                  .selectedProv.value = value;
+                                                      .selectedProv.value =
+                                                  value as Map<String,
+                                                      List<String>>;
                                               print(_loginController
-                                                  .selectedProv.value.keys);
+                                                  .selectedProv
+                                                  .value
+                                                  .values
+                                                  .first);
                                               if (_loginController
                                                       .selectedProv.value.keys
                                                       .toString() ==
@@ -306,9 +313,9 @@ class MakeOrderScreen extends StatelessWidget {
                                                     _loginController
                                                         .shippingPrice
                                                         .value
-                                                        .data
-                                                        .getShippingPrice[0]
-                                                        .amount;
+                                                        .data!
+                                                        .getShippingPrice![0]
+                                                        .amount!;
                                               } else {
                                                 _loginController
                                                         .selectedShipPrice
@@ -316,12 +323,12 @@ class MakeOrderScreen extends StatelessWidget {
                                                     _loginController
                                                         .shippingPrice
                                                         .value
-                                                        .data
-                                                        .getShippingPrice[1]
-                                                        .amount;
+                                                        .data!
+                                                        .getShippingPrice![1]
+                                                        .amount!;
                                               }
                                               _loginController
-                                                  .selectedcity.value = null;
+                                                  .selectedcity.value = "";
                                             }),
                                       ).addDirectionality(),
                                     ),
@@ -385,7 +392,12 @@ class MakeOrderScreen extends StatelessWidget {
                                                 ),
                                                 value:
                                                     _loginController
-                                                        .selectedcity.value,
+                                                                .selectedcity
+                                                                .value ==
+                                                            ""
+                                                        ? null
+                                                        : _loginController
+                                                            .selectedcity.value,
                                                 items: _loginController
                                                     .selectedProv
                                                     .value
@@ -420,9 +432,9 @@ class MakeOrderScreen extends StatelessWidget {
                                                 }).toList(),
                                                 onChanged: (value) {
                                                   _loginController.selectedcity
-                                                      .value = value;
-                                                  print(_loginController
-                                                      .selectedcity.value);
+                                                      .value = value.toString();
+                                                  // print(_loginController
+                                                  //     .selectedcity.value);
                                                 }),
                                       ).addDirectionality(),
                                     ),
@@ -479,9 +491,10 @@ class MakeOrderScreen extends StatelessWidget {
                                         color: Colors.black,
                                         fontWeight: FontWeight.normal,
                                       ),
-                                      validator: (value) => value.trim().isEmpty
-                                          ? "يجب عليك ادخال العنوان الكامل"
-                                          : null,
+                                      validator: (value) =>
+                                          value!.trim().isEmpty
+                                              ? "يجب عليك ادخال العنوان الكامل"
+                                              : null,
                                     ).addDirectionality(),
                                     SizedBox(
                                       height: 10,
@@ -508,6 +521,10 @@ class MakeOrderScreen extends StatelessWidget {
                                           _loginController.phoneController,
                                       keyboardType: TextInputType.phone,
                                       maxLength: 11,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp('[0-9,٠-٩]')),
+                                      ],
                                       decoration: InputDecoration(
                                           fillColor: Colors.grey[100],
                                           filled: true,
@@ -540,9 +557,10 @@ class MakeOrderScreen extends StatelessWidget {
                                         color: Colors.black,
                                         fontWeight: FontWeight.normal,
                                       ),
-                                      validator: (value) => value.trim().isEmpty
-                                          ? "يجب عليك ادخال رقم الهاتف"
-                                          : null,
+                                      validator: (value) =>
+                                          value!.trim().isEmpty
+                                              ? "يجب عليك ادخال رقم الهاتف"
+                                              : null,
                                     ).addDirectionality(),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
@@ -624,9 +642,9 @@ class MakeOrderScreen extends StatelessWidget {
                                                   Radius.circular(30))),
                                     ),
                                     onPressed: () {
-                                      if (_formKey.currentState.validate()) {
+                                      if (_formKey.currentState!.validate()) {
                                         if (_loginController
-                                                .phoneController.text
+                                                .phoneController!.text
                                                 .toString()
                                                 .length ==
                                             11) {

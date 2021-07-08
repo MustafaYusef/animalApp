@@ -4,7 +4,6 @@ import 'package:animal_app/data/profileModel.dart';
 import 'package:animal_app/main.dart';
 import 'package:animal_app/repostarys/authRepostary.dart';
 import 'package:animal_app/ui/customWidget/popLoading.dart';
-import 'package:animal_app/ui/screens/profile/profileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,18 +12,18 @@ import 'package:animal_app/metods/methods.dart';
 import '../../constant.dart';
 
 class EditProfileController extends GetxController {
-  TextEditingController phoneController;
+  TextEditingController? phoneController;
   // TextEditingController passwordTextController;
 
-  TextEditingController nameTextController;
+  TextEditingController? nameTextController;
 
   // TextEditingController emailController;
-  var selectedcity = "".obs;
-  var selectedProv = Map<String, List<String>>().obs;
+  RxString? selectedcity = "".obs;
+  RxMap<String, List<String>>? selectedProv = Map<String, List<String>>().obs;
   var profile = ProfileModel().obs;
   var needLogin = false.obs;
 
-  AuthRepostary repo;
+  late AuthRepostary repo;
 
   @override
   void onInit() {
@@ -35,8 +34,8 @@ class EditProfileController extends GetxController {
     // emailController = TextEditingController();
 
     needLogin.value = false;
-    selectedProv.value = null;
-    selectedcity.value = null;
+    selectedProv = null;
+    selectedcity = null;
     getProfile();
     repo = AuthRepostary();
 
@@ -46,8 +45,8 @@ class EditProfileController extends GetxController {
   Future<void> getProfile() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    phoneController.text = prefs.getString('phone');
-    nameTextController.text = prefs.getString('name');
+    phoneController!.text = prefs.getString('phone')!;
+    nameTextController!.text = prefs.getString('name')!;
     // selectedcity.value = prefs.getString('city');
     // emailController.text = prefs.getString('email');
 
@@ -70,24 +69,24 @@ class EditProfileController extends GetxController {
 
       // await prefs.setString('token', login.data.token);
 
-      String token = await prefs.getString('token');
+      String? token = await prefs.getString('token');
       final login = await repo.updateProfile(
         token,
-        nameTextController?.text.toString(),
-        phoneController?.text.toString().changeToEngilish(),
+        nameTextController!.text.toString(),
+        phoneController!.text.toString().changeToEngilish(),
       );
 
       Get.back();
       // Get.off(ProfileScreen());
       Get.delete<EditProfileController>();
       Get.offAll(Main(3));
-      nameTextController.clear();
-      phoneController.clear();
+      nameTextController!.clear();
+      phoneController!.clear();
       // emailController.clear();
 
       // passwordTextController.clear();
-      selectedProv.value = null;
-      selectedcity.value = null;
+      selectedProv = null;
+      selectedcity = null;
 
       Get.snackbar("تم تعديل الحساب بنجاح", "تم تعديل الحساب بنجاح",
           duration: Duration(seconds: 3),

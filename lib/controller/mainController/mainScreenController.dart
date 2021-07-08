@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:animal_app/controller/mainController/myPetsController.dart';
 import 'package:animal_app/data/myPetsModel.dart';
+import 'package:animal_app/ui/customWidget/updateAppPoo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,7 +26,7 @@ class MainController extends GetxController {
   var popularItem = <ItemOffer>[].obs;
   var offersItem = <ItemOffer>[].obs;
   var offerEmpty = false.obs;
-  var myPets = MyPetsModel().obs;
+  Rx<MyPetsModel?> myPets = MyPetsModel().obs;
   var noPets = false.obs;
   MyPetsController controller = Get.put(MyPetsController());
   // status 0== offers
@@ -33,7 +34,7 @@ class MainController extends GetxController {
   @override
   void onInit() {
     repo = MainRepostary();
-    myPets.value = null;
+    // myPets.value = null;
     getMain();
     super.onInit();
   }
@@ -47,15 +48,21 @@ class MainController extends GetxController {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      String token = prefs.getString('token');
-      final reviewCheck = await repo.getReviewCheck();
-      await prefs.setBool("inReview", reviewCheck.data.reviewCheck.inReview);
-      inReview.value = prefs.getBool("inReview");
-      inReview.value = false;
+      String? token = prefs.getString('token');
+      print("beforrrrr in reviewwwwww");
+      int id = 7;
+      final reviewCheck = await repo.getReviewCheck(id);
+      getReview(id);
+
+      print("in reviewwwwww");
+      print(reviewCheck.data!.reviewCheck!.inReview!);
+      await prefs.setBool("inReview", reviewCheck.data!.reviewCheck!.inReview!);
+      inReview.value = prefs.getBool("inReview")!;
+      // inReview.value = false;
       final banners = await repo.getFirstBanner();
-      banners1.assignAll(banners.data.banners);
+      banners1.assignAll(banners.data!.banners!);
       final banners33 = await repo.getMainCategory();
-      mainCategory.assignAll(banners33.data.categories);
+      mainCategory.assignAll(banners33.data!.categories!);
       if (token != null) {
         print(token);
         await controller.getMyPets();
@@ -68,10 +75,10 @@ class MainController extends GetxController {
       }
 
       final items = await repo.getOfferOrPopularItems(1, 1, 5);
-      popularItem.assignAll(items.data.items);
+      popularItem.assignAll(items.data!.items!);
 
       final itemsw = await repo.getOfferOrPopularItems(0, 1, 5);
-      offersItem.assignAll(itemsw.data.items);
+      offersItem.assignAll(itemsw.data!.items!);
       if (offersItem.isEmpty) {
         offerEmpty.value = true;
       }
@@ -88,6 +95,7 @@ class MainController extends GetxController {
           backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
     } catch (_) {
       // Get.back();
+      print(_.toString());
       Get.snackbar(_.toString(), _.toString(),
           duration: Duration(seconds: 3),
           icon: Icon(
@@ -96,6 +104,41 @@ class MainController extends GetxController {
           ),
           colorText: Colors.white,
           backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+    }
+  }
+
+  Future<void> getReview(int id) async {
+    noPets.value = false;
+    // Get.dialog(popUpLoading(), barrierDismissible: false);
+    noNetFlage.value = false;
+    offerEmpty.value = false;
+    // noPets.value = trfaue;
+    try {
+      int idReview = id + 1;
+      print("beforrrrr in reviewwwwww");
+      final reviewCheck = await repo.getReviewCheck(idReview);
+      UpdateAppPopUp(Get.context);
+    } on SocketException catch (_) {
+      // Get.back();
+      noNetFlage.value = true;
+      Get.snackbar(noNet, noNet,
+          duration: Duration(seconds: 3),
+          icon: Icon(
+            Icons.info,
+            color: Colors.white,
+          ),
+          colorText: Colors.white,
+          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+    } catch (_) {
+      print("no update .......................");
+      // Get.snackbar(_.toString(), _.toString(),
+      //     duration: Duration(seconds: 3),
+      //     icon: Icon(
+      //       Icons.info,
+      //       color: Colors.white,
+      //     ),
+      //     colorText: Colors.white,
+      //     backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
     }
   }
 }

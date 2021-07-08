@@ -1,12 +1,13 @@
 import 'package:animal_app/ui/screens/authScreen/loginScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:animal_app/controller/authController/loginController.dart';
 import 'package:animal_app/metods/extentions.dart';
 import 'package:animal_app/metods/state.dart';
 
 class RegesterScreen extends StatelessWidget {
-  RegesterScreen({Key key}) : super(key: key);
+  RegesterScreen({Key? key}) : super(key: key);
   final LoginController _loginController = Get.put(LoginController());
   final _formKey = GlobalKey<FormState>();
   @override
@@ -54,7 +55,7 @@ class RegesterScreen extends StatelessWidget {
                     margin: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      border: Border.all(color: Colors.grey[300]),
+                      border: Border.all(color: Colors.grey[300]!),
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
@@ -125,7 +126,7 @@ class RegesterScreen extends StatelessWidget {
                                     color: Colors.black,
                                     fontWeight: FontWeight.normal,
                                   ),
-                                  validator: (value) => value.trim().isEmpty
+                                  validator: (value) => value!.trim().isEmpty
                                       ? "يجب عليك ادخال الأسم الكامل"
                                       : null,
                                 ).addDirectionality(),
@@ -154,6 +155,10 @@ class RegesterScreen extends StatelessWidget {
                                       _loginController.phoneRegController,
                                   keyboardType: TextInputType.phone,
                                   maxLength: 11,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp('[0-9,٠-٩]')),
+                                  ],
                                   decoration: InputDecoration(
                                       fillColor: Colors.grey[100],
                                       filled: true,
@@ -184,7 +189,7 @@ class RegesterScreen extends StatelessWidget {
                                     color: Colors.black,
                                     fontWeight: FontWeight.normal,
                                   ),
-                                  validator: (value) => value.trim().isEmpty
+                                  validator: (value) => value!.trim().isEmpty
                                       ? "يجب عليك ادخال رقم الهاتف"
                                       : null,
                                 ).addDirectionality(),
@@ -284,7 +289,7 @@ class RegesterScreen extends StatelessWidget {
                                             horizontal: 10),
                                       ),
                                     ),
-                                    validator: (value) => value.trim().isEmpty
+                                    validator: (value) => value!.trim().isEmpty
                                         ? "يجب عليك ادخال كلمة المرور"
                                         : null,
                                     style: TextStyle(
@@ -307,8 +312,9 @@ class RegesterScreen extends StatelessWidget {
                               child: RaisedButton(
                                 color: Get.theme.accentColor,
                                 onPressed: () {
-                                  if (_formKey.currentState.validate()) {
-                                    if (_loginController.phoneRegController.text
+                                  if (_formKey.currentState!.validate()) {
+                                    if (_loginController
+                                            .phoneRegController!.text
                                             .toString()
                                             .length ==
                                         11) {

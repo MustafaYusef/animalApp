@@ -14,9 +14,9 @@ class OfferPopularItemsModel {
     this.data,
   });
 
-  int statusCode;
-  String message;
-  Data data;
+  int? statusCode;
+  String? message;
+  Data? data;
 
   factory OfferPopularItemsModel.fromJson(Map<String, dynamic> json) =>
       OfferPopularItemsModel(
@@ -28,7 +28,7 @@ class OfferPopularItemsModel {
   Map<String, dynamic> toJson() => {
         "statusCode": statusCode,
         "message": message,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
@@ -41,11 +41,11 @@ class Data {
     this.pages,
   });
 
-  List<ItemOffer> items;
-  int limit;
-  int totalItems;
-  int totalpages;
-  int pages;
+  List<ItemOffer>? items;
+  int? limit;
+  int? totalItems;
+  int? totalpages;
+  int? pages;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         items: List<ItemOffer>.from(
@@ -57,7 +57,7 @@ class Data {
       );
 
   Map<String, dynamic> toJson() => {
-        "items": List<dynamic>.from(items.map((x) => x.toJson())),
+        "items": List<dynamic>.from(items!.map((x) => x.toJson())),
         "limit": limit,
         "totalItems": totalItems,
         "totalpages": totalpages,
@@ -82,21 +82,21 @@ class ItemOffer {
     this.createdAt,
   });
 
-  int id;
-  String name;
-  bool softDelete;
-  String description;
-  int price;
-  int buyed;
-  int offerPrice;
-  bool offer;
-  int count;
+  int? id;
+  String? name;
+  bool? softDelete;
+  String? description;
+  int? price;
+  int? buyed;
+  int? offerPrice;
+  bool? offer;
+  int? count;
 
-  String barcode;
-  String covePhoto;
+  String? barcode;
+  String? covePhoto;
 
-  DateTime updatedAt;
-  DateTime createdAt;
+  DateTime? updatedAt;
+  DateTime? createdAt;
 
   factory ItemOffer.fromJson(Map<String, dynamic> json) => ItemOffer(
         id: json["id"],
@@ -126,7 +126,7 @@ class ItemOffer {
         "count": count,
         "barcode": barcode,
         "cove_photo": covePhoto,
-        "updatedAt": updatedAt.toIso8601String(),
-        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
       };
 }

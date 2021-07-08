@@ -10,7 +10,7 @@ import 'package:animal_app/ui/customWidget/noNetWidget.dart';
 import 'package:animal_app/ui/screens/profile/orderDetails.dart';
 
 class MyBookingScreen extends StatefulWidget {
-  MyBookingScreen({Key key}) : super(key: key);
+  MyBookingScreen({Key? key}) : super(key: key);
 
   @override
   _MyBookingScreenState createState() => _MyBookingScreenState();
@@ -38,134 +38,127 @@ class _MyBookingScreenState extends State<MyBookingScreen> {
           }
         }
       });
-    return WillPopScope(
-      onWillPop: () {
-        // Get.delete<OrderController>();
-        Get.back();
-      },
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          title: Text(
-            "الحجوزات",
-            style: TextStyle(
-                fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
+        centerTitle: true,
+        title: Text(
+          "الحجوزات",
+          style: TextStyle(
+              fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
         ),
-        body: Container(
-            child: Container(
-          child: Column(
-            children: [
-              Expanded(
-                child: Obx(
-                  () => controller.myBooking.isEmpty
-                      ? Container(
-                          child: Center(
-                            child: controller.noNetFlage.value
-                                ? Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      NoInternetWidget(),
-                                      SizedBox(
-                                        height: 20,
+      ),
+      body: Container(
+          child: Container(
+        child: Column(
+          children: [
+            Expanded(
+              child: Obx(
+                () => controller.myBooking.isEmpty
+                    ? Container(
+                        child: Center(
+                          child: controller.noNetFlage.value
+                              ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    NoInternetWidget(),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    InkWell(
+                                      // onTap: () {
+                                      //   controller.initial();
+                                      // },
+                                      child: Text(
+                                        "إعادة المحاولة",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .primaryColorDark),
                                       ),
-                                      InkWell(
-                                        // onTap: () {
-                                        //   controller.initial();
-                                        // },
-                                        child: Text(
-                                          "إعادة المحاولة",
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color: Theme.of(context)
-                                                  .primaryColorDark),
-                                        ),
-                                      )
-                                    ],
-                                  )
-                                : Container(
-                                    child: controller.isEmptyFlage.value
-                                        ? Text("لا يوجد حجوزات لديك")
-                                        : Container(
-                                            height: Get.height,
-                                            width: Get.width,
-                                            child: Center(
-                                              child: Container(
-                                                  child: circularProgress()),
-                                            ),
-                                          )),
-                          ),
-                        )
-                      : Column(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                // padding: EdgeInsets.only(
-                                //     bottom: controller.lastPage ? 0 : 20),
-                                // child: ListView.builder(
-                                //     itemCount: controller.orders.length,
-                                //     itemBuilder: (context, index) {
-                                //       return InkWell(
-                                //         onTap: () {
-                                //           Get.to(OrderDetailsScreen(
-                                //               controller.orders[index]));
-                                //         },
-                                //         child:
-                                //             orderCard(controller.orders[index]),
-                                //       );
-                                //     }),
-                                child: RefreshIndicator(
-                                  onRefresh: () {
-                                    controller.page.value = 1;
-                                    controller.myBooking.clear();
-                                    controller.lastPage.value = false;
-                                    return controller.getMyBooking();
-                                  },
-                                  child: ListView(
-                                      controller: _scrollController,
-                                      children: controller.myBooking.map((e) {
-                                        return bookingCard(e);
-                                      }).toList()),
-                                ),
+                                    )
+                                  ],
+                                )
+                              : Container(
+                                  child: controller.isEmptyFlage.value
+                                      ? Text("لا يوجد حجوزات لديك")
+                                      : Container(
+                                          height: Get.height,
+                                          width: Get.width,
+                                          child: Center(
+                                            child: Container(
+                                                child: circularProgress()),
+                                          ),
+                                        )),
+                        ),
+                      )
+                    : Column(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              // padding: EdgeInsets.only(
+                              //     bottom: controller.lastPage ? 0 : 20),
+                              // child: ListView.builder(
+                              //     itemCount: controller.orders.length,
+                              //     itemBuilder: (context, index) {
+                              //       return InkWell(
+                              //         onTap: () {
+                              //           Get.to(OrderDetailsScreen(
+                              //               controller.orders[index]));
+                              //         },
+                              //         child:
+                              //             orderCard(controller.orders[index]),
+                              //       );
+                              //     }),
+                              child: RefreshIndicator(
+                                onRefresh: () {
+                                  controller.page.value = 1;
+                                  controller.myBooking.clear();
+                                  controller.lastPage.value = false;
+                                  return controller.getMyBooking();
+                                },
+                                child: ListView(
+                                    controller: _scrollController,
+                                    children: controller.myBooking.map((e) {
+                                      return bookingCard(e);
+                                    }).toList()),
                               ),
                             ),
-                            !controller.isLoading.value
-                                ? Container()
-                                : Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                          width: 20,
-                                          height: 20,
-                                          color: Colors.transparent,
-                                          margin: EdgeInsets.only(
-                                              bottom: 20, top: 10),
-                                          child: Theme(
-                                            data: ThemeData(
-                                                accentColor:
-                                                    Get.theme.primaryColor,
-                                                primaryColor:
-                                                    Get.theme.primaryColor),
-                                            child: CircularProgressIndicator(
-                                              strokeWidth: 2,
-                                            ),
-                                          )),
-                                    ],
-                                  )
-                          ],
-                        ),
-                ),
+                          ),
+                          !controller.isLoading.value
+                              ? Container()
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                        width: 20,
+                                        height: 20,
+                                        color: Colors.transparent,
+                                        margin: EdgeInsets.only(
+                                            bottom: 20, top: 10),
+                                        child: Theme(
+                                          data: ThemeData(
+                                              accentColor:
+                                                  Get.theme.primaryColor,
+                                              primaryColor:
+                                                  Get.theme.primaryColor),
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                          ),
+                                        )),
+                                  ],
+                                )
+                        ],
+                      ),
               ),
-            ],
-          ),
-        )),
-      ),
+            ),
+          ],
+        ),
+      )),
     );
   }
 }
@@ -214,7 +207,7 @@ Widget bookingCard(MyList order) {
                                       fontWeight: FontWeight.bold),
                                 ).addDirectionality()
                               : Text(
-                                  order.pet.name.toString(),
+                                  order.pet!.name.toString(),
                                   style: TextStyle(
                                       fontSize: 18,
                                       color: Colors.black,
@@ -230,7 +223,7 @@ Widget bookingCard(MyList order) {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            order.services.inHouse == 1
+                            order.services!.inHouse == 1
                                 ? "داخل المنزل"
                                 : "داخل العيادة",
                             style: TextStyle(

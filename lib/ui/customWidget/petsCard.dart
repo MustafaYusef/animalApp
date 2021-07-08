@@ -22,7 +22,7 @@ class PetsCard extends StatelessWidget {
         width: Get.width / 3.5,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.grey[300]),
+          border: Border.all(color: Colors.grey[300]!),
           color: Get.theme.primaryColor,
           // boxShadow: [
           //   BoxShadow(
@@ -47,7 +47,7 @@ class PetsCard extends StatelessWidget {
                 fit: BoxFit.cover,
                 width: 60,
                 height: 60,
-                imageUrl: imageUrl + myPet.photo,
+                imageUrl: imageUrl + myPet.photo!,
                 placeholder: (context, url) => loadinImage(),
                 errorWidget: (context, url, error) => loadinImage(),
               ),

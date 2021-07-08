@@ -6,7 +6,6 @@ import 'package:animal_app/ui/screens/pets/addPetScreen.dart';
 import 'package:animal_app/ui/screens/searchScreen.dart';
 import 'package:animal_app/ui/screens/servicesScreen.dart';
 import 'package:badges/badges.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -26,7 +25,7 @@ import 'allOfferPopularScreen.dart';
 import 'cartScreen.dart';
 
 class MainScreen extends StatelessWidget {
-  MainScreen({Key key}) : super(key: key);
+  MainScreen({Key? key}) : super(key: key);
   // var listImage = [
   //   "https://img.freepik.com/free-photo/pretty-young-stylish-sexy-woman-pink-luxury-dress-summer-fashion-trend-chic-style-sunglasses-blue-studio-background-shopping-holding-paper-bags-talking-mobile-phone-shopaholic_285396-2957.jpg?size=626&ext=jpg",
   //   "https://thumbs.dreamstime.com/b/portrait-pretty-woman-sunglasses-hat-over-blue-colorful-portrait-pretty-woman-sunglasses-hat-over-blue-103615694.jpg",
@@ -76,7 +75,7 @@ class MainScreen extends StatelessWidget {
               () => Padding(
                 padding: EdgeInsets.only(right: 15, top: 10),
                 child: Container(
-                  child: favouriteController.cartModel.value == null
+                  child: favouriteController.cartModel.value.data == null
                       ? Container()
                       : InkWell(
                           onTap: () {
@@ -84,7 +83,7 @@ class MainScreen extends StatelessWidget {
                           },
                           child: Container(
                             child: favouriteController
-                                        .cartModel.value.data.myCart.length ==
+                                        .cartModel.value.data!.myCart!.length ==
                                     0
                                 ? Icon(
                                     Icons.shopping_cart_outlined,
@@ -94,7 +93,7 @@ class MainScreen extends StatelessWidget {
                                 : Badge(
                                     badgeContent: Text(
                                       favouriteController
-                                          .cartModel.value.data.myCart.length
+                                          .cartModel.value.data!.myCart!.length
                                           .toString(),
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 10),
@@ -137,6 +136,8 @@ class MainScreen extends StatelessWidget {
                                   ),
                                   InkWell(
                                     onTap: () {
+                                      favouriteController.getCart();
+                                      favouriteController1.getFavourite();
                                       controller.getMain();
                                     },
                                     child: Text(
@@ -228,7 +229,7 @@ class MainScreen extends StatelessWidget {
                                                                   .circular(20),
                                                           border: Border.all(
                                                               color: Colors
-                                                                  .grey[300]),
+                                                                  .grey[300]!),
                                                           color: Get.theme
                                                               .accentColor,
                                                           boxShadow: [
@@ -312,8 +313,9 @@ class MainScreen extends StatelessWidget {
                                                                     .circular(
                                                                         20),
                                                             border: Border.all(
-                                                                color: Colors
-                                                                    .grey[300]),
+                                                                color:
+                                                                    Colors.grey[
+                                                                        300]!),
                                                             color: Colors.white,
                                                             boxShadow: [
                                                               BoxShadow(
@@ -421,7 +423,8 @@ class MainScreen extends StatelessWidget {
                                                       controller
                                                                   .controller
                                                                   .petsList
-                                                                  .value ==
+                                                                  .value
+                                                                  .data ==
                                                               null
                                                           ? Container(
                                                               child: controller
@@ -442,7 +445,7 @@ class MainScreen extends StatelessWidget {
                                                                         baseColor:
                                                                             Colors.white,
                                                                         highlightColor:
-                                                                            Colors.grey[100],
+                                                                            Colors.grey[100]!,
                                                                         enabled:
                                                                             true,
                                                                         child: ListView.builder(
@@ -468,8 +471,8 @@ class MainScreen extends StatelessWidget {
                                                                               .controller
                                                                               .petsList
                                                                               .value
-                                                                              .data
-                                                                              .myPet
+                                                                              .data!
+                                                                              .myPet!
                                                                               .length +
                                                                           1,
                                                                       shrinkWrap:
@@ -482,10 +485,10 @@ class MainScreen extends StatelessWidget {
                                                                       itemBuilder:
                                                                           (context,
                                                                               index) {
-                                                                        return controller.controller.petsList.value.data.myPet.length ==
+                                                                        return controller.controller.petsList.value.data!.myPet!.length ==
                                                                                 index
                                                                             ? AddPetsCard()
-                                                                            : PetsCard(controller.controller.petsList.value.data.myPet[index]);
+                                                                            : PetsCard(controller.controller.petsList.value.data!.myPet![index]);
                                                                       }),
                                                             ),
                                                 ),
@@ -560,9 +563,9 @@ class MainScreen extends StatelessWidget {
                                                   .size
                                                   .width,
                                               child: Shimmer.fromColors(
-                                                baseColor: Colors.grey[300],
+                                                baseColor: Colors.grey[300]!,
                                                 highlightColor:
-                                                    Colors.grey[100],
+                                                    Colors.grey[100]!,
                                                 enabled: true,
                                                 child: ListView.builder(
                                                     itemCount: 4,
@@ -645,8 +648,8 @@ class MainScreen extends StatelessWidget {
                                     width: MediaQuery.of(context).size.width,
                                     child: controller.popularItem.value.isEmpty
                                         ? Shimmer.fromColors(
-                                            baseColor: Colors.grey[300],
-                                            highlightColor: Colors.grey[100],
+                                            baseColor: Colors.grey[300]!,
+                                            highlightColor: Colors.grey[100]!,
                                             enabled: true,
                                             child: ListView.builder(
                                                 itemCount: 4,
@@ -744,9 +747,9 @@ class MainScreen extends StatelessWidget {
                                                       .offersItem.value.isEmpty
                                                   ? Shimmer.fromColors(
                                                       baseColor:
-                                                          Colors.grey[300],
+                                                          Colors.grey[300]!,
                                                       highlightColor:
-                                                          Colors.grey[100],
+                                                          Colors.grey[100]!,
                                                       enabled: true,
                                                       child: ListView.builder(
                                                           itemCount: 4,

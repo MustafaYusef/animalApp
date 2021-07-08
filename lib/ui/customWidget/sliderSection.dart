@@ -11,9 +11,9 @@ import 'loadingImage.dart';
 
 class sliderSection extends StatefulWidget {
   sliderSection({
-    Key key,
-    @required int current,
-    @required this.banners,
+    Key? key,
+    required int current,
+    required this.banners,
   })  : _current = current,
         super(key: key);
 
@@ -35,7 +35,7 @@ class _sliderSectionState extends State<sliderSection> {
     return Container(
       child: Stack(children: <Widget>[
         CarouselSlider.builder(
-            itemCount: widget.banners?.length == 0 ? 1 : widget.banners.length,
+            itemCount: widget.banners.length == 0 ? 1 : widget.banners.length,
             options: CarouselOptions(
               height: Get.height / 3.5,
               viewportFraction: 1.0,
@@ -67,7 +67,7 @@ class _sliderSectionState extends State<sliderSection> {
                                   height: Get.height / 3.5,
                                   width: MediaQuery.of(context).size.width,
                                   imageUrl: imageUrl +
-                                      widget.banners[widget._current].photo,
+                                      widget.banners[widget._current].photo!,
                                   placeholder: (context, url) => loadinImage(),
                                   errorWidget: (context, url, error) =>
                                       loadinImage()),

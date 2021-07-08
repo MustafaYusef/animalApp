@@ -11,7 +11,7 @@ import 'package:animal_app/metods/methods.dart';
 import 'loadingImage.dart';
 
 class orderItemCard extends StatelessWidget {
-  OrderItem item;
+  OrderItem? item;
   orderItemCard([this.item]);
 
   @override
@@ -38,7 +38,7 @@ class orderItemCard extends StatelessWidget {
               fit: BoxFit.cover,
               width: (Get.width / 3) - 10,
               height: 120,
-              imageUrl: imageUrl + item.covePhoto.toString(),
+              imageUrl: imageUrl + item!.covePhoto.toString(),
               placeholder: (context, url) => loadinImage(),
               errorWidget: (context, url, error) => loadinImage(),
             ),
@@ -55,7 +55,7 @@ class orderItemCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
-                      item.name,
+                      item!.name!,
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,
@@ -67,7 +67,7 @@ class orderItemCard extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              "العدد : " + item.count.toString(),
+                              "العدد : " + item!.count.toString(),
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 17,

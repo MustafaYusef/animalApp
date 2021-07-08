@@ -4,7 +4,7 @@ import 'package:lottie/lottie.dart';
 
 class circularProgress extends StatelessWidget {
   const circularProgress({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

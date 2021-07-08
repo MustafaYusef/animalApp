@@ -14,9 +14,9 @@ class ItemsPaginationModel {
     this.data,
   });
 
-  int statusCode;
-  String message;
-  Data data;
+  int? statusCode;
+  String? message;
+  Data? data;
 
   factory ItemsPaginationModel.fromJson(Map<String, dynamic> json) =>
       ItemsPaginationModel(
@@ -28,7 +28,7 @@ class ItemsPaginationModel {
   Map<String, dynamic> toJson() => {
         "statusCode": statusCode,
         "message": message,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
@@ -38,8 +38,8 @@ class Data {
     this.subCategory,
   });
 
-  PaginationItems paginationItems;
-  List<SubCategory> subCategory;
+  PaginationItems? paginationItems;
+  List<SubCategory>? subCategory;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         paginationItems: PaginationItems.fromJson(json["pagination_items"]),
@@ -48,8 +48,8 @@ class Data {
       );
 
   Map<String, dynamic> toJson() => {
-        "pagination_items": paginationItems.toJson(),
-        "subCategory": List<dynamic>.from(subCategory.map((x) => x.toJson())),
+        "pagination_items": paginationItems!.toJson(),
+        "subCategory": List<dynamic>.from(subCategory!.map((x) => x.toJson())),
       };
 }
 
@@ -83,11 +83,11 @@ class PaginationItems {
     this.pages,
   });
 
-  List<Item> items;
-  int limit;
-  int totalItems;
-  int totalpages;
-  int pages;
+  List<Item>? items;
+  int? limit;
+  int? totalItems;
+  int? totalpages;
+  int? pages;
 
   factory PaginationItems.fromJson(Map<String, dynamic> json) =>
       PaginationItems(
@@ -99,7 +99,7 @@ class PaginationItems {
       );
 
   Map<String, dynamic> toJson() => {
-        "Items": List<dynamic>.from(items.map((x) => x.toJson())),
+        "Items": List<dynamic>.from(items!.map((x) => x.toJson())),
         "limit": limit,
         "totalItems": totalItems,
         "totalpages": totalpages,
@@ -119,14 +119,14 @@ class Item {
     this.covePhoto,
   });
 
-  int id;
-  String name;
-  String description;
-  int price;
-  int offerPrice;
-  bool offer;
-  int count;
-  String covePhoto;
+  int? id;
+  String? name;
+  String? description;
+  int? price;
+  int? offerPrice;
+  bool? offer;
+  int? count;
+  String? covePhoto;
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
         id: json["id"],
@@ -158,9 +158,9 @@ class SubCategory {
     this.photo,
   });
 
-  int id;
-  String name;
-  String photo;
+  int? id;
+  String? name;
+  String? photo;
 
   factory SubCategory.fromJson(Map<String, dynamic> json) => SubCategory(
         id: json["id"],

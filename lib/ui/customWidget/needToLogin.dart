@@ -5,7 +5,7 @@ import 'package:animal_app/ui/screens/authScreen/loginScreen.dart';
 import 'package:animal_app/ui/screens/authScreen/regesterSceen.dart';
 
 class NeedToLoginWidget extends StatelessWidget {
-  const NeedToLoginWidget({Key key}) : super(key: key);
+  const NeedToLoginWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

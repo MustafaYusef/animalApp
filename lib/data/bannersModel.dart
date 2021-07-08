@@ -14,9 +14,9 @@ class BannersModel {
     this.data,
   });
 
-  int statusCode;
-  String message;
-  Data data;
+  int? statusCode;
+  String? message;
+  Data? data;
 
   factory BannersModel.fromJson(Map<String, dynamic> json) => BannersModel(
         statusCode: json["statusCode"],
@@ -27,7 +27,7 @@ class BannersModel {
   Map<String, dynamic> toJson() => {
         "statusCode": statusCode,
         "message": message,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
@@ -36,7 +36,7 @@ class Data {
     this.banners,
   });
 
-  List<BannerItem> banners;
+  List<BannerItem>? banners;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         banners: List<BannerItem>.from(
@@ -44,7 +44,7 @@ class Data {
       );
 
   Map<String, dynamic> toJson() => {
-        "banners": List<dynamic>.from(banners.map((x) => x.toJson())),
+        "banners": List<dynamic>.from(banners!.map((x) => x.toJson())),
       };
 }
 
@@ -54,8 +54,8 @@ class BannerItem {
     this.photo,
   });
 
-  int id;
-  String photo;
+  int? id;
+  String? photo;
 
   factory BannerItem.fromJson(Map<String, dynamic> json) => BannerItem(
         id: json["id"],

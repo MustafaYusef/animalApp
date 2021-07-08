@@ -7,13 +7,13 @@ import 'package:get/get.dart';
 import 'package:animal_app/metods/extentions.dart';
 
 class ServicesScreen extends StatelessWidget {
-  int inHouse;
+  int? inHouse;
   ServicesScreen(this.inHouse) {
     _controller = Get.put(ServicesController());
-    _controller.sectionsList.value = null;
+    // _controller.sectionsList.value = null;
     _controller.getSections(inHouse);
   }
-  ServicesController _controller;
+  late ServicesController _controller;
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,7 @@ class ServicesScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Container(
-                          child: _controller.sectionsList.value == null
+                          child: _controller.isLoadingServecis.value
                               ? Container(
                                   width: Get.width,
                                   height: Get.height,
@@ -94,8 +94,8 @@ class ServicesScreen extends StatelessWidget {
                                   ),
                                 )
                               : Container(
-                                  child: _controller.sectionsList.value.data
-                                          .services.isEmpty
+                                  child: _controller.sectionsList.value!.data!
+                                          .services!.isEmpty
                                       ? Container(
                                           width: Get.width,
                                           height: Get.height,
@@ -110,14 +110,14 @@ class ServicesScreen extends StatelessWidget {
                                           },
                                           child: ListView.builder(
                                             itemCount: _controller.sectionsList
-                                                .value.data.services.length,
+                                                .value!.data!.services!.length,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
                                               return servicesCard(_controller
                                                   .sectionsList
-                                                  .value
-                                                  .data
-                                                  .services[index]);
+                                                  .value!
+                                                  .data!
+                                                  .services![index]);
                                             },
                                           ),
                                         ),

@@ -51,7 +51,7 @@ class itemCard extends StatelessWidget {
                         fit: BoxFit.cover,
                         width: 150,
                         height: 140,
-                        imageUrl: imageUrl + item.covePhoto,
+                        imageUrl: imageUrl + item.covePhoto!,
                         placeholder: (context, url) => loadinImage(),
                         errorWidget: (context, url, error) => loadinImage(),
                       ),
@@ -78,7 +78,8 @@ class itemCard extends StatelessWidget {
                   ),
                 ),
                 Obx(
-                  () => favouriteController.needLogin.value
+                  () => favouriteController.needLogin.value ||
+                          favouriteController.isLoading.value
                       ? Container()
                       : Positioned(
                           top: 10.0,
@@ -91,22 +92,23 @@ class itemCard extends StatelessWidget {
                                   SharedPreferences prefs =
                                       await SharedPreferences.getInstance();
 
-                                  String token = await prefs.getString('token');
+                                  String? token =
+                                      await prefs.getString('token');
                                   if (token != null) {
                                     int id = 0;
                                     if (favouriteController
-                                        .favouriteList.value.data.myFavorite
-                                        .any((e) => e.items.id == item.id)) {
+                                        .favouriteList.value.data!.myFavorite!
+                                        .any((e) => e.items!.id == item.id)) {
                                       print("yes");
                                       id = favouriteController
-                                          .favouriteList.value.data.myFavorite
+                                          .favouriteList.value.data!.myFavorite!
                                           .indexWhere(
-                                              (e) => e.items.id == item.id)
+                                              (e) => e.items!.id == item.id)
                                           .toInt();
                                       print(id);
                                       favouriteController.deleteFavourite(
                                           favouriteController.favouriteList
-                                              .value.data.myFavorite[id].id);
+                                              .value.data!.myFavorite![id].id);
                                     } else {
                                       print("no");
 
@@ -136,8 +138,9 @@ class itemCard extends StatelessWidget {
                                   height: 40,
                                   child: Center(
                                       child: favouriteController.favouriteList
-                                              .value.data.myFavorite
-                                              .any((e) => e.items.id == item.id)
+                                              .value.data!.myFavorite!
+                                              .any(
+                                                  (e) => e.items!.id == item.id)
                                           ? Icon(
                                               Icons.favorite,
                                               size: 25,
@@ -185,12 +188,12 @@ class itemCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    item.name,
+                    item.name!,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: item.name.length > 10 ? 14 : 18,
+                        fontSize: item.name!.length > 10 ? 14 : 18,
                         fontWeight: FontWeight.bold),
                   ).addDirectionality(),
                   Row(
@@ -199,7 +202,7 @@ class itemCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            item.offer
+                            item.offer!
                                 ? item.offerPrice.toString() + " " + "د.ع"
                                 : item.price.toString() + " " + "د.ع",
                             style: TextStyle(
@@ -210,7 +213,7 @@ class itemCard extends StatelessWidget {
                           SizedBox(
                             width: 5,
                           ),
-                          item.offer
+                          item.offer!
                               ? Text(
                                   item.price.toString(),
                                   style: TextStyle(

@@ -21,7 +21,7 @@ class AddPetsCard extends StatelessWidget {
             width: Get.width / 5,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.grey[300]),
+              border: Border.all(color: Colors.grey[300]!),
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
@@ -36,7 +36,7 @@ class AddPetsCard extends StatelessWidget {
               onTap: () async {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
 
-                String token = prefs.getString('token');
+                String? token = prefs.getString('token');
                 if (token == null) {
                   Get.to(RegesterScreen());
                 } else {

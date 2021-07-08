@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:path_provider/path_provider.dart';
@@ -12,8 +14,9 @@ import 'package:animal_app/controller/mainController/orderController.dart';
 import 'package:animal_app/controller/mainController/sectionsController.dart';
 import 'package:animal_app/metods/extentions.dart';
 import 'package:animal_app/ui/screens/authScreen/loginScreen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-LogoutPopUp(contex2) {
+UpdateAppPopUp(contex2) {
   // TextEditingController text = TextEditingController();
   var alertStyle = AlertStyle(
     // animationType: AnimationType.fromTop,
@@ -41,7 +44,7 @@ LogoutPopUp(contex2) {
       style: alertStyle,
       context: contex2,
       type: AlertType.info,
-      title: "هل تريد تسجيل الخروج",
+      title: "يوجد أصدار جديد يرجى التحديث",
       closeFunction: () {
         Get.back();
       },
@@ -54,22 +57,23 @@ LogoutPopUp(contex2) {
           onPressed: () => null,
           child: InkWell(
             onTap: () async {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              prefs.clear();
-              Get.delete<MainController>();
-              Get.delete<FavouriteController>();
-              Get.delete<ItemDetailsController>();
-              Get.delete<OrderController>();
-              Get.delete<SectionsController>();
-
-              Get.offAll(LoginScreen());
+              print("click");
+              try {
+                await launch(
+                  "http://onelink.to/svc2kq",
+                  forceSafariVC: false,
+                );
+              } catch (_) {
+                print(_.toString());
+              }
+              Get.back();
             },
             child: Container(
               height: 50,
               width: MediaQuery.of(contex2).size.width - 200,
               child: Center(
                 child: Text(
-                  "تسجيل الخروج",
+                  "تحديث التطبيق",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,

@@ -167,9 +167,9 @@ class MyBookingModel {
     this.data,
   });
 
-  int statusCode;
-  String message;
-  Data data;
+  int? statusCode;
+  String? message;
+  Data? data;
 
   factory MyBookingModel.fromJson(Map<String, dynamic> json) => MyBookingModel(
         statusCode: json["statusCode"],
@@ -180,7 +180,7 @@ class MyBookingModel {
   Map<String, dynamic> toJson() => {
         "statusCode": statusCode,
         "message": message,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
@@ -193,11 +193,11 @@ class Data {
     this.pages,
   });
 
-  List<MyList> myList;
-  int limit;
-  int totalItems;
-  int totalpages;
-  int pages;
+  List<MyList>? myList;
+  int? limit;
+  int? totalItems;
+  int? totalpages;
+  int? pages;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         myList:
@@ -209,7 +209,7 @@ class Data {
       );
 
   Map<String, dynamic> toJson() => {
-        "my_list": List<dynamic>.from(myList.map((x) => x.toJson())),
+        "my_list": List<dynamic>.from(myList!.map((x) => x.toJson())),
         "limit": limit,
         "totalItems": totalItems,
         "totalpages": totalpages,
@@ -232,17 +232,17 @@ class MyList {
     this.pet,
   });
 
-  int id;
-  int status;
-  String address;
-  String phone;
-  String price;
-  String notes;
-  String visitAt;
-  DateTime updatedAt;
-  DateTime createdAt;
-  Services services;
-  Pet pet;
+  int? id;
+  int? status;
+  String? address;
+  String? phone;
+  String? price;
+  String? notes;
+  String? visitAt;
+  DateTime? updatedAt;
+  DateTime? createdAt;
+  Services? services;
+  Pet? pet;
 
   factory MyList.fromJson(Map<String, dynamic> json) => MyList(
         id: json["id"],
@@ -266,10 +266,10 @@ class MyList {
         "price": price,
         "notes": notes,
         "visit_at": visitAt,
-        "updatedAt": updatedAt.toIso8601String(),
-        "createdAt": createdAt.toIso8601String(),
-        "services": services.toJson(),
-        "pet": pet == null ? null : pet.toJson(),
+        "updatedAt": updatedAt!.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
+        "services": services!.toJson(),
+        "pet": pet == null ? null : pet!.toJson(),
       };
 }
 
@@ -288,17 +288,17 @@ class Pet {
     this.createdAt,
   });
 
-  int id;
-  String name;
-  String type;
-  DateTime age;
-  int sex;
-  bool softDelete;
-  String description;
-  String lastVaccine;
-  String photo;
-  DateTime updatedAt;
-  DateTime createdAt;
+  int? id;
+  String? name;
+  String? type;
+  DateTime? age;
+  int? sex;
+  bool? softDelete;
+  String? description;
+  String? lastVaccine;
+  String? photo;
+  DateTime? updatedAt;
+  DateTime? createdAt;
 
   factory Pet.fromJson(Map<String, dynamic> json) => Pet(
         id: json["id"],
@@ -318,14 +318,14 @@ class Pet {
         "id": id,
         "name": name,
         "type": type,
-        "age": age.toIso8601String(),
+        "age": age!.toIso8601String(),
         "sex": sex,
         "softDelete": softDelete,
         "description": description,
         "last_vaccine": lastVaccine,
         "photo": photo,
-        "updatedAt": updatedAt.toIso8601String(),
-        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
       };
 }
 
@@ -337,10 +337,10 @@ class Services {
     this.photo,
   });
 
-  int id;
-  String name;
-  int inHouse;
-  String photo;
+  int? id;
+  String? name;
+  int? inHouse;
+  String? photo;
 
   factory Services.fromJson(Map<String, dynamic> json) => Services(
         id: json["id"],

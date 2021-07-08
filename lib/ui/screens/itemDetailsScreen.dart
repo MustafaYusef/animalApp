@@ -22,15 +22,15 @@ import '../../constant.dart';
 // }
 
 class ItemDetailsScreen extends StatelessWidget {
-  ItemDetailsController controller;
+  ItemDetailsController? controller;
 
   Item item;
-  int cartCount;
+  int? cartCount;
   ItemDetailsScreen(this.item, [this.cartCount]) {
     controller = Get.put(ItemDetailsController());
-    controller.id = item.id;
+    controller!.id = item.id;
     if (cartCount != null) {
-      controller.count.value = cartCount;
+      controller!.count.value = cartCount!;
     }
   }
   // @override
@@ -47,16 +47,17 @@ class ItemDetailsScreen extends StatelessWidget {
   //   cart = result.length;
   //   setState(() {});
   // }
+  Future<bool> _wiilPop() async {
+    controller!.count.value = 1;
+    Get.back();
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
     FavouriteController favouriteController = Get.put(FavouriteController());
     return WillPopScope(
-      onWillPop: () {
-        // Get.delete<ItemDetailsController>();
-        controller.count.value = 1;
-        Get.back();
-      },
+      onWillPop: _wiilPop,
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -71,29 +72,36 @@ class ItemDetailsScreen extends StatelessWidget {
               padding: EdgeInsets.only(right: 15, top: 10),
               child: Obx(
                 () => Container(
-                  child: controller.cartModel.value == null
+                  child: controller!.needLogin.value
                       ? Container()
-                      : Container(
-                          child:
-                              controller.cartModel.value.data.myCart.length == 0
-                                  ? Container()
-                                  : Badge(
-                                      badgeContent: Text(
-                                        controller
-                                            .cartModel.value.data.myCart.length
-                                            .toString(),
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 10),
-                                      ),
-                                      badgeColor: Colors.deepOrange,
-                                      child: InkWell(
-                                          onTap: () {
-                                            Get.to(CartScreen());
-                                          },
-                                          child: Icon(
-                                              Icons.shopping_cart_outlined,
-                                              color: Colors.black)),
-                                    ),
+                      : Padding(
+                          padding: const EdgeInsets.all(1.0),
+                          child: controller!.isLoading.value
+                              ? Container()
+                              : Container(
+                                  child: controller!.cartModel.value.data!
+                                              .myCart!.length ==
+                                          0
+                                      ? Container()
+                                      : Badge(
+                                          badgeContent: Text(
+                                            controller!.cartModel.value.data!
+                                                .myCart!.length
+                                                .toString(),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 10),
+                                          ),
+                                          badgeColor: Colors.deepOrange,
+                                          child: InkWell(
+                                              onTap: () {
+                                                Get.to(CartScreen());
+                                              },
+                                              child: Icon(
+                                                  Icons.shopping_cart_outlined,
+                                                  color: Colors.black)),
+                                        ),
+                                ),
                         ),
                 ),
               ),
@@ -129,7 +137,7 @@ class ItemDetailsScreen extends StatelessWidget {
                                           borderRadius:
                                               BorderRadius.circular(20),
                                           border: Border.all(
-                                              color: Colors.grey[300]),
+                                              color: Colors.grey[300]!),
                                           color: Colors.white,
                                           boxShadow: [
                                             BoxShadow(
@@ -149,7 +157,7 @@ class ItemDetailsScreen extends StatelessWidget {
                                             borderRadius:
                                                 BorderRadius.circular(20),
                                             border: Border.all(
-                                                color: Colors.grey[300]),
+                                                color: Colors.grey[300]!),
                                             // color: Get.theme.accentColor,
                                             // boxShadow: [
                                             //   BoxShadow(
@@ -216,8 +224,7 @@ class ItemDetailsScreen extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      favouriteController.favouriteList.value ==
-                                              null
+                                      favouriteController.isLoading.value
                                           ? Container()
                                           : Positioned(
                                               top: 50.0,
@@ -232,26 +239,27 @@ class ItemDetailsScreen extends StatelessWidget {
                                                           await SharedPreferences
                                                               .getInstance();
 
-                                                      String token = await prefs
-                                                          .getString('token');
+                                                      String? token =
+                                                          await prefs.getString(
+                                                              'token');
                                                       if (token != null) {
                                                         int id = 0;
                                                         if (favouriteController
                                                             .favouriteList
                                                             .value
-                                                            .data
-                                                            .myFavorite
+                                                            .data!
+                                                            .myFavorite!
                                                             .any((e) =>
-                                                                e.items.id ==
+                                                                e.items!.id ==
                                                                 item.id)) {
                                                           print("yes");
                                                           id = favouriteController
                                                               .favouriteList
                                                               .value
-                                                              .data
-                                                              .myFavorite
+                                                              .data!
+                                                              .myFavorite!
                                                               .indexWhere((e) =>
-                                                                  e.items.id ==
+                                                                  e.items!.id ==
                                                                   item.id)
                                                               .toInt();
                                                           print(id);
@@ -260,8 +268,8 @@ class ItemDetailsScreen extends StatelessWidget {
                                                                   favouriteController
                                                                       .favouriteList
                                                                       .value
-                                                                      .data
-                                                                      .myFavorite[
+                                                                      .data!
+                                                                      .myFavorite![
                                                                           id]
                                                                       .id);
                                                         } else {
@@ -291,43 +299,47 @@ class ItemDetailsScreen extends StatelessWidget {
                                                                     0.3));
                                                       }
                                                     },
-                                                    child: Container(
-                                                      margin: EdgeInsets.only(
-                                                          bottom: 10),
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          22.5)),
-                                                          color: Colors.grey),
-                                                      width: 45,
-                                                      height: 45,
-                                                      child: Center(
-                                                          child: favouriteController
-                                                                  .favouriteList
-                                                                  .value
-                                                                  .data
-                                                                  .myFavorite
-                                                                  .any((e) =>
-                                                                      e.items
-                                                                          .id ==
-                                                                      item.id)
-                                                              ? Icon(
-                                                                  Icons
-                                                                      .favorite,
-                                                                  size: 25,
-                                                                  color: Colors
-                                                                      .red[600],
-                                                                )
-                                                              : Icon(
-                                                                  Icons
-                                                                      .favorite,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  size: 25,
-                                                                )),
-                                                    ),
+                                                    child:
+                                                        favouriteController
+                                                                .needLogin.value
+                                                            ? Container()
+                                                            : Container(
+                                                                margin: EdgeInsets
+                                                                    .only(
+                                                                        bottom:
+                                                                            10),
+                                                                decoration: BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.all(Radius.circular(
+                                                                            22.5)),
+                                                                    color: Colors
+                                                                        .grey),
+                                                                width: 45,
+                                                                height: 45,
+                                                                child: Center(
+                                                                    child: favouriteController
+                                                                            .favouriteList
+                                                                            .value
+                                                                            .data!
+                                                                            .myFavorite!
+                                                                            .any((e) =>
+                                                                                e.items!.id ==
+                                                                                item.id)
+                                                                        ? Icon(
+                                                                            Icons.favorite,
+                                                                            size:
+                                                                                25,
+                                                                            color:
+                                                                                Colors.red[600],
+                                                                          )
+                                                                        : Icon(
+                                                                            Icons.favorite,
+                                                                            color:
+                                                                                Colors.white,
+                                                                            size:
+                                                                                25,
+                                                                          )),
+                                                              ),
                                                   ),
                                                 ],
                                               ))
@@ -349,7 +361,7 @@ class ItemDetailsScreen extends StatelessWidget {
                               Container(
                                 padding: EdgeInsets.only(top: 10),
                                 child: Text(
-                                  item.name,
+                                  item.name!,
                                   style: TextStyle(
                                     fontSize: 22,
                                     fontWeight: FontWeight.bold,
@@ -364,7 +376,7 @@ class ItemDetailsScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Container(
-                                    child: !item.offer
+                                    child: !item.offer!
                                         ? Container()
                                         : Text(
                                             item.price.toString() + " " + "د.ع",
@@ -381,7 +393,7 @@ class ItemDetailsScreen extends StatelessWidget {
                                   ),
                                   Container(
                                     child: Text(
-                                      item.offer
+                                      item.offer!
                                           ? item.offerPrice.toString() +
                                               " " +
                                               "د.ع"
@@ -389,7 +401,7 @@ class ItemDetailsScreen extends StatelessWidget {
                                       style: TextStyle(
                                         fontSize: 22,
                                         fontWeight: FontWeight.bold,
-                                        color: item.offer
+                                        color: item.offer!
                                             ? red
                                             : Get.theme.accentColor,
                                       ),
@@ -402,7 +414,7 @@ class ItemDetailsScreen extends StatelessWidget {
                               ),
                               Container(
                                 child: Text(
-                                  item.description,
+                                  item.description!,
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.grey[800],
@@ -448,7 +460,7 @@ class ItemDetailsScreen extends StatelessWidget {
 }
 
 class countWidget extends StatelessWidget {
-  ItemDetailsController controller;
+  ItemDetailsController? controller;
   Item item;
   countWidget(this.controller, this.item);
   @override
@@ -469,9 +481,9 @@ class countWidget extends StatelessWidget {
                         ? null
                         : () {
                             print("idddddddd");
-                            print(controller.id);
-                            if (controller.count.value != 0) {
-                              controller.addCart(controller.id);
+                            print(controller!.id);
+                            if (controller!.count.value != 0) {
+                              controller!.addCart(controller!.id);
                             } else {
                               Get.snackbar(
                                   "أضف كمية", "يجب اضافة الكمية المطلوبة",
@@ -546,7 +558,7 @@ class countWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.grey[100],
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.grey[300]),
+                  border: Border.all(color: Colors.grey[300]!),
                   // color: Get.theme.accentColor,
                   boxShadow: [
                     BoxShadow(
@@ -562,8 +574,8 @@ class countWidget extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () {
-                        if (controller.count.value > 1) {
-                          controller.count.value--;
+                        if (controller!.count.value > 1) {
+                          controller!.count.value--;
                         }
                       },
                       child: Padding(
@@ -580,7 +592,7 @@ class countWidget extends StatelessWidget {
                     Container(
                       child: Obx(
                         () => Text(
-                          controller.count.value.toString(),
+                          controller!.count.value.toString(),
                           style: TextStyle(color: Colors.black, fontSize: 20),
                         ),
                       ),
@@ -590,8 +602,8 @@ class countWidget extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        if (item.count > controller.count.value) {
-                          controller.count.value++;
+                        if (item.count! > controller!.count.value) {
+                          controller!.count.value++;
                         } else {
                           Get.snackbar("أنتهت الكمية", "أنتهت الكمية",
                               duration: Duration(seconds: 3),

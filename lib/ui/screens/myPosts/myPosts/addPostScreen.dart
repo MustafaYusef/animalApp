@@ -16,11 +16,14 @@ class AddPostScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    Future<bool> _wiilPop() async {
+      Get.delete<PostController>();
+      Get.back();
+      return true;
+    }
+
     return WillPopScope(
-      onWillPop: () {
-        Get.delete<PostController>();
-        Get.back();
-      },
+      onWillPop: _wiilPop,
       child: Scaffold(
           backgroundColor: Colors.grey[50],
           appBar: AppBar(
@@ -48,7 +51,7 @@ class AddPostScreen extends StatelessWidget {
                   Column(
                     children: [
                       Obx(
-                        () => _loginController.imageFile.value == null
+                        () => _loginController.imageFile.value.path == ""
                             ? InkWell(
                                 onTap: () {
                                   selecteImagePost(_loginController);
@@ -57,8 +60,8 @@ class AddPostScreen extends StatelessWidget {
                                     height: Get.width - 200,
                                     width: Get.width - 200,
                                     decoration: BoxDecoration(
-                                        border:
-                                            Border.all(color: Colors.grey[300]),
+                                        border: Border.all(
+                                            color: Colors.grey[300]!),
                                         color: Colors.white,
                                         boxShadow: [
                                           BoxShadow(
@@ -140,7 +143,7 @@ class AddPostScreen extends StatelessWidget {
                         margin: EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
-                          border: Border.all(color: Colors.grey[300]),
+                          border: Border.all(color: Colors.grey[300]!),
                           color: Colors.white,
                           boxShadow: [
                             BoxShadow(
@@ -290,7 +293,7 @@ class AddPostScreen extends StatelessWidget {
                                   child: RaisedButton(
                                     color: Get.theme.accentColor,
                                     onPressed: () {
-                                      if (_formKey.currentState.validate()) {
+                                      if (_formKey.currentState!.validate()) {
                                         _loginController.addPost();
                                       }
                                     },

@@ -5,7 +5,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:responsive_grid/responsive_grid.dart';
 import 'package:animal_app/controller/mainController/favouriteController.dart';
 import 'package:animal_app/ui/customWidget/favouriteItemCard.dart';
 import 'package:animal_app/ui/customWidget/needToLogin.dart';
@@ -20,11 +19,14 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future<bool> _wiilPop() async {
+      Get.delete<SerchController>();
+      Get.back();
+      return true;
+    }
+
     return WillPopScope(
-      onWillPop: () {
-        Get.delete<SerchController>();
-        Get.back();
-      },
+      onWillPop: _wiilPop,
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(

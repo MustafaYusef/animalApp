@@ -13,9 +13,10 @@ class SectionsItemsController extends GetxController {
   var sectionsList = ItemsPaginationModel().obs;
   var noNetFlage = false.obs;
   var id = 0.obs;
-  MainRepostary repo;
+  late MainRepostary repo;
 
   var isLoading = false.obs;
+  var isMainLoading = false.obs;
 
   var isEmptyFlage = false.obs;
   var page = 1.obs;
@@ -27,7 +28,7 @@ class SectionsItemsController extends GetxController {
   final lastPage = false.obs;
   @override
   void onInit() {
-    sectionsList.value = null;
+    // sectionsList.value = null;
     repo = MainRepostary();
     super.onInit();
   }
@@ -35,19 +36,22 @@ class SectionsItemsController extends GetxController {
   Future<void> getSubCategory() async {
     noNetFlage.value = false;
     isEmptyFlage.value = false;
-    isLoading.value = true;
+
+    // isMainLoading.value = true;
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
       // String token = await prefs.getString('token');
       final banners1 = await repo.getCategoryItem(id.value, page.value, 10);
-      if (banners1.data.subCategory.isEmpty) {
+      isMainLoading.value = false;
+
+      if (banners1.data!.subCategory!.isEmpty) {
         sectionsList.value = banners1;
         isLoading.value = false;
-        if (banners1.data.paginationItems.items.isEmpty) {
+        if (banners1.data!.paginationItems!.items!.isEmpty) {
           lastPage.value = true;
         } else {
-          itemsOffPop.addAll(banners1.data.paginationItems.items);
+          itemsOffPop.addAll(banners1.data!.paginationItems!.items!);
           page.value++;
         }
 
@@ -57,7 +61,10 @@ class SectionsItemsController extends GetxController {
       } else {
         sectionsList.value = banners1;
       }
+      isMainLoading.value = false;
     } on SocketException catch (_) {
+      isMainLoading.value = false;
+
       noNetFlage.value = true;
       Get.snackbar(noNet, noNet,
           duration: Duration(seconds: 3),
@@ -69,6 +76,8 @@ class SectionsItemsController extends GetxController {
           backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
     } catch (_) {
       // Get.back();
+      isMainLoading.value = false;
+
       Get.snackbar("لديك خطأ في معلومات الدخول", "لديك خطأ في معلومات الدخول",
           duration: Duration(seconds: 3),
           icon: Icon(
