@@ -195,10 +195,10 @@ class ItemDetailsController extends GetxController {
         final banners1 = await repo.getCart(token);
         countArray.value = banners1.data!.myCart!.map((e) => e.count!).toList();
         cartModel.value = banners1;
-        // cartModel.value.data!.myCart!.forEach((e) {
-        //   sumCart.value +=
-        //       e.offer! ? e.itemOfferPrice! * e.count! : e.itemPrice! * e.count!;
-        // });
+        cartModel.value.data!.myCart!.forEach((e) {
+          sumCart.value +=
+              e.offer! ? e.itemOfferPrice! * e.count! : e.itemPrice! * e.count!;
+        });
         print("carttttttttt ..........   ");
         print(cartModel.value.data!.myCart);
       }

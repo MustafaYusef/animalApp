@@ -50,7 +50,7 @@ class MainController extends GetxController {
 
       String? token = prefs.getString('token');
       print("beforrrrr in reviewwwwww");
-      int id = 7;
+      int id = 8;
       final reviewCheck = await repo.getReviewCheck(id);
       getReview(id);
 
@@ -117,7 +117,9 @@ class MainController extends GetxController {
       int idReview = id + 1;
       print("beforrrrr in reviewwwwww");
       final reviewCheck = await repo.getReviewCheck(idReview);
-      UpdateAppPopUp(Get.context);
+      if (!reviewCheck.data!.reviewCheck!.inReview!) {
+        UpdateAppPopUp(Get.context);
+      }
     } on SocketException catch (_) {
       // Get.back();
       noNetFlage.value = true;
