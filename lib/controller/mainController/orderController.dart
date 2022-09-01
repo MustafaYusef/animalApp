@@ -1,50 +1,75 @@
 import 'dart:io';
 
+import 'package:animal_app/data/cityModel.dart';
+import 'package:animal_app/data/govModel.dart';
+import 'package:animal_app/metods/alerts.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:get/state_manager.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:animal_app/controller/authController/loginController.dart';
 import 'package:animal_app/data/myOrderModel.dart';
-import 'package:animal_app/data/shippingPrice.dart';
 import 'package:animal_app/metods/state.dart';
 import 'package:animal_app/metods/methods.dart';
 import 'package:animal_app/repostarys/mainRepastory.dart';
 import 'package:animal_app/ui/customWidget/popLoading.dart';
 
-import 'package:animal_app/ui/screens/profile/myOrderScreen.dart';
-
 import '../../constant.dart';
+import '../../metods/giftPopUp.dart';
+import '../../metods/locationEnablePop.dart';
+import '../../metods/locationServices.dart';
+import '../../ui/screens/profile/myOrderScreen.dart';
 import 'itemDetailsController.dart';
 
 class OrderController extends GetxController {
   TextEditingController? phoneController;
   TextEditingController? addressController;
   ItemDetailsController cartController = Get.find();
-
+  late final AudioCache _audioCache;
+  late Position? location;
+  var isLocSelected = false.obs;
   TextEditingController? nameTextController;
   TextEditingController? noteController;
-
+  var notFast = 1.obs;
+  var fast = 0.obs;
+  var isFastAvailable = false.obs;
   var noNetFlage = false.obs;
   var isLoading = false.obs;
-  var selectedcity = "".obs;
-  var selectedProv = Map<String, List<String>>().obs;
-  var shippingPrice = ShippingPriceRes().obs;
+  var selectedcity = City(
+          id: null,
+          name: "",
+          shippingPrice: null,
+          fastShipping: null,
+          fastPrice: null)
+      .obs;
+  // var selectedProv = Map<String, List<String>>().obs;
+  // var shippingPrice = ShippingPriceRes().obs;
   var isEmptyFlage = false.obs;
   var page = 1.obs;
 
   var selectedShipPrice = 0.obs;
   var disscountAmount = 0.obs;
-
+  var goverment = <Governorate>[].obs;
+  var selectedProv = Governorate(id: null, name: null).obs;
+  var cities = <City>[].obs;
+  // var selectedCity = "".obs;
   late MainRepostary repo;
   LoginController loginController = Get.put(LoginController());
   @override
   void onInit() {
+    // location = null;
     phoneController = TextEditingController();
     addressController = TextEditingController();
     nameTextController = TextEditingController();
     noteController = TextEditingController();
-    selectedProv.value = States.js[0];
+    _audioCache = AudioCache(
+      prefix: 'assets/audio/',
+      fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP),
+    );
+    repo = MainRepostary();
+    location = null;
+    // selectedProv.value = States.js[0];
     // selectedcity.value = null;
     // selectedProv = null;
     // selectedProv = null;
@@ -52,66 +77,62 @@ class OrderController extends GetxController {
     // shippingPrice.value = null;
     // selectedProv.value = null;
     // selectedcity.value = null;
+    getRes();
     getProfile();
-    getShippingPrice();
+    // getShippingPrice();
 
-    repo = MainRepostary();
+    // repo = MainRepostary();
 
     super.onInit();
   }
 
-  Future<void> getShippingPrice() async {
+  Future<void> getCity() async {
     // Get.dialog(popUpLoading(), barrierDismissible: false);
     try {
       // String playerId = await getuserId();
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
       String? token = await prefs.getString('token');
-
-      final order = await repo.getShipingPrice(token);
-      shippingPrice.value = order;
-      print("token    :" +
-          shippingPrice.value.data!.getShippingPrice![0].amount.toString());
-      if (selectedProv.value.keys.toString() == "(بغداد)") {
-        selectedShipPrice.value =
-            shippingPrice.value.data!.getShippingPrice![0].amount!;
-      } else {
-        selectedShipPrice.value =
-            shippingPrice.value.data!.getShippingPrice![1].amount!;
-      }
-      // Get.back();
-      // emit(AuthcubitLogin(login));
+      final order = await repo.getCityByGovId(selectedProv.value.id!);
+      cities.assignAll(order.data!.cities!);
     } on SocketException catch (_) {
       noNetFlage.value = true;
 
       // Get.back();
-
-      Get.snackbar(noNet, noNet,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(noNet);
     } catch (_) {
       // Get.back();
       print(_.toString());
-      Get.snackbar("لديك خطأ في معلومات الدخول", "لديك خطأ في معلومات الدخول",
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake("لديك خطأ في معلومات الدخول");
+    }
+  }
+
+  Future<void> getRes() async {
+    // Get.dialog(popUpLoading(), barrierDismissible: false);
+    try {
+      // String playerId = await getuserId();
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      // String? token = await prefs.getString('token');
+      final order = await repo.getGoverment();
+      goverment.assignAll(order.data!.governorate!);
+    } on SocketException catch (_) {
+      noNetFlage.value = true;
+
+      // Get.back();
+      showSnake(noNet);
+    } catch (_) {
+      // Get.back();
+      print(_.toString() + "get goverment d, ,d,m ,mx xmmc, m m,xmc ");
+      showSnake(_.toString());
     }
   }
 
   Future<void> getProfile() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    phoneController!.text = prefs.getString('phone')!;
+    phoneController!.text =
+        prefs.getString('phone') == null ? "" : prefs.getString('phone')!;
   }
 
   // Future<void> initial() {
@@ -162,28 +183,13 @@ class OrderController extends GetxController {
       isLoading.value = false;
 
       // Get.back();
-
-      Get.snackbar(noNet, noNet,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(noNet);
     } catch (_) {
       isLoading.value = false;
 
       // Get.back();
       print(_.toString());
-      Get.snackbar("لديك خطأ في معلومات الدخول", "لديك خطأ في معلومات الدخول",
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake("لديك خطأ في معلومات الدخول");
     }
   }
 
@@ -204,36 +210,13 @@ class OrderController extends GetxController {
       page.value = 1;
       orders.clear();
       getOrder();
-      Get.snackbar(login.data!.msg!, login.data!.msg!,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(login.data!.msg!);
     } on SocketException catch (_) {
       Get.back();
-
-      Get.snackbar(noNet, noNet,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(noNet);
     } catch (_) {
       Get.back();
-
-      Get.snackbar(_.toString(), _.toString(),
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(_.toString());
     }
   }
 
@@ -245,56 +228,48 @@ class OrderController extends GetxController {
 
       String token = await prefs.getString('token')!;
 
-      print(selectedProv.value.keys.first);
+      // print(selectedProv.value.keys.first);
+     
       final login = await repo.makeOrder(
-          token,
-          nameTextController!.text.toString(),
-          phoneController!.text.toString().changeToEngilish(),
-          selectedProv.value.keys.first,
-          selectedcity.value,
-          addressController!.text.toString(),
-          selectedShipPrice.value,
-          noteController!.text.toString());
+          token: token,
+          name: nameTextController!.text.toString(),
+          phone: phoneController!.text.toString().changeToEngilish(),
+          government: selectedProv.value.name!,
+          city: selectedcity.value.name!,
+          address: addressController!.text.isEmpty
+              ? "null"
+              : addressController!.text.toString(),
+          shippingPrice: selectedShipPrice.value,
+          notes: noteController!.text.toString(),
+          isFast: fast.value == 1 ? true : false,
+          lat: location == null ? "" : location!.latitude.toString(),
+          lon: location == null ? "" : location!.longitude.toString());
       cartController.getCart();
+      print(
+          "token  cartController.getCart();cartController.getCart();cartController.getCart();cartController.getCart(); ....  :" +
+              token);
       print("token    :" + token);
 
       Get.back();
+      Get.off(MyOrderScreen());
 
+      if (login.data!.gift_flag!) {
+        _audioCache.play('my_audio.mp3');
+        GiftPopUp(login.data!.giftItem);
+      }
       phoneController!.clear();
       addressController!.clear();
       nameTextController!.clear();
-      Get.off(MyOrderScreen());
-      Get.snackbar("تم ارسال الطلب بنجاح", "تم ارسال الطلب بنجاح",
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+
+      showSnake("تم ارسال الطلب بنجاح");
 
       // emit(AuthcubitLogin(login));
     } on SocketException catch (_) {
       Get.back();
-
-      Get.snackbar(noNet, noNet,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(noNet);
     } catch (_) {
       Get.back();
-      Get.snackbar(_.toString().split(":")[1], _.toString().split(":")[1],
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(_.toString());
     }
   }
 

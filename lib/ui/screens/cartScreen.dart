@@ -5,7 +5,7 @@ import 'package:animal_app/ui/customWidget/cartItemCard.dart';
 import 'package:animal_app/metods/extentions.dart';
 import 'package:animal_app/ui/customWidget/needToLogin.dart';
 import 'package:animal_app/ui/customWidget/noNetWidget.dart';
-import 'package:animal_app/ui/screens/makeOrderScreen.dart';
+import 'package:animal_app/ui/screens/order/makeOrderScreen.dart';
 
 // class CartScreen extends StatefulWidget {
 //   CartScreen({Key key}) : super(key: key);
@@ -30,7 +30,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
-    favouriteController.getCart();
+    // favouriteController.getCart();
   }
 
   @override
@@ -104,8 +104,7 @@ class _CartScreenState extends State<CartScreen> {
                                 ),
                         )
                       : Container(
-                          child: favouriteController
-                                  .cartModel.value.data!.myCart!.isEmpty
+                          child: favouriteController.cartModel.isEmpty
                               ? RefreshIndicator(
                                   onRefresh: () {
                                     return favouriteController.getCart();
@@ -130,57 +129,58 @@ class _CartScreenState extends State<CartScreen> {
                                           child: Obx(
                                             () => ListView.builder(
                                                 itemCount: favouriteController
-                                                    .cartModel
-                                                    .value
-                                                    .data!
-                                                    .myCart!
-                                                    .length,
+                                                    .cartModel.length,
                                                 itemBuilder: (context, index) {
                                                   return CartitemCard(
                                                       favouriteController
-                                                          .cartModel
-                                                          .value
-                                                          .data!
-                                                          .myCart![index]);
+                                                          .cartModel[index]);
                                                 }),
                                           ),
                                         ),
                                       ),
                                     ),
-                                    Container(
-                                      height: 50.0,
-                                      color: Colors.transparent,
-                                      width: Get.width - 40,
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 10),
-                                      child: RaisedButton(
-                                        color: Colors.black,
-                                        onPressed: () {
-                                          Get.to(MakeOrderScreen());
-                                        },
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0)),
-                                        padding: EdgeInsets.all(0.0),
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "أكمال الطلب",
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ).addDirectionality(),
-                                              // Expanded(child: Container())
-                                            ],
-                                          ),
-                                        ),
-                                      ),
+                                    Obx(
+                                      () => favouriteController
+                                              .cartModel.isEmpty
+                                          ? Container()
+                                          : Container(
+                                              height: 50.0,
+                                              color: Colors.transparent,
+                                              width: Get.width - 40,
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 20, vertical: 10),
+                                              child: RaisedButton(
+                                                color: Colors.black,
+                                                onPressed: () {
+                                                  Get.to(MakeOrderScreen());
+                                                },
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0)),
+                                                padding: EdgeInsets.all(0.0),
+                                                child: Container(
+                                                  alignment: Alignment.center,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        "أكمال الطلب",
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ).addDirectionality(),
+                                                      // Expanded(child: Container())
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                     ),
                                   ],
                                 )),

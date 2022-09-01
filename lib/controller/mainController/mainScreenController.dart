@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:animal_app/controller/mainController/myPetsController.dart';
 import 'package:animal_app/data/myPetsModel.dart';
+import 'package:animal_app/metods/alerts.dart';
 import 'package:animal_app/ui/customWidget/updateAppPoo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -50,7 +51,7 @@ class MainController extends GetxController {
 
       String? token = prefs.getString('token');
       print("beforrrrr in reviewwwwww");
-      int id = 8;
+      int id = 9;
       final reviewCheck = await repo.getReviewCheck(id);
       getReview(id);
 
@@ -85,25 +86,11 @@ class MainController extends GetxController {
     } on SocketException catch (_) {
       // Get.back();
       noNetFlage.value = true;
-      Get.snackbar(noNet, noNet,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(noNet);
     } catch (_) {
       // Get.back();
       print(_.toString());
-      Get.snackbar(_.toString(), _.toString(),
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(_.toString());
     }
   }
 
@@ -123,14 +110,7 @@ class MainController extends GetxController {
     } on SocketException catch (_) {
       // Get.back();
       noNetFlage.value = true;
-      Get.snackbar(noNet, noNet,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(noNet);
     } catch (_) {
       print("no update .......................");
       // Get.snackbar(_.toString(), _.toString(),

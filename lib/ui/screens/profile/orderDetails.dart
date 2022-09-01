@@ -34,7 +34,7 @@ class OrderDetailsScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                    height: 240,
+                    height: 270,
                     child: Card(
                       child: Container(
                         padding: EdgeInsets.all(10),
@@ -132,6 +132,27 @@ class OrderDetailsScreen extends StatelessWidget {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
+                                      Text(
+                                        (order.price! + order.shppingPrice!)
+                                                .toString() +
+                                            " " +
+                                            "د.ع",
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                          color: Colors.grey[700],
+                                        ),
+                                      ).addDirectionality(),
+                                      Text(
+                                        "سعر الطلب الكلي : ",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.grey[700]),
+                                      ).addDirectionality(),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
                                       Expanded(child: Container()),
                                       Text(
                                         order.createdAt
@@ -181,7 +202,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                               alignment: Alignment.center,
                                               child: Text(
                                                 order.status == 0
-                                                    ? "يتم التجهيز"
+                                                    ? "تم قبول الطلب"
                                                     : "تم التوصيل",
                                                 style: TextStyle(
                                                   fontSize: 16,

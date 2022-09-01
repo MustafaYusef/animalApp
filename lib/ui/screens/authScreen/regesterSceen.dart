@@ -6,6 +6,8 @@ import 'package:animal_app/controller/authController/loginController.dart';
 import 'package:animal_app/metods/extentions.dart';
 import 'package:animal_app/metods/state.dart';
 
+import '../../../metods/pricecyPopUp.dart';
+
 class RegesterScreen extends StatelessWidget {
   RegesterScreen({Key? key}) : super(key: key);
   final LoginController _loginController = Get.put(LoginController());
@@ -154,7 +156,7 @@ class RegesterScreen extends StatelessWidget {
                                   controller:
                                       _loginController.phoneRegController,
                                   keyboardType: TextInputType.phone,
-                                  maxLength: 11,
+                                  // maxLength: 11,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
                                         RegExp('[0-9,٠-٩]')),
@@ -303,6 +305,40 @@ class RegesterScreen extends StatelessWidget {
                             ),
                           ),
                         ),
+                        Container(
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                          child: Text(
+                            "بالضغط على تسجيل أوافق على أنني قد قرأت ووافقت على سياسة الخصوصية الخاصة بنا",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ).addDirectionality(),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                PrivecyPopUp();
+                              },
+                              child: Container(
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 5),
+                                child: Text(
+                                  "سياسة الخصوصية",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Get.theme.primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ).addDirectionality(),
+                              ),
+                            ),
+                          ],
+                        ),
                         SizedBox(height: 30),
                         Row(
                           children: [
@@ -313,28 +349,28 @@ class RegesterScreen extends StatelessWidget {
                                 color: Get.theme.accentColor,
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
-                                    if (_loginController
-                                            .phoneRegController!.text
-                                            .toString()
-                                            .length ==
-                                        11) {
-                                      _loginController.regesterRequest();
-                                    } else {
-                                      // Toast.show(validEmail(), Get.context,
-                                      //     duration: Toast.LENGTH_LONG,
-                                      //     gravity: Toast.BOTTOM);
-                                      Get.snackbar("ادخل رقم هاتف صحيح",
-                                          "ادخل رقم هاتف صحيح",
-                                          duration: Duration(seconds: 3),
-                                          icon: Icon(
-                                            Icons.info,
-                                            color: Colors.white,
-                                          ),
-                                          colorText: Colors.white,
-                                          backgroundColor: Get
-                                              .theme.primaryColorDark
-                                              .withOpacity(0.3));
-                                    }
+                                    // if (_loginController
+                                    //         .phoneRegController!.text
+                                    //         .toString()
+                                    //         .length ==
+                                    //     11) {
+                                    _loginController.regesterRequest();
+                                    // } else {
+                                    //   // Toast.show(validEmail(), Get.context,
+                                    //   //     duration: Toast.LENGTH_LONG,
+                                    //   //     gravity: Toast.BOTTOM);
+                                    //   Get.snackbar("ادخل رقم هاتف صحيح",
+                                    //       "ادخل رقم هاتف صحيح",
+                                    //       duration: Duration(seconds: 3),
+                                    //       icon: Icon(
+                                    //         Icons.info,
+                                    //         color: Colors.white,
+                                    //       ),
+                                    //       colorText: Colors.white,
+                                    //       backgroundColor: Get
+                                    //           .theme.primaryColorDark
+                                    //           .withOpacity(0.3));
+                                    // }
                                   }
                                 },
                                 shape: RoundedRectangleBorder(

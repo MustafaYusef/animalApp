@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:animal_app/controller/servicesController.dart';
 import 'package:animal_app/data/myPetsModel.dart';
 import 'package:animal_app/main.dart';
+import 'package:animal_app/metods/alerts.dart';
 import 'package:animal_app/metods/compressImage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,8 +29,8 @@ class MyPetsController extends GetxController {
   TextEditingController? vacsinDateController;
   // TextEditingController addressController;
 
-  var selectedFromDate = DateTime.now().obs;
-  var selectedAgeDate = DateTime.now().obs;
+  // var selectedFromDate = DateTime.now().obs;
+  // var selectedAgeDate = DateTime.now().obs;
 
   var isLoading = false.obs;
 
@@ -38,7 +39,13 @@ class MyPetsController extends GetxController {
   // TextEditingController nameTextController;
   var selectedType = "".obs;
   var selectedSex = "".obs;
+  var selectedYear = "".obs;
+  var selectedMonth = "".obs;
+  var selectedDay = "".obs;
 
+  var selectedYearVac = "".obs;
+  var selectedMonthVac = "".obs;
+  var selectedDayVac = "".obs;
   RxString? selectedImage;
 
   var imageName = "".obs;
@@ -48,9 +55,27 @@ class MyPetsController extends GetxController {
   String imageBase64 = "";
   late TextEditingController imageController;
   late ServicesController controller;
+  var years = <String>[].obs;
+  var months = <String>[].obs;
+  var days = <String>[].obs;
+  void getInit() {
+    for (int i = 1980; i < 2030; i++) {
+      years.add(i.toString());
+    }
+
+    for (int i = 1; i < 13; i++) {
+      months.add(i.toString());
+    }
+
+    for (int i = 1; i < 32; i++) {
+      days.add(i.toString());
+    }
+  }
+
   @override
   void onInit() {
     // petsList.value = null;
+    getInit();
     repo = MainRepostary();
     needLogin.value = false;
     // selectedType.value = null;
@@ -118,25 +143,11 @@ class MyPetsController extends GetxController {
       }
     } on SocketException catch (_) {
       noNetFlage.value = true;
-      Get.snackbar(noNet, noNet,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(noNet);
     } catch (_) {
       // Get.back();
       print(_.toString());
-      Get.snackbar(_.toString().split(":")[1], _.toString().split(":")[1],
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(_.toString().split(":")[1]);
     }
   }
 
@@ -171,36 +182,15 @@ class MyPetsController extends GetxController {
       selectedImage = null;
       imageFile.value = File("");
       selectedSex.value = "";
-      Get.snackbar(banners1.data!.msg!, banners1.data!.msg!,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(banners1.data!.msg!);
     } on SocketException catch (_) {
       Get.back();
-      Get.snackbar(noNet, noNet,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(noNet);
     } catch (_) {
       // Get.back();
       Get.back();
       print(_);
-      Get.snackbar(_.toString().split(":")[1], _.toString().split(":")[1],
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(_.toString().split(":")[1]);
     }
   }
 
@@ -216,36 +206,14 @@ class MyPetsController extends GetxController {
       Get.back();
       await getMyPets();
       Get.off(Main(0));
-      Get.snackbar(banners1.data!.msg!, banners1.data!.msg!,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(banners1.data!.msg!);
     } on SocketException catch (_) {
       Get.back();
       print(_);
-
-      Get.snackbar(noNet, noNet,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(noNet);
     } catch (_) {
       Get.back();
-      Get.snackbar(_.toString(), _.toString(),
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(_.toString());
     }
   }
 
@@ -279,36 +247,15 @@ class MyPetsController extends GetxController {
       selectedSex.value = "";
 
       Get.off(Main(0));
-      Get.snackbar(banners1.data!.msg!, banners1.data!.msg!,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(banners1.data!.msg!);
     } on SocketException catch (_) {
       Get.back();
-      Get.snackbar(noNet, noNet,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(noNet);
     } catch (_) {
       // Get.back();
       Get.back();
       print(_);
-      Get.snackbar(_.toString(), _.toString(),
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(_.toString());
     }
   }
 }

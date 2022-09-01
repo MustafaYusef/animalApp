@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:animal_app/data/allPostRes.dart';
+import 'package:animal_app/data/govModel.dart';
 import 'package:animal_app/data/itemsSerach.dart';
 import 'package:animal_app/data/myBookingServices.dart';
 import 'package:animal_app/data/myPetsModel.dart';
@@ -25,6 +26,8 @@ import 'package:animal_app/data/shippingPrice.dart';
 import 'package:animal_app/data/testModel.dart';
 
 import '../constant.dart';
+import '../data/cityModel.dart';
+import '../data/makeOrderModel.dart';
 
 class MainRepostary {
   // Future<List<Welcome>> getMyTask(int page, int limit) async {
@@ -421,16 +424,31 @@ class MainRepostary {
     }
   }
 
-  Future<AddResModel> makeOrder(
-      String token,
-      String name,
-      String phone,
-      String government,
-      String city,
-      String address,
-      int shippingPrice,
-      String notes) async {
-    print(token);
+  Future<MakeOrderModel> makeOrder(
+      {required String token,
+      required String name,
+      required String phone,
+      required String government,
+      required String city,
+      required String address,
+      required int shippingPrice,
+      required String notes,
+      required bool isFast,
+      required String lat,
+      required String lon}) async {
+    // print(token);
+    print("values . . .. ......... .... .. . ..... ......   ");
+    print("token   :   " + token);
+    print("nameTextController   :   " + name.toString());
+    print("phoneController   :   " + phone.toString());
+    print("government   :   " + government.toString());
+    print("city   :   " + city.toString());
+    print("address   :   " + address.toString());
+    print("shippingPrice   :   " + shippingPrice.toString());
+    print("notes   :   " + notes.toString());
+    print("isFast   :   " + isFast.toString());
+    print("lat   :   " + lat);
+    print("lon   :   " + lon);
     final response = await post(Uri.parse(baseUrl + "orders/new"),
         headers: {"Authorization": token, "Content-Type": "application/json"},
         body: json.encode({
@@ -440,12 +458,15 @@ class MainRepostary {
           "city": city,
           "address": address,
           "shpping_price": shippingPrice.toString(),
-          "notes": notes
+          "notes": notes,
+          "is_fast": isFast.toString(),
+          "longitude": lon.toString(),
+          "latitude": lat.toString()
         }));
     if (response.statusCode == 200 || response.statusCode == 201) {
-      return addResModelFromJson(response.body);
+      return makeOrderModelFromJson(response.body);
     } else {
-      throw Exception(addResModelFromJson(response.body).message);
+      throw Exception(response.body.toString());
     }
   }
 
@@ -466,6 +487,29 @@ class MainRepostary {
       return cartModelFromJson(response.body);
     } else {
       throw Exception(cartModelFromJson(response.body).message);
+    }
+  }
+
+// https://test.alkarkh.live/dashbord/governorate/get/all
+  Future<GovermentModel> getGoverment() async {
+    final response = await get(
+      Uri.parse(baseUrl + "dashbord/governorate/get/all"),
+    );
+    if (response.statusCode == 200) {
+      return govermentModelFromJson(response.body);
+    } else {
+      throw Exception(govermentModelFromJson(response.body));
+    }
+  }
+
+  Future<CityModel> getCityByGovId(int govId) async {
+    final response = await get(
+      Uri.parse(baseUrl + "dashbord/governorate/city/$govId"),
+    );
+    if (response.statusCode == 200) {
+      return cityModelFromJson(response.body);
+    } else {
+      throw Exception(cityModelFromJson(response.body));
     }
   }
 }

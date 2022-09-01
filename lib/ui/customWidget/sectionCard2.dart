@@ -18,63 +18,62 @@ class sectionCard2 extends StatelessWidget {
         Get.to(SectionsItemScreen(item));
       },
       child: Card(
-        color: Get.theme.primaryColor,
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        child: Directionality(
-                          child: Text(
-                            item!.name!,
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontWeight: FontWeight.normal),
-                          ),
-                          textDirection: TextDirection.rtl,
-                        ),
+        child: Stack(
+          children: [
+            CachedNetworkImage(
+              fit: BoxFit.cover,
+              width: Get.width / 2,
+              height: 140,
+              imageUrl: imageUrl + item!.photo!,
+              placeholder: (context, url) => loadinImage(),
+              errorWidget: (context, url, error) => loadinImage(),
+            ),
+            Container(
+              height: 140,
+              width: Get.width / 2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    child: Directionality(
+                      child: Text(
+                        item!.name!,
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
                       ),
-                    ],
+                      textDirection: TextDirection.rtl,
+                    ),
                   ),
-                ),
+                ],
               ),
-              SizedBox(
-                width: 10,
-              ),
-              Card(
-                semanticContainer: true,
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50.0),
-                ),
-                elevation: 5,
-                child: CachedNetworkImage(
-                  fit: BoxFit.contain,
-                  width: 90,
-                  height: 90,
-                  imageUrl: imageUrl + item!.photo!,
-                  placeholder: (context, url) => loadinImage(),
-                  errorWidget: (context, url, error) => loadinImage(),
-                ),
-              ),
-            ],
-          ),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(5),
+                      bottomRight: Radius.circular(5)),
+                  gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      stops: [
+                        0.5,
+                        1
+                      ],
+                      colors: [
+                        Colors.black26.withOpacity(0.3),
+                        Colors.transparent
+                      ])),
+            ),
+          ],
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.circular(10),
         ),
-        elevation: 5,
+        elevation: 2,
         margin: EdgeInsets.all(7),
       ),
     );

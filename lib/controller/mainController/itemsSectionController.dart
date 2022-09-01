@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:animal_app/metods/alerts.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,26 +67,11 @@ class SectionsItemsController extends GetxController {
       isMainLoading.value = false;
 
       noNetFlage.value = true;
-      Get.snackbar(noNet, noNet,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(noNet);
     } catch (_) {
       // Get.back();
       isMainLoading.value = false;
-
-      Get.snackbar("لديك خطأ في معلومات الدخول", "لديك خطأ في معلومات الدخول",
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake("لديك خطأ في معلومات الدخول");
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:animal_app/controller/mainController/mainScreenController.dart';
 import 'package:animal_app/ui/screens/myPosts/allPostsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ import 'package:animal_app/ui/screens/mainScreen.dart';
 import 'package:animal_app/ui/screens/profile/profileScreen.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'controller/mainController/favouriteController.dart';
 import 'metods/extentions.dart';
 import 'controller/mainController/itemDetailsController.dart';
 
@@ -47,7 +49,8 @@ class _MainState extends State<Main> with TickerProviderStateMixin {
   // final Connectivity _connectivity = Connectivity();
   // StreamSubscription<ConnectivityResult> _connectivitySubscription;
   ItemDetailsController controller = Get.put(ItemDetailsController());
-
+  MainController controller1 = Get.put(MainController());
+  FavouriteController favouriteController1 = Get.put(FavouriteController());
   @override
   void initState() {
     _child = MainScreen();
@@ -68,6 +71,7 @@ class _MainState extends State<Main> with TickerProviderStateMixin {
       /// Display Notification, send null to not display, send notification to display
       event.complete(event.notification);
     });
+
     // OneSignal.shared
     //     .setInFocusDisplayType(OSNotificationDisplayType.notification);
     return Scaffold(
@@ -87,54 +91,37 @@ class _MainState extends State<Main> with TickerProviderStateMixin {
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.black,
+          currentIndex: widget.indexB!,
+          unselectedLabelStyle: TextStyle(color: Colors.grey),
+          selectedLabelStyle: TextStyle(color: Get.theme.primaryColor),
           items: [
             BottomNavigationBarItem(
                 icon: Icon(Icons.home,
                     color: widget.indexB == 0
                         ? Theme.of(context).primaryColor
                         : Colors.grey),
-                title: Text(
-                  "الرئيسية",
-                  style: TextStyle(
-                      color: widget.indexB == 0
-                          ? Theme.of(context).primaryColor
-                          : Colors.grey),
-                ).addDirectionality()),
+                label: "الرئيسية"),
 
             BottomNavigationBarItem(
-                icon: Icon(Icons.favorite_border,
-                    color: widget.indexB == 1
-                        ? Theme.of(context).primaryColor
-                        : Colors.grey),
-                title: Text("المفضلة",
-                        style: TextStyle(
-                            color: widget.indexB == 1
-                                ? Theme.of(context).primaryColor
-                                : Colors.grey))
-                    .addDirectionality()),
+              icon: Icon(Icons.favorite_border,
+                  color: widget.indexB == 1
+                      ? Theme.of(context).primaryColor
+                      : Colors.grey),
+              label: "المفضلة",
+            ),
             BottomNavigationBarItem(
                 icon: Icon(Icons.photo_size_select_actual_sharp,
                     color: widget.indexB == 2
                         ? Theme.of(context).primaryColor
                         : Colors.grey),
-                title: Text("المنشورات",
-                        style: TextStyle(
-                            color: widget.indexB == 2
-                                ? Theme.of(context).primaryColor
-                                : Colors.grey))
-                    .addDirectionality()),
+                label: "المنشورات"),
 
             BottomNavigationBarItem(
                 icon: Icon(Icons.person_outline,
                     color: widget.indexB == 3
                         ? Theme.of(context).primaryColor
                         : Colors.grey),
-                title: Text("الحساب",
-                        style: TextStyle(
-                            color: widget.indexB == 3
-                                ? Theme.of(context).primaryColor
-                                : Colors.grey))
-                    .addDirectionality())
+                label: "الحساب")
 
             // Icon(Icons.more_horiz,
             //     size: 30, color: indexB == 4 ? Colors.white : Colors.grey),

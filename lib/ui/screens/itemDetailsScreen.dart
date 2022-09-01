@@ -22,15 +22,16 @@ import '../../constant.dart';
 // }
 
 class ItemDetailsScreen extends StatelessWidget {
-  ItemDetailsController? controller;
+  ItemDetailsController controller = Get.find();
+  FavouriteController favouriteController = Get.find();
 
   Item item;
   int? cartCount;
   ItemDetailsScreen(this.item, [this.cartCount]) {
-    controller = Get.put(ItemDetailsController());
-    controller!.id = item.id;
+    // controller = Get.put(ItemDetailsController());
+    controller.id = item.id;
     if (cartCount != null) {
-      controller!.count.value = cartCount!;
+      controller.count.value = cartCount!;
     }
   }
   // @override
@@ -48,14 +49,13 @@ class ItemDetailsScreen extends StatelessWidget {
   //   setState(() {});
   // }
   Future<bool> _wiilPop() async {
-    controller!.count.value = 1;
+    controller.count.value = 1;
     Get.back();
     return true;
   }
 
   @override
   Widget build(BuildContext context) {
-    FavouriteController favouriteController = Get.put(FavouriteController());
     return WillPopScope(
       onWillPop: _wiilPop,
       child: Scaffold(
@@ -72,21 +72,18 @@ class ItemDetailsScreen extends StatelessWidget {
               padding: EdgeInsets.only(right: 15, top: 10),
               child: Obx(
                 () => Container(
-                  child: controller!.needLogin.value
+                  child: controller.needLogin.value
                       ? Container()
                       : Padding(
                           padding: const EdgeInsets.all(1.0),
-                          child: controller!.isLoading.value
+                          child: controller.isLoading.value
                               ? Container()
                               : Container(
-                                  child: controller!.cartModel.value.data!
-                                              .myCart!.length ==
-                                          0
+                                  child: controller.cartModel.length == 0
                                       ? Container()
                                       : Badge(
                                           badgeContent: Text(
-                                            controller!.cartModel.value.data!
-                                                .myCart!.length
+                                            controller.cartModel.length
                                                 .toString(),
                                             style: TextStyle(
                                                 color: Colors.white,

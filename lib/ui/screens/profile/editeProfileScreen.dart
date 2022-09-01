@@ -210,7 +210,7 @@ class EditProfileScreen extends StatelessWidget {
                                 TextFormField(
                                   controller: _loginController.phoneController,
                                   keyboardType: TextInputType.phone,
-                                  maxLength: 11,
+                                  // maxLength: 11,
                                   decoration: InputDecoration(
                                       fillColor: Colors.grey[100],
                                       filled: true,
@@ -259,34 +259,7 @@ class EditProfileScreen extends StatelessWidget {
                                 color: Get.theme.accentColor,
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
-                                    if (GetUtils.isPhoneNumber(_loginController
-                                            .phoneController!.text
-                                            .toString()) &&
-                                        _loginController.phoneController!.text
-                                                .toString()
-                                                .length ==
-                                            11 &&
-                                        _loginController.phoneController!.text
-                                                .toString()
-                                                .substring(0, 2) ==
-                                            "07") {
-                                      _loginController.editProfile();
-                                    } else {
-                                      // Toast.show(validEmail(), Get.context,
-                                      //     duration: Toast.LENGTH_LONG,
-                                      //     gravity: Toast.BOTTOM);
-                                      Get.snackbar("ادخل رقم هاتف صحيح",
-                                          "ادخل رقم هاتف صحيح",
-                                          duration: Duration(seconds: 3),
-                                          icon: Icon(
-                                            Icons.info,
-                                            color: Colors.white,
-                                          ),
-                                          colorText: Colors.white,
-                                          backgroundColor: Get
-                                              .theme.primaryColorDark
-                                              .withOpacity(0.3));
-                                    }
+                                    _loginController.editProfile();
                                   }
                                 },
                                 shape: RoundedRectangleBorder(

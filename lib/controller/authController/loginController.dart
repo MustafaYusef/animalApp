@@ -6,6 +6,7 @@ import 'package:animal_app/controller/mainController/mainScreenController.dart';
 import 'package:animal_app/controller/mainController/myPetsController.dart';
 import 'package:animal_app/controller/servicesController.dart';
 import 'package:animal_app/main.dart';
+import 'package:animal_app/metods/alerts.dart';
 import 'package:animal_app/metods/methods.dart';
 import 'package:animal_app/ui/screens/authScreen/loginScreen.dart';
 import 'package:animal_app/ui/screens/mainScreen.dart';
@@ -34,15 +35,17 @@ class LoginController extends GetxController {
   TextEditingController? phoneRegController;
   TextEditingController? passwordRegTextController;
   // TextEditingController emailController;
+  TextEditingController? passDeleteAccountTextController;
+
   RxString? selectedcity;
   RxMap<String, List<String>>? selectedProv = Map<String, List<String>>().obs;
-  Rx<ProfileModel?> profile = ProfileModel().obs;
-  var needLogin = false.obs;
+  var profile = ProfileModel().obs;
+  var needLogin = true.obs;
   var noNetFlage = false.obs;
 
   var inReview = true.obs;
   late AuthRepostary repo;
-  var isLoading = false.obs;
+  var isLoading = true.obs;
   @override
   void onInit() {
     phoneController = TextEditingController();
@@ -50,14 +53,14 @@ class LoginController extends GetxController {
     nameTextController = TextEditingController();
     phoneRegController = TextEditingController();
     passwordRegTextController = TextEditingController();
-    // emailController = TextEditingController();
+    passDeleteAccountTextController = TextEditingController();
     inReview.value = false;
 
-    needLogin.value = false;
+    // needLogin.value = false;
     // selectedProv.value = null;
     // selectedcity = null;
     repo = AuthRepostary();
-
+    getProfile();
     super.onInit();
   }
 
@@ -87,44 +90,23 @@ class LoginController extends GetxController {
       final dd = await getProfile();
       Get.back();
       Get.delete<LoginController>();
-      Get.delete<MainController>();
-      Get.delete<ItemDetailsController>();
-      Get.delete<FavouriteController>();
-      Get.delete<MyPetsController>();
-      Get.delete<ServicesController>();
+      // Get.delete<MainController>();
+      // Get.delete<ItemDetailsController>();
+      // Get.delete<FavouriteController>();
+      // Get.delete<MyPetsController>();
+      // Get.delete<ServicesController>();
 
       Get.offAll(Main(0));
       // Get.dialog(null);
-      Get.snackbar("تم تسجيل الدخول بنجاح", "تم تسجيل الدخول بنجاح",
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake("تم تسجيل الدخول بنجاح");
+
       // emit(AuthcubitLogin(login));
     } on SocketException catch (_) {
       Get.back();
-
-      Get.snackbar(noNet, noNet,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(noNet);
     } catch (_) {
       Get.back();
-      Get.snackbar(_.toString().split(":")[1], _.toString().split(":")[1],
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(_.toString().split(":")[1]);
     }
   }
 
@@ -152,49 +134,79 @@ class LoginController extends GetxController {
       passwordRegTextController!.clear();
       selectedProv = null;
       selectedcity = null;
-
-      Get.snackbar("تم انشاء حساب بنجاح", "تم انشاء حساب بنجاح",
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake("تم انشاء حساب بنجاح");
     } on SocketException catch (_) {
       Get.back();
-
-      Get.snackbar(noNet, noNet,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(noNet);
     } catch (_) {
       Get.back();
-      Get.snackbar(_.toString().split(":")[1], _.toString().split(":")[1],
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(_.toString().split(":")[1]);
+    }
+  }
+
+  Future<void> deleteAccount() async {
+    // isLoading.value = true;
+    Get.dialog(popUpLoading(), barrierDismissible: false);
+
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      // inReview.value = prefs.getBool("inReview")==null?false;
+      // inReview.value = false;
+      String token = prefs.getString('token')!;
+      print(
+          "String? token = prefs.getString('token') .. . .. .. .. . .... . ..");
+      print(token);
+      final login = await repo.deleteAccount(
+          token, passDeleteAccountTextController!.text.toString());
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+      Get.back();
+      prefs.clear();
+      // Get.delete<MainController>();
+      // Get.delete<FavouriteController>();
+      // Get.delete<ItemDetailsController>();
+      // Get.delete<OrderController>();
+      // Get.delete<SectionsController>();
+      // Get.delete<LoginController>();
+      Get.offAll(LoginScreen());
+    } on SocketException catch (_) {
+      // profile.value = null;
+      Get.back();
+
+      // isLoading.value = false;
+      // noNetFlage.value = true;
+      showSnake(noNet);
+    } catch (_) {
+      Get.back();
+
+      // isLoading.value = false;
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      // // inReview.value = prefs.getBool("inReview")!;
+      // // inReview.value = false;
+      // String? token = prefs.getString('token');
+      // print(
+      //     "String? token = prefs.getString('token') .. . .. .. .. . .... . ..");
+
+      // print(token);
+      showSnake(_.toString());
     }
   }
 
   Future<void> getProfile() async {
-    needLogin.value = false;
     isLoading.value = true;
+    // Get.dialog(popUpLoading(), barrierDismissible: false);
     noNetFlage.value = false;
+    needLogin.value = true;
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      inReview.value = prefs.getBool("inReview")!;
+      // inReview.value = prefs.getBool("inReview")==null?false;
       // inReview.value = false;
       String? token = prefs.getString('token');
+      print(
+          "String? token = prefs.getString('token') .. . .. .. .. . .... . ..");
+
       print(token);
       if (token == null) {
         needLogin.value = true;
@@ -204,6 +216,7 @@ class LoginController extends GetxController {
         await prefs.setString('phone', login.data!.profile!.phone!);
 
         profile.value = login;
+        needLogin.value = false;
       }
       // var playerId = await getuserId();
       isLoading.value = false;
@@ -211,26 +224,19 @@ class LoginController extends GetxController {
       // profile.value = null;
       isLoading.value = false;
       noNetFlage.value = true;
-
-      Get.snackbar(noNet, noNet,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(noNet);
     } catch (_) {
       isLoading.value = false;
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      Get.snackbar(_.toString(), _.toString(),
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      // // inReview.value = prefs.getBool("inReview")!;
+      // // inReview.value = false;
+      // String? token = prefs.getString('token');
+      // print(
+      //     "String? token = prefs.getString('token') .. . .. .. .. . .... . ..");
+
+      // print(token);
+      showSnake(_.toString());
     }
   }
 }

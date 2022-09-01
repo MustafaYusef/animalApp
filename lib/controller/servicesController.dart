@@ -4,6 +4,7 @@ import 'package:animal_app/controller/mainController/myPetsController.dart';
 import 'package:animal_app/data/myBookingServices.dart';
 import 'package:animal_app/data/myPetsModel.dart';
 import 'package:animal_app/data/servicesModel.dart';
+import 'package:animal_app/metods/alerts.dart';
 import 'package:animal_app/ui/customWidget/popLoading.dart';
 import 'package:animal_app/ui/screens/profile/myBookingScreen.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,8 @@ class ServicesController extends GetxController {
   Future<void> getProfile() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    phoneController!.text = prefs.getString('phone')!;
+    phoneController!.text =
+        prefs.getString('phone') == null ? "" : prefs.getString('phone')!;
   }
   // Future<void> getPets() async {
   //   myPets.assignAll(controller.petsList.value.data.myPet);
@@ -80,27 +82,12 @@ class ServicesController extends GetxController {
     } on SocketException catch (_) {
       noNetFlage.value = true;
       isLoadingServecis.value = false;
-
-      Get.snackbar(noNet, noNet,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(noNet);
     } catch (_) {
       isLoadingServecis.value = false;
 
       // Get.back();
-      Get.snackbar(_.toString().split(":")[1], _.toString().split(":")[1],
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(_.toString().split(":")[1]);
     }
   }
 
@@ -131,35 +118,14 @@ class ServicesController extends GetxController {
 
       // Get.delete<ServicesController>();
       Get.off(MyBookingScreen());
-      Get.snackbar(banners1.data!.msg!, banners1.data!.msg!,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(banners1.data!.msg!);
     } on SocketException catch (_) {
       Get.back();
       noNetFlage.value = true;
-      Get.snackbar(noNet, noNet,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(noNet);
     } catch (_) {
       Get.back();
-      Get.snackbar(_.toString().split(":")[1], _.toString().split(":")[1],
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(_.toString().split(":")[1]);
     }
   }
 
@@ -193,24 +159,10 @@ class ServicesController extends GetxController {
       print(myBooking);
     } on SocketException catch (_) {
       noNetFlage.value = true;
-      Get.snackbar(noNet, noNet,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(noNet);
     } catch (_) {
       // Get.back();
-      Get.snackbar(_.toString().split(":")[1], _.toString().split(":")[1],
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(_.toString().split(":")[1]);
     }
   }
 }

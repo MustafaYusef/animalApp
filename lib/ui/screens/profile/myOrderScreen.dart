@@ -215,7 +215,7 @@ Widget orderCard(MyOrder order) {
                   child: Container(
                     alignment: Alignment.center,
                     child: Text(
-                      order.status == 0 ? "يتم التجهيز" : "تم التوصيل",
+                      order.status == 0 ? "تم قبول الطلب" : "تم التوصيل",
                       style: TextStyle(
                         fontSize: 16,
                         color: order.status == 0 ? Colors.black : Colors.white,
@@ -253,7 +253,9 @@ Widget orderCard(MyOrder order) {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      order.price.toString(),
+                      (order.price! + order.shppingPrice!).toString() +
+                          " " +
+                          "د.ع",
                       style: TextStyle(
                         fontSize: 17,
                         color: Colors.black,
@@ -270,14 +272,22 @@ Widget orderCard(MyOrder order) {
             SizedBox(
               width: 10,
             ),
-            Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: Colors.grey[100],
-                    borderRadius: BorderRadius.circular(40)),
-                width: 70,
-                height: 70,
-                child: Image.asset("assets/images/dog_image.png"))
+            Column(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        borderRadius: BorderRadius.circular(40)),
+                    width: 60,
+                    height: 60,
+                    child: Image.asset("assets/images/dog_image.png")),
+                SizedBox(
+                  height: 10,
+                )
+              ],
+            )
           ],
         ),
       ),

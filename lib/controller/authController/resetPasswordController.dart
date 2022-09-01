@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:animal_app/metods/alerts.dart';
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 import 'package:get/get.dart';
@@ -63,36 +64,15 @@ class ResetPasswordController extends GetxController {
       Get.delete<ResetPasswordController>();
       Get.offAll(LoginScreen());
       // Get.dialog(null);
-      Get.snackbar(" تم تغيير كلمة المرور بنجاح", "تم تغيير كلمة المرور بنجاح ",
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake("تم تغيير كلمة المرور بنجاح ");
+
       // emit(AuthcubitLogin(login));
     } on SocketException catch (_) {
       Get.back();
-
-      Get.snackbar(noNet, noNet,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(noNet);
     } catch (_) {
       Get.back();
-      Get.snackbar(_.toString(), _.toString(),
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(_.toString());
     }
   }
 

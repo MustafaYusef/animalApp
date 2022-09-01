@@ -1,6 +1,7 @@
 import 'package:animal_app/controller/mainController/myPetsController.dart';
 import 'package:animal_app/metods/extentions.dart';
 import 'package:animal_app/ui/screens/pets/selectImage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -391,103 +392,229 @@ class AddPetsScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                Container(
-                                  height: 45,
-                                  // width: 120,
-                                  // margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                                  child: TextFormField(
-                                    controller: _loginController.ageController,
-                                    keyboardType: TextInputType.text,
-                                    readOnly: true,
-                                    onTap: () async {
-                                      final DateTime? picked =
-                                          await showDatePicker(
-                                              context: context,
-                                              initialDate: _loginController
-                                                  .selectedFromDate.value,
-                                              firstDate: DateTime(1990),
-                                              lastDate: DateTime(2050),
-                                              cancelText: "خروج",
-                                              confirmText: "تم");
-                                      if (picked != null &&
-                                          picked !=
-                                              _loginController
-                                                  .selectedAgeDate.value) {
-                                        _loginController.selectedAgeDate.value =
-                                            picked;
-                                        _loginController.ageController!.text =
-                                            (_loginController.selectedAgeDate
-                                                            .value.month
-                                                            .toString()
-                                                            .length <
-                                                        2
-                                                    ? "0" +
-                                                        _loginController
-                                                            .selectedAgeDate
-                                                            .value
-                                                            .month
-                                                            .toString()
-                                                    : _loginController
-                                                        .selectedAgeDate
-                                                        .value
-                                                        .month
-                                                        .toString()) +
-                                                "-" +
-                                                (_loginController.selectedAgeDate
-                                                            .value.day
-                                                            .toString()
-                                                            .length <
-                                                        2
-                                                    ? "0" +
-                                                        _loginController
-                                                            .selectedAgeDate
-                                                            .value
-                                                            .day
-                                                            .toString()
-                                                    : _loginController
-                                                        .selectedAgeDate
-                                                        .value
-                                                        .day
-                                                        .toString()) +
-                                                "-" +
-                                                _loginController
-                                                    .selectedAgeDate.value.year
-                                                    .toString();
-                                      }
-                                    },
-                                    decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.all(5),
-                                      fillColor: Colors.grey[100],
-                                      filled: true,
-                                      hintText: "عمر الحيوان",
-                                      hintStyle: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 0,
-                                        ),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 0,
-                                        ),
-                                      ),
-                                      // floatingLabelBehavior: FloatingLabelBehavior.auto,
-                                      // contentPadding:EdgeInsets.all(10)
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Obx(
+                                      () => Container(
+                                        height: 40,
+                                        width: 100,
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey[100],
+                                            border: Border.all(
+                                                color: Colors.transparent),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: DropdownButton(
+                                            underline: Container(),
+                                            dropdownColor: Colors.white,
+                                            hint: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 5),
+                                                child: Text(
+                                                  "سنة",
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.grey,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                                ).addDirectionality()),
+                                            isExpanded: true,
+                                            icon: Icon(
+                                              Icons
+                                                  .keyboard_arrow_down_outlined,
+                                              size: 24,
+                                            ),
+                                            value: _loginController
+                                                        .selectedYear.value ==
+                                                    ""
+                                                ? null
+                                                : _loginController
+                                                    .selectedYear.value,
+                                            items:
+                                                _loginController.years.map((e) {
+                                              return DropdownMenuItem(
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 0),
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                          child: Text(
+                                                        e,
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                        ),
+                                                      )),
+                                                    ],
+                                                  ),
+                                                ),
+                                                value: e,
+                                              );
+                                            }).toList(),
+                                            onChanged: (value) {
+                                              _loginController.selectedYear
+                                                  .value = value.toString();
+                                            }),
+                                      ).addDirectionality(),
                                     ),
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.normal,
+                                    SizedBox(
+                                      width: 10,
                                     ),
-                                  ).addDirectionality(),
+                                    Obx(
+                                      () => Container(
+                                        height: 40,
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey[100],
+                                            border: Border.all(
+                                                color: Colors.transparent),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: DropdownButton(
+                                            underline: Container(),
+                                            dropdownColor: Colors.white,
+                                            hint: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 5),
+                                                child: Text(
+                                                  "شهر",
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.grey,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                                ).addDirectionality()),
+                                            isExpanded: true,
+                                            icon: Icon(
+                                              Icons
+                                                  .keyboard_arrow_down_outlined,
+                                              size: 24,
+                                            ),
+                                            value: _loginController
+                                                        .selectedMonth.value ==
+                                                    ""
+                                                ? null
+                                                : _loginController
+                                                    .selectedMonth.value,
+                                            items: _loginController.months
+                                                .map((e) {
+                                              return DropdownMenuItem(
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 0),
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                          child: Text(
+                                                        e,
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                        ),
+                                                      )),
+                                                    ],
+                                                  ),
+                                                ),
+                                                value: e,
+                                              );
+                                            }).toList(),
+                                            onChanged: (value) {
+                                              _loginController.selectedMonth
+                                                  .value = value.toString();
+                                            }),
+                                      ).addDirectionality(),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Obx(
+                                      () => Container(
+                                        height: 40,
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey[100],
+                                            border: Border.all(
+                                                color: Colors.transparent),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: DropdownButton(
+                                            underline: Container(),
+                                            dropdownColor: Colors.white,
+                                            hint: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 5),
+                                                child: Text(
+                                                  "يوم",
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.grey,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                                ).addDirectionality()),
+                                            isExpanded: true,
+                                            icon: Icon(
+                                              Icons
+                                                  .keyboard_arrow_down_outlined,
+                                              size: 24,
+                                            ),
+                                            value: _loginController
+                                                        .selectedDay.value ==
+                                                    ""
+                                                ? null
+                                                : _loginController
+                                                    .selectedDay.value,
+                                            items:
+                                                _loginController.days.map((e) {
+                                              return DropdownMenuItem(
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 0),
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                          child: Text(
+                                                        e,
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                        ),
+                                                      )),
+                                                    ],
+                                                  ),
+                                                ),
+                                                value: e,
+                                              );
+                                            }).toList(),
+                                            onChanged: (value) {
+                                              _loginController.selectedDay
+                                                  .value = value.toString();
+                                            }),
+                                      ).addDirectionality(),
+                                    ),
+                                  ],
                                 ),
                                 SizedBox(height: 10),
                                 Row(
@@ -507,108 +634,334 @@ class AddPetsScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                Container(
-                                  height: 45,
-                                  // width: 120,
-                                  // margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                                  child: TextFormField(
-                                    controller:
-                                        _loginController.vacsinDateController,
-                                    keyboardType: TextInputType.text,
-                                    readOnly: true,
-                                    onTap: () async {
-                                      final DateTime? picked =
-                                          await showDatePicker(
-                                              context: context,
-                                              initialDate: _loginController
-                                                  .selectedFromDate.value,
-                                              firstDate: DateTime(1990),
-                                              lastDate: DateTime(2050),
-                                              cancelText: "خروج",
-                                              confirmText: "تم");
-                                      if (picked != null &&
-                                          picked !=
-                                              _loginController
-                                                  .selectedFromDate.value) {
-                                        _loginController
-                                            .selectedFromDate.value = picked;
-                                        _loginController
-                                                .vacsinDateController!.text =
-                                            (_loginController.selectedFromDate
-                                                            .value.month
-                                                            .toString()
-                                                            .length <
-                                                        2
-                                                    ? "0" +
-                                                        _loginController
-                                                            .selectedFromDate
-                                                            .value
-                                                            .month
-                                                            .toString()
-                                                    : _loginController
-                                                        .selectedFromDate
-                                                        .value
-                                                        .month
-                                                        .toString()) +
-                                                "-" +
-                                                (_loginController
-                                                            .selectedFromDate
-                                                            .value
-                                                            .day
-                                                            .toString()
-                                                            .length <
-                                                        2
-                                                    ? "0" +
-                                                        _loginController
-                                                            .selectedFromDate
-                                                            .value
-                                                            .day
-                                                            .toString()
-                                                    : _loginController
-                                                        .selectedFromDate
-                                                        .value
-                                                        .day
-                                                        .toString()) +
-                                                "-" +
-                                                _loginController
-                                                    .selectedFromDate.value.year
-                                                    .toString();
-                                      }
-                                    },
-                                    decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.all(5),
-                                      fillColor: Colors.grey[100],
-                                      filled: true,
-                                      hintText: "تاريخ آخر لقاح",
-                                      hintStyle: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 0,
-                                        ),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 0,
-                                        ),
-                                      ),
-                                      // floatingLabelBehavior: FloatingLabelBehavior.auto,
-                                      // contentPadding:EdgeInsets.all(10)
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Obx(
+                                      () => Container(
+                                        height: 40,
+                                        width: 100,
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey[100],
+                                            border: Border.all(
+                                                color: Colors.transparent),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: DropdownButton(
+                                            underline: Container(),
+                                            dropdownColor: Colors.white,
+                                            hint: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 5),
+                                                child: Text(
+                                                  "سنة",
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.grey,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                                ).addDirectionality()),
+                                            isExpanded: true,
+                                            icon: Icon(
+                                              Icons
+                                                  .keyboard_arrow_down_outlined,
+                                              size: 24,
+                                            ),
+                                            value: _loginController
+                                                        .selectedYearVac
+                                                        .value ==
+                                                    ""
+                                                ? null
+                                                : _loginController
+                                                    .selectedYearVac.value,
+                                            items:
+                                                _loginController.years.map((e) {
+                                              return DropdownMenuItem(
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 0),
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                          child: Text(
+                                                        e,
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                        ),
+                                                      )),
+                                                    ],
+                                                  ),
+                                                ),
+                                                value: e,
+                                              );
+                                            }).toList(),
+                                            onChanged: (value) {
+                                              _loginController.selectedYearVac
+                                                  .value = value.toString();
+                                            }),
+                                      ).addDirectionality(),
                                     ),
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.normal,
+                                    SizedBox(
+                                      width: 10,
                                     ),
-                                  ).addDirectionality(),
+                                    Obx(
+                                      () => Container(
+                                        height: 40,
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey[100],
+                                            border: Border.all(
+                                                color: Colors.transparent),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: DropdownButton(
+                                            underline: Container(),
+                                            dropdownColor: Colors.white,
+                                            hint: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 5),
+                                                child: Text(
+                                                  "شهر",
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.grey,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                                ).addDirectionality()),
+                                            isExpanded: true,
+                                            icon: Icon(
+                                              Icons
+                                                  .keyboard_arrow_down_outlined,
+                                              size: 24,
+                                            ),
+                                            value: _loginController
+                                                        .selectedMonthVac
+                                                        .value ==
+                                                    ""
+                                                ? null
+                                                : _loginController
+                                                    .selectedMonthVac.value,
+                                            items: _loginController.months
+                                                .map((e) {
+                                              return DropdownMenuItem(
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 0),
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                          child: Text(
+                                                        e,
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                        ),
+                                                      )),
+                                                    ],
+                                                  ),
+                                                ),
+                                                value: e,
+                                              );
+                                            }).toList(),
+                                            onChanged: (value) {
+                                              _loginController.selectedMonthVac
+                                                  .value = value.toString();
+                                            }),
+                                      ).addDirectionality(),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Obx(
+                                      () => Container(
+                                        height: 40,
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey[100],
+                                            border: Border.all(
+                                                color: Colors.transparent),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: DropdownButton(
+                                            underline: Container(),
+                                            dropdownColor: Colors.white,
+                                            hint: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 5),
+                                                child: Text(
+                                                  "يوم",
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.grey,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                                ).addDirectionality()),
+                                            isExpanded: true,
+                                            icon: Icon(
+                                              Icons
+                                                  .keyboard_arrow_down_outlined,
+                                              size: 24,
+                                            ),
+                                            value: _loginController
+                                                        .selectedDayVac.value ==
+                                                    ""
+                                                ? null
+                                                : _loginController
+                                                    .selectedDayVac.value,
+                                            items:
+                                                _loginController.days.map((e) {
+                                              return DropdownMenuItem(
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 0),
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                          child: Text(
+                                                        e,
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                        ),
+                                                      )),
+                                                    ],
+                                                  ),
+                                                ),
+                                                value: e,
+                                              );
+                                            }).toList(),
+                                            onChanged: (value) {
+                                              _loginController.selectedDayVac
+                                                  .value = value.toString();
+                                            }),
+                                      ).addDirectionality(),
+                                    ),
+                                  ],
                                 ),
+                                // Container(
+                                //   height: 45,
+                                //   // width: 120,
+                                //   // margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                                //   child: TextFormField(
+                                //     controller:
+                                //         _loginController.vacsinDateController,
+                                //     keyboardType: TextInputType.text,
+                                //     readOnly: true,
+                                //     onTap: () async {
+                                //       // final DateTime? picked =
+                                //       //     await showDatePicker(
+                                //       //         context: context,
+                                //       //         initialDate: _loginController
+                                //       //             .selectedFromDate.value,
+                                //       //         firstDate: DateTime(1990),
+                                //       //         lastDate: DateTime(2050),
+                                //       //         cancelText: "خروج",
+                                //       //         confirmText: "تم");
+                                //       // if (picked != null &&
+                                //       //     picked !=
+                                //       //         _loginController
+                                //       //             .selectedFromDate.value) {
+                                //       //   _loginController
+                                //       //       .selectedFromDate.value = picked;
+                                //       //   _loginController
+                                //       //           .vacsinDateController!.text =
+                                //       //       (_loginController.selectedFromDate
+                                //       //                       .value.month
+                                //       //                       .toString()
+                                //       //                       .length <
+                                //       //                   2
+                                //       //               ? "0" +
+                                //       //                   _loginController
+                                //       //                       .selectedFromDate
+                                //       //                       .value
+                                //       //                       .month
+                                //       //                       .toString()
+                                //       //               : _loginController
+                                //       //                   .selectedFromDate
+                                //       //                   .value
+                                //       //                   .month
+                                //       //                   .toString()) +
+                                //       //           "-" +
+                                //       //           (_loginController
+                                //       //                       .selectedFromDate
+                                //       //                       .value
+                                //       //                       .day
+                                //       //                       .toString()
+                                //       //                       .length <
+                                //       //                   2
+                                //       //               ? "0" +
+                                //       //                   _loginController
+                                //       //                       .selectedFromDate
+                                //       //                       .value
+                                //       //                       .day
+                                //       //                       .toString()
+                                //       //               : _loginController
+                                //       //                   .selectedFromDate
+                                //       //                   .value
+                                //       //                   .day
+                                //       //                   .toString()) +
+                                //       //           "-" +
+                                //       //           _loginController
+                                //       //               .selectedFromDate.value.year
+                                //       //               .toString();
+                                //       // }
+                                //     },
+                                //     decoration: InputDecoration(
+                                //       contentPadding: EdgeInsets.all(5),
+                                //       fillColor: Colors.grey[100],
+                                //       filled: true,
+                                //       hintText: "تاريخ آخر لقاح",
+                                //       hintStyle: TextStyle(
+                                //         fontSize: 16,
+                                //         color: Colors.grey,
+                                //         fontWeight: FontWeight.normal,
+                                //       ),
+                                //       border: OutlineInputBorder(
+                                //         borderRadius: BorderRadius.circular(10),
+                                //         borderSide: BorderSide(
+                                //           color: Colors.transparent,
+                                //           width: 0,
+                                //         ),
+                                //       ),
+                                //       enabledBorder: OutlineInputBorder(
+                                //         borderRadius: BorderRadius.circular(10),
+                                //         borderSide: BorderSide(
+                                //           color: Colors.transparent,
+                                //           width: 0,
+                                //         ),
+                                //       ),
+                                //       // floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                //       // contentPadding:EdgeInsets.all(10)
+                                //     ),
+                                //     style: TextStyle(
+                                //       fontSize: 16,
+                                //       color: Colors.black,
+                                //       fontWeight: FontWeight.normal,
+                                //     ),
+                                //   ).addDirectionality(),
+                                // ),
                                 SizedBox(
                                   height: 10,
                                 ),
@@ -681,6 +1034,62 @@ class AddPetsScreen extends StatelessWidget {
                                 color: Get.theme.accentColor,
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
+                                    _loginController
+                                        .ageController!.text = (_loginController
+                                                    .selectedMonth.value
+                                                    .toString()
+                                                    .length <
+                                                2
+                                            ? "0" +
+                                                _loginController
+                                                    .selectedMonth.value
+                                                    .toString()
+                                            : _loginController
+                                                .selectedMonth.value
+                                                .toString()) +
+                                        "-" +
+                                        (_loginController.selectedDay.value
+                                                    .toString()
+                                                    .length <
+                                                2
+                                            ? "0" +
+                                                _loginController
+                                                    .selectedDay.value
+                                                    .toString()
+                                            : _loginController.selectedDay.value
+                                                .toString()) +
+                                        "-" +
+                                        _loginController.selectedYear.value
+                                            .toString();
+
+                                    _loginController.vacsinDateController!
+                                        .text = (_loginController
+                                                    .selectedMonthVac.value
+                                                    .toString()
+                                                    .length <
+                                                2
+                                            ? "0" +
+                                                _loginController
+                                                    .selectedMonthVac.value
+                                                    .toString()
+                                            : _loginController
+                                                .selectedMonthVac.value
+                                                .toString()) +
+                                        "-" +
+                                        (_loginController.selectedDayVac.value
+                                                    .toString()
+                                                    .length <
+                                                2
+                                            ? "0" +
+                                                _loginController
+                                                    .selectedDayVac.value
+                                                    .toString()
+                                            : _loginController
+                                                .selectedDayVac.value
+                                                .toString()) +
+                                        "-" +
+                                        _loginController.selectedYearVac.value
+                                            .toString();
                                     _loginController.addPets();
                                   }
                                 },

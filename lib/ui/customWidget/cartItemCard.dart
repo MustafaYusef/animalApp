@@ -29,9 +29,8 @@ class CartitemCard extends StatelessWidget {
                 count: item.item_count,
                 covePhoto: item.itemPhoto,
                 price: item.itemPrice),
-            favouriteController.countArray[favouriteController
-                .cartModel.value.data!.myCart!
-                .indexOf(item)]));
+            favouriteController
+                .countArray[favouriteController.cartModel.indexOf(item)]));
       },
       child: Card(
         semanticContainer: true,
@@ -155,18 +154,15 @@ class CartitemCard extends StatelessWidget {
                                       onTap: () {
                                         if (favouriteController.countArray[
                                                 favouriteController.cartModel
-                                                    .value.data!.myCart!
                                                     .indexOf(item)] >
                                             1) {
                                           favouriteController.countArray[
-                                              favouriteController
-                                                  .cartModel.value.data!.myCart!
+                                              favouriteController.cartModel
                                                   .indexOf(item)]--;
                                           favouriteController.updateCart(
                                               item.itemId,
                                               favouriteController.countArray[
                                                   favouriteController.cartModel
-                                                      .value.data!.myCart!
                                                       .indexOf(item)]);
                                         }
                                       },
@@ -185,7 +181,6 @@ class CartitemCard extends StatelessWidget {
                                         () => Text(
                                           favouriteController.countArray[
                                                   favouriteController.cartModel
-                                                      .value.data!.myCart!
                                                       .indexOf(item)]
                                               .toString(),
                                           style: TextStyle(
@@ -202,17 +197,14 @@ class CartitemCard extends StatelessWidget {
                                         if (item.item_count! >
                                             favouriteController.countArray[
                                                 favouriteController.cartModel
-                                                    .value.data!.myCart!
                                                     .indexOf(item)]) {
                                           favouriteController.countArray[
-                                              favouriteController
-                                                  .cartModel.value.data!.myCart!
+                                              favouriteController.cartModel
                                                   .indexOf(item)]++;
                                           favouriteController.updateCart(
                                               item.itemId,
                                               favouriteController.countArray[
                                                   favouriteController.cartModel
-                                                      .value.data!.myCart!
                                                       .indexOf(item)]);
                                         } else {
                                           Get.snackbar(

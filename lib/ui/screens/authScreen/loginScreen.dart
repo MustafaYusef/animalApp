@@ -104,7 +104,7 @@ class LoginScreen extends StatelessWidget {
                                         controller:
                                             _loginController.phoneController,
                                         keyboardType: TextInputType.phone,
-                                        maxLength: 11,
+                                        // maxLength: 11,
                                         inputFormatters: [
                                           FilteringTextInputFormatter.allow(
                                               RegExp('[0-9,٠-٩]')),
@@ -272,28 +272,28 @@ class LoginScreen extends StatelessWidget {
                                       color: Get.theme.accentColor,
                                       onPressed: () {
                                         if (_formKey.currentState!.validate()) {
-                                          if (_loginController
-                                                  .phoneController!.text
-                                                  .toString()
-                                                  .length ==
-                                              11) {
-                                            _loginController.loginRequest();
-                                          } else {
-                                            // Toast.show(validEmail(), Get.context,
-                                            //     duration: Toast.LENGTH_LONG,
-                                            //     gravity: Toast.BOTTOM);
-                                            Get.snackbar("ادخل رقم هاتف صحيح",
-                                                "ادخل رقم هاتف صحيح",
-                                                duration: Duration(seconds: 3),
-                                                icon: Icon(
-                                                  Icons.info,
-                                                  color: Colors.white,
-                                                ),
-                                                colorText: Colors.white,
-                                                backgroundColor: Get
-                                                    .theme.primaryColorDark
-                                                    .withOpacity(0.3));
-                                          }
+                                          // if (_loginController
+                                          //         .phoneController!.text
+                                          //         .toString()
+                                          //         .length ==
+                                          //     11) {
+                                          _loginController.loginRequest();
+                                          // } else {
+                                          //   // Toast.show(validEmail(), Get.context,
+                                          //   //     duration: Toast.LENGTH_LONG,
+                                          //   //     gravity: Toast.BOTTOM);
+                                          //   Get.snackbar("ادخل رقم هاتف صحيح",
+                                          //       "ادخل رقم هاتف صحيح",
+                                          //       duration: Duration(seconds: 3),
+                                          //       icon: Icon(
+                                          //         Icons.info,
+                                          //         color: Colors.white,
+                                          //       ),
+                                          //       colorText: Colors.white,
+                                          //       backgroundColor: Get
+                                          //           .theme.primaryColorDark
+                                          //           .withOpacity(0.3));
+                                          // }
                                         }
                                       },
                                       shape: RoundedRectangleBorder(

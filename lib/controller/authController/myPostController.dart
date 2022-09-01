@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:animal_app/data/myPostModel.dart';
+import 'package:animal_app/metods/alerts.dart';
 import 'package:animal_app/metods/compressImage.dart';
 import 'package:animal_app/ui/customWidget/popLoading.dart';
 import 'package:flutter/material.dart';
@@ -297,39 +298,17 @@ class MyPostController extends GetxController {
       String? token = await prefs.getString('token');
       final banners1 = await repo.likePost(id, token);
       Get.back();
-
-      Get.snackbar(banners1.data!.msg!, banners1.data!.msg!,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(banners1.data!.msg!);
 
       // getMyPets();
     } on SocketException catch (_) {
       Get.back();
-      Get.snackbar(noNet, noNet,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(noNet);
     } catch (_) {
       // Get.back();
       Get.back();
       print(_);
-      Get.snackbar(_.toString().split(":")[1], _.toString().split(":")[1],
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(_.toString().split(":")[1]);
     }
   }
 }

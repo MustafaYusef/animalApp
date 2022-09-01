@@ -1,3 +1,4 @@
+import 'package:animal_app/controller/authController/loginController.dart';
 import 'package:flutter/material.dart';
 
 import 'package:path_provider/path_provider.dart';
@@ -56,12 +57,12 @@ LogoutPopUp(contex2) {
             onTap: () async {
               SharedPreferences prefs = await SharedPreferences.getInstance();
               prefs.clear();
-              Get.delete<MainController>();
-              Get.delete<FavouriteController>();
-              Get.delete<ItemDetailsController>();
-              Get.delete<OrderController>();
-              Get.delete<SectionsController>();
-
+              // Get.delete<MainController>();
+              // Get.delete<FavouriteController>();
+              // Get.delete<ItemDetailsController>();
+              // Get.delete<OrderController>();
+              // Get.delete<SectionsController>();
+              // Get.delete<LoginController>();
               Get.offAll(LoginScreen());
             },
             child: Container(

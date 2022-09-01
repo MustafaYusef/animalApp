@@ -323,10 +323,9 @@ class BookingScreen extends StatelessWidget {
                                     color: Colors.black,
                                     fontWeight: FontWeight.normal,
                                   ),
-                                  // validator: (value) =>
-                                  //     value.trim().isEmpty
-                                  //         ? "يجب عليك ادخال الأسم الكامل"
-                                  //         : null,
+                                  validator: (value) => value!.trim().isEmpty
+                                      ? "يجب عليك ادخال العنوان الكامل"
+                                      : null,
                                 ).addDirectionality(),
                                 SizedBox(
                                   height: 10,
@@ -351,7 +350,7 @@ class BookingScreen extends StatelessWidget {
                                 TextFormField(
                                   controller: _loginController.phoneController,
                                   keyboardType: TextInputType.phone,
-                                  maxLength: 11,
+                                  // maxLength: 11,
                                   decoration: InputDecoration(
                                       fillColor: Colors.grey[100],
                                       filled: true,
@@ -436,10 +435,9 @@ class BookingScreen extends StatelessWidget {
                                     color: Colors.black,
                                     fontWeight: FontWeight.normal,
                                   ),
-                                  // validator: (value) =>
-                                  //     value.trim().isEmpty
-                                  //         ? "يجب عليك ادخال أسم الحيوان"
-                                  //         : null,
+                                  validator: (value) => value!.trim().isEmpty
+                                      ? "يجب عليك ادخال ملاحظات"
+                                      : null,
                                 ).addDirectionality(),
                               ],
                             ),
@@ -454,28 +452,45 @@ class BookingScreen extends StatelessWidget {
                               child: RaisedButton(
                                 color: Get.theme.accentColor,
                                 onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    if (_loginController.phoneController!.text
-                                            .toString()
-                                            .length ==
-                                        11) {
+                                  if (_loginController.selectedPet.value.id !=
+                                      null) {
+                                    if (_formKey.currentState!.validate()) {
+                                      // if (_loginController.phoneController!.text
+                                      //         .toString()
+                                      //         .length ==
+                                      //     11)
+                                      // {
                                       _loginController.bookServices(item!.id);
-                                    } else {
-                                      // Toast.show(validEmail(), Get.context,
-                                      //     duration: Toast.LENGTH_LONG,
-                                      //     gravity: Toast.BOTTOM);
-                                      Get.snackbar("ادخل رقم هاتف صحيح",
-                                          "ادخل رقم هاتف صحيح",
-                                          duration: Duration(seconds: 3),
-                                          icon: Icon(
-                                            Icons.info,
-                                            color: Colors.white,
-                                          ),
-                                          colorText: Colors.white,
-                                          backgroundColor: Get
-                                              .theme.primaryColorDark
-                                              .withOpacity(0.3));
                                     }
+                                    // else {
+                                    //   // Toast.show(validEmail(), Get.context,
+                                    //   //     duration: Toast.LENGTH_LONG,
+                                    //   //     gravity: Toast.BOTTOM);
+                                    //   Get.snackbar("ادخل رقم هاتف صحيح",
+                                    //       "ادخل رقم هاتف صحيح",
+                                    //       duration: Duration(seconds: 3),
+                                    //       icon: Icon(
+                                    //         Icons.info,
+                                    //         color: Colors.white,
+                                    //       ),
+                                    //       colorText: Colors.white,
+                                    //       backgroundColor: Get
+                                    //           .theme.primaryColorDark
+                                    //           .withOpacity(0.3));
+                                    //   // }
+                                    // }
+                                  } else {
+                                    Get.snackbar(
+                                        "أدخل اسم الحيوان", "أدخل اسم الحيوان",
+                                        duration: Duration(seconds: 3),
+                                        icon: Icon(
+                                          Icons.info,
+                                          color: Colors.white,
+                                        ),
+                                        colorText: Colors.white,
+                                        backgroundColor: Get
+                                            .theme.primaryColorDark
+                                            .withOpacity(0.3));
                                   }
                                 },
                                 shape: RoundedRectangleBorder(

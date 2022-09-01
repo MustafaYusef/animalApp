@@ -9,9 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../controller/mainController/itemDetailsController.dart';
+import '../cartScreen.dart';
+
 class AllPostsScreen extends StatelessWidget {
   // MyPostsScreen({Key key}) : super(key: key);
   late PostController controller;
+  ItemDetailsController cartController = Get.find();
+
   // int status;
   AllPostsScreen() {
     controller = Get.put(PostController());
@@ -156,66 +161,214 @@ class AllPostsScreen extends StatelessWidget {
                                         )),
                         ),
                       )
-                    : Column(
+                    : Stack(
                         children: [
-                          Expanded(
-                            child: Container(
-                              child: RefreshIndicator(
-                                onRefresh: () {
-                                  controller.page.value = 1;
-                                  controller.itemsOffPop.clear();
-                                  controller.lastPage.value = false;
-                                  return controller.getMyPost();
-                                },
-                                child: GridView.builder(
-                                  physics:
-                                      const AlwaysScrollableScrollPhysics(),
-                                  itemCount: controller.itemsOffPop.length,
-                                  itemBuilder: (context, index) {
-                                    return postCard(
-                                        controller.itemsOffPop[index]);
-                                  },
-                                  scrollDirection: Axis.vertical,
+                          Column(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  child: RefreshIndicator(
+                                    onRefresh: () {
+                                      controller.page.value = 1;
+                                      controller.itemsOffPop.clear();
+                                      controller.lastPage.value = false;
+                                      return controller.getMyPost();
+                                    },
+                                    child: GridView.builder(
+                                      physics:
+                                          const AlwaysScrollableScrollPhysics(),
+                                      itemCount: controller.itemsOffPop.length,
+                                      itemBuilder: (context, index) {
+                                        return postCard(
+                                            controller.itemsOffPop[index]);
+                                      },
+                                      scrollDirection: Axis.vertical,
 
-                                  controller: _scrollController,
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    childAspectRatio: (Get.width / 2.2) / 225,
-                                    crossAxisSpacing: 2.0,
-                                    mainAxisSpacing: 2.0,
+                                      controller: _scrollController,
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        childAspectRatio:
+                                            (Get.width / 2.2) / 225,
+                                        crossAxisSpacing: 2.0,
+                                        mainAxisSpacing: 2.0,
+                                      ),
+
+                                      // children: controller.itemsOffPop
+                                      //     .map((e) {})
+                                      //     .toList()
+                                    ),
                                   ),
-
-                                  // children: controller.itemsOffPop
-                                  //     .map((e) {})
-                                  //     .toList()
                                 ),
                               ),
-                            ),
+                              !controller.isLoading.value
+                                  ? Container()
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                            width: 20,
+                                            height: 20,
+                                            color: Colors.transparent,
+                                            margin: EdgeInsets.only(
+                                                bottom: 20, top: 10),
+                                            child: Theme(
+                                              data: ThemeData(
+                                                  accentColor:
+                                                      Get.theme.primaryColor,
+                                                  primaryColor:
+                                                      Get.theme.primaryColor),
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 2,
+                                              ),
+                                            )),
+                                      ],
+                                    )
+                            ],
                           ),
-                          !controller.isLoading.value
-                              ? Container()
-                              : Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                        width: 20,
-                                        height: 20,
-                                        color: Colors.transparent,
-                                        margin: EdgeInsets.only(
-                                            bottom: 20, top: 10),
-                                        child: Theme(
-                                          data: ThemeData(
-                                              accentColor:
-                                                  Get.theme.primaryColor,
-                                              primaryColor:
-                                                  Get.theme.primaryColor),
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 2,
-                                          ),
-                                        )),
-                                  ],
-                                )
+                          Obx(
+                            () => cartController.isLoading.value
+                                ? Container()
+                                : cartController.needLogin.value
+                                    ? Container()
+                                    : Positioned(
+                                        bottom: 0,
+                                        left: 0,
+                                        right: 0,
+                                        child: Obx(
+                                          () => cartController.cartModel.isEmpty
+                                              ? Container()
+                                              : Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 5),
+                                                  width: Get.width,
+                                                  height: 55,
+                                                  decoration: BoxDecoration(
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                            color: Colors
+                                                                .grey[500]!,
+                                                            blurRadius: 6)
+                                                      ],
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                              topRight: Radius
+                                                                  .circular(5),
+                                                              topLeft: Radius
+                                                                  .circular(
+                                                                      5))),
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Container(
+                                                          margin: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10,
+                                                                  vertical: 10),
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .end,
+                                                            children: [
+                                                              Text(
+                                                                "كلفة الطلب : " +
+                                                                    cartController
+                                                                        .sumCart
+                                                                        .toString(),
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        margin: EdgeInsets
+                                                            .symmetric(
+                                                                vertical: 5,
+                                                                horizontal: 10),
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5),
+                                                            color: Get.theme
+                                                                .primaryColor),
+                                                        height: 45,
+                                                        width: 170,
+                                                        child: ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            child: RaisedButton(
+                                                              color: Get.theme
+                                                                  .primaryColor,
+                                                              onPressed:
+                                                                  () async {
+                                                                Get.to(
+                                                                    CartScreen());
+                                                              },
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Text(
+                                                                    "عرض السلة",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontSize:
+                                                                            16),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 10,
+                                                                  ),
+                                                                  Container(
+                                                                    padding: EdgeInsets.symmetric(
+                                                                        horizontal:
+                                                                            6,
+                                                                        vertical:
+                                                                            3),
+                                                                    decoration: BoxDecoration(
+                                                                        color: Colors.teal[
+                                                                            900],
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(10)),
+                                                                    child: Text(
+                                                                      cartController
+                                                                          .cartModel
+                                                                          .length
+                                                                          .toString(),
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .white,
+                                                                          fontSize:
+                                                                              15),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            )),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                        ),
+                                      ),
+                          ),
                         ],
                       ),
               ),

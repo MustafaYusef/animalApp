@@ -36,6 +36,22 @@ class AuthRepostary {
     }
   }
 
+// users/profile/
+  Future<void> deleteAccount(String token, String pass) async {
+    final response = await delete(Uri.parse(baseUrl + "users/profile/"),
+        headers: {"Authorization": token, "Content-Type": "application/json"},
+        body: json.encode({
+          "password": pass,
+        }));
+    if (response.statusCode == 200) {
+      return;
+    } else if (response.statusCode == 403) {
+      throw Exception(response.body.toString());
+    } else {
+      throw Exception(response.body.toString());
+    }
+  }
+
   Future<void> Regester(
       String name, String phone, String password, String? player_id) async {
     final response = await post(Uri.parse(baseUrl + "users/auth/register"),

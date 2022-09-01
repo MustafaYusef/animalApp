@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:animal_app/metods/methods.dart';
 
 import '../../constant.dart';
+import '../../metods/alerts.dart';
 
 class EditProfileController extends GetxController {
   TextEditingController? phoneController;
@@ -87,36 +88,13 @@ class EditProfileController extends GetxController {
       // passwordTextController.clear();
       selectedProv = null;
       selectedcity = null;
-
-      Get.snackbar("تم تعديل الحساب بنجاح", "تم تعديل الحساب بنجاح",
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake("تم تعديل الحساب بنجاح");
     } on SocketException catch (_) {
       Get.back();
-
-      Get.snackbar(noNet, noNet,
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(noNet);
     } catch (_) {
       Get.back();
-      Get.snackbar(_.toString(), _.toString(),
-          duration: Duration(seconds: 3),
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          colorText: Colors.white,
-          backgroundColor: Get.theme.primaryColorDark.withOpacity(0.3));
+      showSnake(_.toString());
     }
   }
 }
